@@ -3,20 +3,25 @@ from antlr4 import *
 
 # This class defines a complete listener for a parse tree produced by ppGOParser.
 class ppGOListener(ParseTreeListener):
+    funcName = ""
+    symbolTable = []
 
+    def __init__(self):
+        self.funcName = None
+        self.symbolTable = []
+        self.row = None
     # Enter a parse tree produced by ppGOParser#program.
     def enterProgram(self, ctx):
         pass
 
     # Exit a parse tree produced by ppGOParser#program.
     def exitProgram(self, ctx):
-        pass
+        print(self.symbolTable)
 
 
     # Enter a parse tree produced by ppGOParser#main.
     def enterMain(self, ctx):
-        pass
-
+        self.funcName = "main"
     # Exit a parse tree produced by ppGOParser#main.
     def exitMain(self, ctx):
         pass
@@ -24,7 +29,12 @@ class ppGOListener(ParseTreeListener):
 
     # Enter a parse tree produced by ppGOParser#modulo.
     def enterModulo(self, ctx):
-        pass
+        #Get function name for the symbols table
+        print(ctx.getChild(1))
+        if str(ctx.getChild(1)) == "func":
+            self.funcName = str(ctx.getChild(2))
+        else:
+            self.funcName = str(ctx.getChild(1))
 
     # Exit a parse tree produced by ppGOParser#modulo.
     def exitModulo(self, ctx):
@@ -69,7 +79,45 @@ class ppGOListener(ParseTreeListener):
 
     # Enter a parse tree produced by ppGOParser#varsDec.
     def enterVarsDec(self, ctx):
-        print(ctx.getText())
+        name = ""
+        type = ctx.getText()[:3]
+        if(self.funcName == "main"):
+            scope = "g"
+        else:
+            scope = "l"
+        if( type == "int"):
+            if(',' in ctx.getText()):
+                vars = ctx.getText()[3:].split(',')
+                for x in vars:
+                    self.symbolTable.append({"name": x, "type": "int", "scope": scope, "funcName": self.funcName})
+            else:
+                name = ctx.getText()[3:]
+                self.symbolTable.append({"name": name, "type": "int", "scope": scope, "funcName": self.funcName})
+
+        elif (type == "flo"):
+            if (',' in ctx.getText()):
+                vars = ctx.getText()[5:].split(',')
+                for x in vars:
+                    self.symbolTable.append({"name": x, "type": "float", "scope": scope, "funcName": self.funcName})
+            else:
+                self.symbolTable.append({"name": str(ctx.getText()[5:]), "type": "float", "scope": scope, "funcName": self.funcName})
+
+        elif (type == "boo"):
+            if (',' in ctx.getText()):
+                vars = ctx.getText()[4:].split(',')
+                for x in vars:
+                    self.symbolTable.append({"name": x, "type": "bool", "scope": scope, "funcName": self.funcName})
+            else:
+                self.symbolTable.append({"name": ctx.getText()[4:], "type": "bool", "scope": scope, "funcName": self.funcName})
+
+        elif (type == "str"):
+            if (',' in ctx.getText()):
+                vars = ctx.getText()[6:].split(',')
+                for x in vars:
+                    self.symbolTable.append({"name": x, "type": "string", "scope": scope, "funcName": self.funcName})
+            else:
+                self.symbolTable.append({"name": ctx.getText()[6:], "type": "string", "scope": scope, "funcName": self.funcName})
+
 
     # Exit a parse tree produced by ppGOParser#varsDec.
     def exitVarsDec(self, ctx):

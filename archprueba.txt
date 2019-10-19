@@ -49,7 +49,7 @@ return 0
 }
 
 
-int func extra(int a, string b, bool c){
+func extra(int a, string b, bool c){
 	int d
     print(b)
 	d = a + 7;
