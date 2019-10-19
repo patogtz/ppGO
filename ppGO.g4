@@ -7,7 +7,7 @@ main :
     FUNCTION 'main' LEFT_PAR RIGHT_PAR body;
 
 modulo :
-    tipo FUNCTION LITERAL LEFT_PAR args RIGHT_PAR body;
+    tipo? FUNCTION LITERAL LEFT_PAR args RIGHT_PAR body;
 
 tipo :
     ('int' | 'float' | 'string' | 'bool');
@@ -19,7 +19,7 @@ body :
     LEFT_BRACKET varsDec* block return2? RIGHT_BRACKET;
 
 block :
-     ( funcCall |assigment | condition | loop | print2 | read)*  ;
+     ( funcCall |assigment | condition | loop | print2 | read )* return2?  ;
 
 varsDec :
     tipo (LITERAL ((LEFT_SBRACKET (VAR_INT) RIGHT_SBRACKET) (LEFT_SBRACKET (VAR_INT) RIGHT_SBRACKET)?)? SEP_COMMA?)+;
@@ -28,7 +28,7 @@ assigment :
     LITERAL ((LEFT_SBRACKET (expression) RIGHT_SBRACKET) (LEFT_SBRACKET (expression) RIGHT_SBRACKET)?)? EQUAL expression SEP_SEMICOLON;
 
 condition :
-    IF LEFT_PAR expression  RIGHT_PAR block ( ELSEIF LEFT_PAR expression RIGHT_PAR block )* ( ELSE block )?;
+    IF LEFT_PAR expression  RIGHT_PAR LEFT_BRACKET block RIGHT_BRACKET ( ELSEIF LEFT_PAR expression RIGHT_PAR LEFT_BRACKET block RIGHT_BRACKET )* ( ELSE LEFT_BRACKET block RIGHT_BRACKET )?;
 
 expression : 
     expression1 ((AND | OR) expression1)?;
@@ -43,7 +43,7 @@ term :
     factor ((TIMES | DIVISION) factor)?;
 
 factor:
-	LEFT_PAR exp RIGHT_PAR
+	LEFT_PAR expression RIGHT_PAR
 	| (PLUS | MINUS)? var_cte;
 
 var_cte :
@@ -52,16 +52,16 @@ var_cte :
     | VAR_FLOAT | 'true' | 'false' | VAR_STRING;
 
 loop:
-    LOOP LEFT_PAR expression RIGHT_PAR block;
+    LOOP LEFT_PAR expression RIGHT_PAR LEFT_BRACKET block RIGHT_BRACKET;
 
 funcCall :
     LITERAL LEFT_PAR ((expression) (',' expression)*)? RIGHT_PAR;
 
 read : 
-    INPUT LEFT_PAR (LITERAL ((LEFT_SBRACKET expression RIGHT_SBRACKET)  (LEFT_SBRACKET expression RIGHT_SBRACKET)?)? RIGHT_PAR SEP_COLON);
+    INPUT LEFT_PAR (LITERAL ((LEFT_SBRACKET expression RIGHT_SBRACKET)  (LEFT_SBRACKET expression RIGHT_SBRACKET)?)? RIGHT_PAR);
 
 print2 :
-    PRINT LEFT_PAR expression  LEFT_PAR;
+    PRINT LEFT_PAR expression RIGHT_PAR;
 
 return2 :
     RETURN expression;
