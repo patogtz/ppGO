@@ -9,7 +9,7 @@ class ppGOListener(ParseTreeListener):
     def __init__(self):
         self.funcName = None
         self.symbolTable = []
-        self.row = None
+        self.functionTable = []
     # Enter a parse tree produced by ppGOParser#program.
     def enterProgram(self, ctx):
         pass

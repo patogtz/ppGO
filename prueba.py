@@ -4,6 +4,7 @@ from ppGOLexer import ppGOLexer
 from ppGOParser import ppGOParser
 from antlr4.tree.Trees import Trees
 from ppGOListener import ppGOListener
+from semanticCube import cuboSemantico
 
 def main(argv):
   input_stream = FileStream(argv[1])
@@ -22,3 +23,6 @@ def main(argv):
 
 if __name__ == '__main__':
     main(sys.argv)
+    cubo = cuboSemantico().cube
+    cubo["int"]["*"]["float"]
+    print(cubo["int"]["*"]["float"])
