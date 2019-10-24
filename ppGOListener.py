@@ -9,6 +9,9 @@ class ppGOListener(ParseTreeListener):
         self.funcName = "global"
         self.symbolTable = {"global": []}
         self.functionTable = []
+        self.pOper = []
+        self.pilaOper = []
+        self.pilaSaltos = []
     # Enter a parse tree produced by ppGOParser#program.
 
     def enterProgram(self, ctx):

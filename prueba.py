@@ -12,7 +12,6 @@ def main(argv):
   stream = CommonTokenStream(lexer)
   parser = ppGOParser(stream)
   tree = parser.program()
-#   print(Trees.toStringTree(tree, None, parser))
   printer = ppGOListener()
   walker = ParseTreeWalker()
   walker.walk(printer, tree)
