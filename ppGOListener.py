@@ -1,6 +1,7 @@
 # Generated from ppGO.g4 by ANTLR 4.7.2
 from antlr4 import *
 import re
+
 # This class defines a complete listener for a parse tree produced by ppGOParser.
 
 
@@ -9,8 +10,19 @@ class ppGOListener(ParseTreeListener):
         self.funcName = "global"
         self.symbolTable = {"global": []}
         self.functionTable = []
+
+        self.dirMemoriaInt = 0
+        self.dirMemoriaFloat = 1000
+        self.dirMemoriaString = 2000
+        self.dirMemoriaBool = 3000
+
+
+
+        # Pila de operaciones para generar cuadruplo
         self.pOper = []
+        # Pila de operadores para generar cuadruplo
         self.pilaOper = []
+        # Pila de saltos para llenar los GoTos de los cuadruplos
         self.pilaSaltos = []
         self.cuadruplos = []
     # Enter a parse tree produced by ppGOParser#program.
@@ -20,7 +32,7 @@ class ppGOListener(ParseTreeListener):
 
     # Exit a parse tree produced by ppGOParser#program.
     def exitProgram(self, ctx):
-        print(self.cuadruplos)
+        print(self.symbolTable)
         pass
     # Enter a parse tree produced by ppGOParser#main.
 
@@ -87,6 +99,10 @@ class ppGOListener(ParseTreeListener):
     # Enter a parse tree produced by ppGOParser#varsDec.
 
     def enterVarsDec(self, ctx):
+        if(self.dirMemoriaInt > 999): return "Error: Int Memory Exceeded"
+        if(self.dirMemoriaFloat > 1999): return "Error: Float Memory Exceeded"
+        if(self.dirMemoriaString > 2999): return "Error: String Memory Exceeded"
+        if(self.dirMemoriaBool > 3999): return "Error: Int Memory Exceeded"    
         name = ""
         currentKeyValue = []
         key = str(self.funcName)
@@ -101,42 +117,51 @@ class ppGOListener(ParseTreeListener):
             if(',' in ctx.getText()):
                 vars = ctx.getText()[3:].split(',')
                 for x in vars:
-                    currentKeyValue.append({"name": x, "type": "int", "scope": scope})
+                    currentKeyValue.append({"name": x, "type": "int", "scope": scope, "dirMemoria": self.dirMemoriaInt})
                     self.symbolTable[self.funcName] = currentKeyValue
+                    self.dirMemoriaInt += 1
             else:
                 name = ctx.getText()[3:]
-                currentKeyValue.append({"name": name, "type": "int", "scope": scope})
+                currentKeyValue.append({"name": name, "type": "int", "scope": scope, "dirMemoria": self.dirMemoriaInt})
                 self.symbolTable[self.funcName] = currentKeyValue
+                self.dirMemoriaInt += 1
+                
 
         elif (type == "flo"):
             if (',' in ctx.getText()):
                 vars = ctx.getText()[5:].split(',')
                 for x in vars:
-                   currentKeyValue.append({"name": x, "type": "float", "scope": scope})
+                   currentKeyValue.append({"name": x, "type": "float", "scope": scope, "dirMemoria": self.dirMemoriaFloat})
                    self.symbolTable[self.funcName] = currentKeyValue
+                   self.dirMemoriaFloat += 1
             else:
-                currentKeyValue.append({"name": str(ctx.getText()[5:]), "type": "float", "scope": scope})
+                currentKeyValue.append({"name": str(ctx.getText()[5:]), "type": "float", "scope": scope, "dirMemoria": self.dirMemoriaFloat})
                 self.symbolTable[self.funcName] = currentKeyValue
+                self.dirMemoriaFloat += 1
 
         elif (type == "boo"):
             if (',' in ctx.getText()):
                 vars = ctx.getText()[4:].split(',')
                 for x in vars:
-                    currentKeyValue.append({"name": x, "type": "bool", "scope": scope})
+                    currentKeyValue.append({"name": x, "type": "bool", "scope": scope, "dirMemoria": self.dirMemoriaBool })
                     self.symbolTable[self.funcName] = currentKeyValue
+                    self.dirMemoriaBool += 1
             else:
-                currentKeyValue.append({"name": str(ctx.getText()[4:]), "type": "float", "scope": scope})
+                currentKeyValue.append({"name": str(ctx.getText()[4:]), "type": "float", "scope": scope, "dirMemoria": self.dirMemoriaBool})
                 self.symbolTable[self.funcName] = currentKeyValue
+                self.dirMemoriaBool += 1
 
         elif (type == "str"):
             if (',' in ctx.getText()):
                 vars = ctx.getText()[6:].split(',')
                 for x in vars:
-                   currentKeyValue.append({"name": x, "type": "bool", "scope": scope})
+                   currentKeyValue.append({"name": x, "type": "bool", "scope": scope, "dirMemoria": self.dirMemoriaString })
                    self.symbolTable[self.funcName] = currentKeyValue
+                   self.dirMemoriaString += 1
             else:
-                currentKeyValue.append({"name": str(ctx.getText()[6:]), "type": "float", "scope": scope})
+                currentKeyValue.append({"name": str(ctx.getText()[6:]), "type": "float", "scope": scope, "dirMemoria": self.dirMemoriaString })
                 self.symbolTable[self.funcName] = currentKeyValue
+                self.dirMemoriaString += 1
 
     # Exit a parse tree produced by ppGOParser#varsDec.
 
@@ -147,11 +172,18 @@ class ppGOListener(ParseTreeListener):
 
     def enterAssigment(self, ctx):
         assig = ctx.getText()[:-1]
+        splitAssig = [
+        ]
         temps = 1
-        splitAssig = re.split("([-/*=+])", assig.replace(" ", ""))
+        #Split the assigment in to tokenns.
+        splitAssig = re.split("([-/(*=+)])",assig)
+        #Remove random "" generated by the split
+        while "" in splitAssig: splitAssig.remove("")
+        #Appends the first element of the new splitted list to pilaOper
         self.pilaOper.append(splitAssig[0])
         del splitAssig[0]
-        for i in range(len(splitAssig)):
+        
+        """ for i in range(len(splitAssig)):
             x = splitAssig[i]
             if(x == "=" or x == "+" or x == "-" or x == "*" or x == "/" ):
                 self.pOper.append(x)
@@ -189,7 +221,7 @@ class ppGOListener(ParseTreeListener):
                             temps = temps + 1
                         if self.pOper[len(self.pOper) - 1] == "=":
                             self.cuadruplos.append([self.pOper.pop(), self.pilaOper.pop(), " ", self.pilaOper.pop()])
-                            temps = temps + 1
+                            temps = temps + 1 """
     # Exit a parse tree produced by ppGOParser#assigment.
     def exitAssigment(self, ctx):
         pass

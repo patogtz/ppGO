@@ -37,14 +37,14 @@ expression1 :
     exp ((GREATER_THAN | LESS_THAN | GREATER_EQUAL | LESS_EQUAL | NOT_EQUAL | EQUAL_RELOP) exp)?;
 
 exp : 
-    term ((PLUS | MINUS) term)?;
+    term ((PLUS | MINUS) exp)?;
 
 term : 
-    factor ((TIMES | DIVISION) factor)?;
+    factor ((TIMES | DIVISION) term)?;
 
-factor:
+factor: 
 	LEFT_PAR expression RIGHT_PAR
-	| (PLUS | MINUS)? var_cte;
+	| var_cte (PLUS factor| MINUS factor)? ;
 
 var_cte :
     LITERAL (((LEFT_SBRACKET (expression) RIGHT_SBRACKET) (LEFT_SBRACKET (expression) RIGHT_SBRACKET)?)? | (LEFT_PAR (expression (','  expression)*)? RIGHT_PAR)?)
