@@ -1,6 +1,6 @@
 # Generated from ppGO.g4 by ANTLR 4.7.2
 from antlr4 import *
-
+import re
 # This class defines a complete listener for a parse tree produced by ppGOParser.
 
 
@@ -12,6 +12,7 @@ class ppGOListener(ParseTreeListener):
         self.pOper = []
         self.pilaOper = []
         self.pilaSaltos = []
+        self.cuadruplos = []
     # Enter a parse tree produced by ppGOParser#program.
 
     def enterProgram(self, ctx):
@@ -19,8 +20,7 @@ class ppGOListener(ParseTreeListener):
 
     # Exit a parse tree produced by ppGOParser#program.
     def exitProgram(self, ctx):
-        print(self.symbolTable)
-        print(self.functionTable)
+        print(self.cuadruplos)
         pass
     # Enter a parse tree produced by ppGOParser#main.
 
@@ -146,8 +146,50 @@ class ppGOListener(ParseTreeListener):
     # Enter a parse tree produced by ppGOParser#assigment.
 
     def enterAssigment(self, ctx):
-        pass
-
+        assig = ctx.getText()[:-1]
+        temps = 1
+        splitAssig = re.split("([-/*=+])", assig.replace(" ", ""))
+        self.pilaOper.append(splitAssig[0])
+        del splitAssig[0]
+        for i in range(len(splitAssig)):
+            x = splitAssig[i]
+            if(x == "=" or x == "+" or x == "-" or x == "*" or x == "/" ):
+                self.pOper.append(x)
+            else:
+                self.pilaOper.append(x)
+                if i + 1 < len(splitAssig):
+                    nxt = splitAssig[i + 1]
+                    if not self.pOper:
+                        pass
+                    else:
+                        if self.pOper[len(self.pOper) - 1] == "=":
+                            if (nxt == "+" or x == "-" or x == "*" or x == "/"):
+                                pass
+                            else:
+                                self.cuadruplos.append([self.pOper.pop(), self.pilaOper.pop(), " ", self.pilaOper.pop()])
+                        if (self.pOper[len(self.pOper) - 1] == "+" or self.pOper[len(self.pOper) - 1] == "-"):
+                            if (nxt == "*" or x == "/"):
+                                pass
+                            else:
+                                temporal = "t" + str(temps)
+                                self.cuadruplos.append([self.pOper.pop(), self.pilaOper.pop(), self.pilaOper.pop(), temporal])
+                                self.pilaOper.append(temporal)
+                                temps = temps + 1
+                        if (self.pOper[len(self.pOper) - 1] == "*" or self.pOper[len(self.pOper) - 1] == "/"):
+                            temporal = "t" + str(temps)
+                            self.cuadruplos.append([self.pOper.pop(), self.pilaOper.pop(), self.pilaOper.pop(), temporal])
+                            self.pilaOper.append(temporal)
+                            temps = temps + 1
+                else:
+                    while self.pilaOper:
+                        if self.pOper[len(self.pOper) - 1] == "+" or self.pOper[len(self.pOper) - 1] == "*":
+                            temporal = "t" + str(temps)
+                            self.cuadruplos.append([self.pOper.pop(), self.pilaOper.pop(), self.pilaOper.pop(), temporal])
+                            self.pilaOper.append(temporal)
+                            temps = temps + 1
+                        if self.pOper[len(self.pOper) - 1] == "=":
+                            self.cuadruplos.append([self.pOper.pop(), self.pilaOper.pop(), " ", self.pilaOper.pop()])
+                            temps = temps + 1
     # Exit a parse tree produced by ppGOParser#assigment.
     def exitAssigment(self, ctx):
         pass
