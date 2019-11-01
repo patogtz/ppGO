@@ -1,6 +1,10 @@
 # Generated from ppGO.g4 by ANTLR 4.7.2
 from antlr4 import *
 import re
+if __name__ is not None and "." in __name__:
+    from .ppGOParser import ppGOParser
+else:
+    from ppGOParser import ppGOParser
 
 # This class defines a complete listener for a parse tree produced by ppGOParser.
 
@@ -10,14 +14,11 @@ class ppGOListener(ParseTreeListener):
         self.funcName = "global"
         self.symbolTable = {"global": []}
         self.functionTable = []
-
+        self.expressionParent = ""
         self.dirMemoriaInt = 0
         self.dirMemoriaFloat = 1000
         self.dirMemoriaString = 2000
         self.dirMemoriaBool = 3000
-
-
-
         # Pila de operaciones para generar cuadruplo
         self.pOper = []
         # Pila de operadores para generar cuadruplo
@@ -25,80 +26,72 @@ class ppGOListener(ParseTreeListener):
         # Pila de saltos para llenar los GoTos de los cuadruplos
         self.pilaSaltos = []
         self.cuadruplos = []
-    # Enter a parse tree produced by ppGOParser#program.
 
-    def enterProgram(self, ctx):
+    # Enter a parse tree produced by ppGOParser#program.
+    def enterProgram(self, ctx: ppGOParser.ProgramContext):
         pass
 
     # Exit a parse tree produced by ppGOParser#program.
-    def exitProgram(self, ctx):
+    def exitProgram(self, ctx: ppGOParser.ProgramContext):
         print(self.cuadruplos)
         pass
+
     # Enter a parse tree produced by ppGOParser#main.
+    def enterMain(self, ctx: ppGOParser.MainContext):
+        pass
 
-    def enterMain(self, ctx):
-        self.funcName = "main"
-        self.functionTable.append({"name": self.funcName, "type": "void"})
     # Exit a parse tree produced by ppGOParser#main.
-
-    def exitMain(self, ctx):
+    def exitMain(self, ctx: ppGOParser.MainContext):
         pass
 
     # Enter a parse tree produced by ppGOParser#modulo.
-
-    def enterModulo(self, ctx):
+    def enterModulo(self, ctx: ppGOParser.ModuloContext):
         # Get function name for the symbols table
         if str(ctx.getChild(1)) == "func":
             self.funcName = str(ctx.getChild(2))
             self.functionTable.append({"name": self.funcName, "type": str(ctx.getChild(0))})
-            
         else:
             self.funcName = str(ctx.getChild(1))
             self.functionTable.append({"name": self.funcName, "type": "void"})
 
     # Exit a parse tree produced by ppGOParser#modulo.
-    def exitModulo(self, ctx):
+    def exitModulo(self, ctx: ppGOParser.ModuloContext):
         pass
 
     # Enter a parse tree produced by ppGOParser#tipo.
-
-    def enterTipo(self, ctx):
+    def enterTipo(self, ctx: ppGOParser.TipoContext):
         pass
 
     # Exit a parse tree produced by ppGOParser#tipo.
-    def exitTipo(self, ctx):
+    def exitTipo(self, ctx: ppGOParser.TipoContext):
         pass
 
     # Enter a parse tree produced by ppGOParser#args.
-
-    def enterArgs(self, ctx):
+    def enterArgs(self, ctx: ppGOParser.ArgsContext):
         pass
 
     # Exit a parse tree produced by ppGOParser#args.
-    def exitArgs(self, ctx):
+    def exitArgs(self, ctx: ppGOParser.ArgsContext):
         pass
 
     # Enter a parse tree produced by ppGOParser#body.
-
-    def enterBody(self, ctx):
+    def enterBody(self, ctx: ppGOParser.BodyContext):
         pass
 
     # Exit a parse tree produced by ppGOParser#body.
-    def exitBody(self, ctx):
+    def exitBody(self, ctx: ppGOParser.BodyContext):
         pass
 
     # Enter a parse tree produced by ppGOParser#block.
-
-    def enterBlock(self, ctx):
+    def enterBlock(self, ctx: ppGOParser.BlockContext):
         pass
 
     # Exit a parse tree produced by ppGOParser#block.
-    def exitBlock(self, ctx):
+    def exitBlock(self, ctx: ppGOParser.BlockContext):
         pass
 
     # Enter a parse tree produced by ppGOParser#varsDec.
-
-    def enterVarsDec(self, ctx):
+    def enterVarsDec(self, ctx: ppGOParser.VarsDecContext):
         if(self.dirMemoriaInt > 999): return "Error: Int Memory Exceeded"
         if(self.dirMemoriaFloat > 1999): return "Error: Float Memory Exceeded"
         if(self.dirMemoriaString > 2999): return "Error: String Memory Exceeded"
@@ -162,29 +155,24 @@ class ppGOListener(ParseTreeListener):
                 currentKeyValue.append({"name": str(ctx.getText()[6:]), "type": "float", "scope": scope, "dirMemoria": self.dirMemoriaString })
                 self.symbolTable[self.funcName] = currentKeyValue
                 self.dirMemoriaString += 1
-
     # Exit a parse tree produced by ppGOParser#varsDec.
-
-    def exitVarsDec(self, ctx):
+    def exitVarsDec(self, ctx: ppGOParser.VarsDecContext):
         pass
 
     # Enter a parse tree produced by ppGOParser#assigment.
-
-    def enterAssigment(self, ctx):
+    def enterAssigment(self, ctx: ppGOParser.AssigmentContext):
         assig = ctx.getText()[:-1]
         splitAssig = [
         ]
         temps = 1
-        #Split the assigment in to tokenns.
+        # Split the assigment in to tokenns.
         splitAssig = re.split("([-/(*=+)])",assig)
         
-        #Remove random "" generated by the split
+        # Remove random "" generated by the split
         while "" in splitAssig: splitAssig.remove("")
-        print(splitAssig)
-        #Appends the first element of the new splitted list to pilaOper
+        # Appends the first element of the new splitted list to pilaOper
         self.pilaOper.append(splitAssig[0])
         del splitAssig[0]
-        
         for i in range(len(splitAssig)):
             x = splitAssig[i]
             if(x == "=" or x == "+" or x == "-" or x == "*" or x == "/" or x == "("):
@@ -231,114 +219,141 @@ class ppGOListener(ParseTreeListener):
                         if self.pOper[len(self.pOper) - 1] == "=":
                             self.cuadruplos.append([self.pOper.pop(), self.pilaOper.pop(), " ", self.pilaOper.pop()])
                             temps = temps + 1
+
     # Exit a parse tree produced by ppGOParser#assigment.
-    def exitAssigment(self, ctx):
+    def exitAssigment(self, ctx:ppGOParser.AssigmentContext):
         pass
 
-    # Enter a parse tree produced by ppGOParser#condition.
 
-    def enterCondition(self, ctx):
+    # Enter a parse tree produced by ppGOParser#condition.
+    def enterCondition(self, ctx:ppGOParser.ConditionContext):
+        print("if expression")
+        print(ctx.expression().getText())
         pass
 
     # Exit a parse tree produced by ppGOParser#condition.
-    def exitCondition(self, ctx):
+    def exitCondition(self, ctx:ppGOParser.ConditionContext):
         pass
 
-    # Enter a parse tree produced by ppGOParser#expression.
 
-    def enterExpression(self, ctx):
+    # Enter a parse tree produced by ppGOParser#elseif.
+    def enterElseif(self, ctx:ppGOParser.ElseifContext):
+        print("Elseif expression")
+        print(ctx.expression().getText())
+        pass
+
+    # Exit a parse tree produced by ppGOParser#elseif.
+    def exitElseif(self, ctx:ppGOParser.ElseifContext):
+        pass
+
+
+    # Enter a parse tree produced by ppGOParser#elsee.
+    def enterElsee(self, ctx:ppGOParser.ElseeContext):
+        
+        pass
+
+    # Exit a parse tree produced by ppGOParser#elsee.
+    def exitElsee(self, ctx:ppGOParser.ElseeContext):
+        pass
+
+
+    # Enter a parse tree produced by ppGOParser#expression.
+    def enterExpression(self, ctx:ppGOParser.ExpressionContext):
+       
         pass
 
     # Exit a parse tree produced by ppGOParser#expression.
-    def exitExpression(self, ctx):
+    def exitExpression(self, ctx:ppGOParser.ExpressionContext):
         pass
 
-    # Enter a parse tree produced by ppGOParser#expression1.
 
-    def enterExpression1(self, ctx):
+    # Enter a parse tree produced by ppGOParser#expression1.
+    def enterExpression1(self, ctx:ppGOParser.Expression1Context):
         pass
 
     # Exit a parse tree produced by ppGOParser#expression1.
-    def exitExpression1(self, ctx):
+    def exitExpression1(self, ctx:ppGOParser.Expression1Context):
         pass
 
-    # Enter a parse tree produced by ppGOParser#exp.
 
-    def enterExp(self, ctx):
+    # Enter a parse tree produced by ppGOParser#exp.
+    def enterExp(self, ctx:ppGOParser.ExpContext):
         pass
 
     # Exit a parse tree produced by ppGOParser#exp.
-    def exitExp(self, ctx):
+    def exitExp(self, ctx:ppGOParser.ExpContext):
         pass
 
-    # Enter a parse tree produced by ppGOParser#term.
 
-    def enterTerm(self, ctx):
+    # Enter a parse tree produced by ppGOParser#term.
+    def enterTerm(self, ctx:ppGOParser.TermContext):
         pass
 
     # Exit a parse tree produced by ppGOParser#term.
-    def exitTerm(self, ctx):
+    def exitTerm(self, ctx:ppGOParser.TermContext):
         pass
 
-    # Enter a parse tree produced by ppGOParser#factor.
 
-    def enterFactor(self, ctx):
+    # Enter a parse tree produced by ppGOParser#factor.
+    def enterFactor(self, ctx:ppGOParser.FactorContext):
         pass
 
     # Exit a parse tree produced by ppGOParser#factor.
-    def exitFactor(self, ctx):
+    def exitFactor(self, ctx:ppGOParser.FactorContext):
         pass
 
-    # Enter a parse tree produced by ppGOParser#var_cte.
 
-    def enterVar_cte(self, ctx):
+    # Enter a parse tree produced by ppGOParser#var_cte.
+    def enterVar_cte(self, ctx:ppGOParser.Var_cteContext):
         pass
 
     # Exit a parse tree produced by ppGOParser#var_cte.
-    def exitVar_cte(self, ctx):
+    def exitVar_cte(self, ctx:ppGOParser.Var_cteContext):
         pass
 
-    # Enter a parse tree produced by ppGOParser#loop.
 
-    def enterLoop(self, ctx):
+    # Enter a parse tree produced by ppGOParser#loop.
+    def enterLoop(self, ctx:ppGOParser.LoopContext):
         pass
 
     # Exit a parse tree produced by ppGOParser#loop.
-    def exitLoop(self, ctx):
+    def exitLoop(self, ctx:ppGOParser.LoopContext):
         pass
 
-    # Enter a parse tree produced by ppGOParser#funcCall.
 
-    def enterFuncCall(self, ctx):
+    # Enter a parse tree produced by ppGOParser#funcCall.
+    def enterFuncCall(self, ctx:ppGOParser.FuncCallContext):
         pass
 
     # Exit a parse tree produced by ppGOParser#funcCall.
-    def exitFuncCall(self, ctx):
+    def exitFuncCall(self, ctx:ppGOParser.FuncCallContext):
         pass
 
-    # Enter a parse tree produced by ppGOParser#read.
 
-    def enterRead(self, ctx):
+    # Enter a parse tree produced by ppGOParser#read.
+    def enterRead(self, ctx:ppGOParser.ReadContext):
         pass
 
     # Exit a parse tree produced by ppGOParser#read.
-    def exitRead(self, ctx):
+    def exitRead(self, ctx:ppGOParser.ReadContext):
         pass
 
-    # Enter a parse tree produced by ppGOParser#print2.
 
-    def enterPrint2(self, ctx):
+    # Enter a parse tree produced by ppGOParser#print2.
+    def enterPrint2(self, ctx:ppGOParser.Print2Context):
         pass
 
     # Exit a parse tree produced by ppGOParser#print2.
-    def exitPrint2(self, ctx):
+    def exitPrint2(self, ctx:ppGOParser.Print2Context):
         pass
 
-    # Enter a parse tree produced by ppGOParser#return2.
 
-    def enterReturn2(self, ctx):
+    # Enter a parse tree produced by ppGOParser#return2.
+    def enterReturn2(self, ctx:ppGOParser.Return2Context):
         pass
 
     # Exit a parse tree produced by ppGOParser#return2.
-    def exitReturn2(self, ctx):
+    def exitReturn2(self, ctx:ppGOParser.Return2Context):
         pass
+
+

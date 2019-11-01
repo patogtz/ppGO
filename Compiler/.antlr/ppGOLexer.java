@@ -1,4 +1,4 @@
-// Generated from /Users/Pato/Desktop/ppGO/ppGO.g4 by ANTLR 4.7.1
+// Generated from /Users/Pato/Desktop/ppGO/Compiler/ppGO.g4 by ANTLR 4.7.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
