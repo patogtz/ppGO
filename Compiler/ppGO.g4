@@ -28,8 +28,11 @@ assigment :
     LITERAL ((LEFT_SBRACKET (expression) RIGHT_SBRACKET) (LEFT_SBRACKET (expression) RIGHT_SBRACKET)?)? EQUAL expression SEP_SEMICOLON;
 
 condition :
-    IF LEFT_PAR expression  RIGHT_PAR LEFT_BRACKET block RIGHT_BRACKET ( ELSEIF LEFT_PAR expression RIGHT_PAR LEFT_BRACKET block RIGHT_BRACKET )* ( ELSE LEFT_BRACKET block RIGHT_BRACKET )?;
-
+    IF LEFT_PAR expression  RIGHT_PAR LEFT_BRACKET block RIGHT_BRACKET ( elseif )* ( elsee )?;
+elseif :
+    ELSEIF LEFT_PAR expression RIGHT_PAR LEFT_BRACKET block RIGHT_BRACKET;
+elsee : 
+    ELSE LEFT_BRACKET block RIGHT_BRACKET;
 expression : 
     expression1 ((AND | OR) expression1)?;
 
