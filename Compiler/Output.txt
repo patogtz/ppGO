@@ -1,0 +1,54 @@
+program First:
+func main(){
+int a
+int b, c
+float d
+bool e
+string s
+int array[15]
+int matrix[4][6]
+int i
+
+a = 5;
+b = 10;
+c = a * b * c * d + (d / d) * 5; 
+d = 4.6;
+e = true;
+s = "whatever";
+i = 0;
+array[i] = 1;
+matrix[i][5] = 1;
+
+
+loop(i < 15){
+	a=5
+} 
+
+loop(a < b){
+	print("a es menor a b")
+	a = a + 1;
+}
+
+if((a == b AND b < c) OR c == a){
+	return a
+}
+else if(b - 5 == a){
+	print(c)
+	
+}
+else{
+	return d
+}
+
+
+extra(6, "parametro", b + 2)
+
+return 0
+
+}
+func extra(int a, string b, bool c){
+	int d
+    print(b)
+	d = a + 7;
+    return c
+}
