@@ -5,6 +5,7 @@ if __name__ is not None and "." in __name__:
     from .ppGOParser import ppGOParser
 else:
     from ppGOParser import ppGOParser
+from Memory import Memory
 
 # This class defines a complete listener for a parse tree produced by ppGOParser.
 
@@ -19,6 +20,9 @@ class ppGOListener(ParseTreeListener):
         self.dirMemoriaFloat = 1000
         self.dirMemoriaString = 2000
         self.dirMemoriaBool = 3000
+        self.globalMemory = Memory(0)
+        self.localMemory = Memory(4000)
+        self.constantMemory = Memory(8000)
         # Pila de operaciones para generar cuadruplo
         self.pOper = []
         # Pila de operadores para generar cuadruplo
@@ -27,17 +31,22 @@ class ppGOListener(ParseTreeListener):
         self.pilaSaltos = []
         self.cuadruplos = []
 
+
     # Enter a parse tree produced by ppGOParser#program.
     def enterProgram(self, ctx: ppGOParser.ProgramContext):
         pass
 
     # Exit a parse tree produced by ppGOParser#program.
     def exitProgram(self, ctx: ppGOParser.ProgramContext):
-        for c in self.cuadruplos:
-            print(*c)
+        """ for c in self.cuadruplos:
+            print(*c) """
+        print(self.globalMemory.memoryContent)
+        print(self.localMemory.memoryContent)
 
     # Enter a parse tree produced by ppGOParser#main.
     def enterMain(self, ctx: ppGOParser.MainContext):
+        self.funcName = "main"
+        self.functionTable.append({"name": "main", "type": "void"})
         pass
 
     # Exit a parse tree produced by ppGOParser#main.
@@ -110,51 +119,108 @@ class ppGOListener(ParseTreeListener):
             if(',' in ctx.getText()):
                 vars = ctx.getText()[3:].split(',')
                 for x in vars:
-                    currentKeyValue.append({"name": x, "type": "int", "scope": scope, "dirMemoria": self.dirMemoriaInt})
+                    if scope == "g":
+                        memoriaTabla = self.globalMemory.addToMemory("int")
+                        currentKeyValue.append({"name": x, "type": "int", "scope": scope, "dirMemoria": memoriaTabla})
+                        self.symbolTable[self.funcName] = currentKeyValue
+                        self.dirMemoriaInt += 1
+                    else:
+                        memoriaTabla = self.localMemory.addToMemory("int")
+                        currentKeyValue.append({"name": x, "type": "int", "scope": scope, "dirMemoria": memoriaTabla})
+                        self.symbolTable[self.funcName] = currentKeyValue
+                        self.dirMemoriaInt += 1
+
+            else:
+                if scope == "g":
+                    memoriaTabla = self.globalMemory.addToMemory("int")
+                    name = ctx.getText()[3:]
+                    currentKeyValue.append({"name": name, "type": "int", "scope": scope, "dirMemoria": memoriaTabla})
                     self.symbolTable[self.funcName] = currentKeyValue
                     self.dirMemoriaInt += 1
-            else:
-                name = ctx.getText()[3:]
-                currentKeyValue.append({"name": name, "type": "int", "scope": scope, "dirMemoria": self.dirMemoriaInt})
-                self.symbolTable[self.funcName] = currentKeyValue
-                self.dirMemoriaInt += 1
+                else:
+                    memoriaTabla = self.localMemory.addToMemory("int")
+                    name = ctx.getText()[3:]
+                    currentKeyValue.append({"name": name, "type": "int", "scope": scope, "dirMemoria": memoriaTabla})
+                    self.symbolTable[self.funcName] = currentKeyValue
+                    self.dirMemoriaInt += 1
                 
 
         elif (type == "flo"):
             if (',' in ctx.getText()):
                 vars = ctx.getText()[5:].split(',')
                 for x in vars:
-                   currentKeyValue.append({"name": x, "type": "float", "scope": scope, "dirMemoria": self.dirMemoriaFloat})
-                   self.symbolTable[self.funcName] = currentKeyValue
-                   self.dirMemoriaFloat += 1
+                    if scope == "g":
+                        memoriaTabla = self.globalMemory.addToMemory("float")
+                        currentKeyValue.append({"name": x, "type": "float", "scope": scope, "dirMemoria": memoriaTabla})
+                        self.symbolTable[self.funcName] = currentKeyValue
+                        self.dirMemoriaFloat += 1
+                    else:
+                        memoriaTabla = self.localMemory.addToMemory("float")
+                        currentKeyValue.append({"name": x, "type": "float", "scope": scope, "dirMemoria": memoriaTabla})
+                        self.symbolTable[self.funcName] = currentKeyValue
+                        self.dirMemoriaFloat += 1
             else:
-                currentKeyValue.append({"name": str(ctx.getText()[5:]), "type": "float", "scope": scope, "dirMemoria": self.dirMemoriaFloat})
-                self.symbolTable[self.funcName] = currentKeyValue
-                self.dirMemoriaFloat += 1
-
+                    if scope == "g":
+                        memoriaTabla = self.globalMemory.addToMemory("float")
+                        currentKeyValue.append({"name": str(ctx.getText()[5:]), "type": "float", "scope": scope, "dirMemoria": memoriaTabla})
+                        self.symbolTable[self.funcName] = currentKeyValue
+                        self.dirMemoriaFloat += 1
+                    else:
+                        memoriaTabla = self.localMemory.addToMemory("float")
+                        currentKeyValue.append({"name": str(ctx.getText()[5:]), "type": "float", "scope": scope, "dirMemoria": memoriaTabla})
+                        self.symbolTable[self.funcName] = currentKeyValue
+                        self.dirMemoriaFloat += 1
         elif (type == "boo"):
             if (',' in ctx.getText()):
                 vars = ctx.getText()[4:].split(',')
                 for x in vars:
-                    currentKeyValue.append({"name": x, "type": "bool", "scope": scope, "dirMemoria": self.dirMemoriaBool })
-                    self.symbolTable[self.funcName] = currentKeyValue
-                    self.dirMemoriaBool += 1
+                    if scope == "g":
+                        memoriaTabla = self.globalMemory.addToMemory("bool")
+                        currentKeyValue.append({"name": x, "type": "bool", "scope": scope, "dirMemoria": memoriaTabla })
+                        self.symbolTable[self.funcName] = currentKeyValue
+                        self.dirMemoriaBool += 1
+                    else:
+                        memoriaTabla = self.localMemory.addToMemory("bool")
+                        currentKeyValue.append({"name": x, "type": "bool", "scope": scope, "dirMemoria": memoriaTabla })
+                        self.symbolTable[self.funcName] = currentKeyValue
+                        self.dirMemoriaBool += 1
             else:
-                currentKeyValue.append({"name": str(ctx.getText()[4:]), "type": "float", "scope": scope, "dirMemoria": self.dirMemoriaBool})
-                self.symbolTable[self.funcName] = currentKeyValue
-                self.dirMemoriaBool += 1
+                if scope == "g":
+                        memoriaTabla = self.globalMemory.addToMemory("bool")
+                        currentKeyValue.append({"name": str(ctx.getText()[4:]), "type": "bool", "scope": scope, "dirMemoria": memoriaTabla})
+                        self.symbolTable[self.funcName] = currentKeyValue
+                        self.dirMemoriaBool += 1
+                else:
+                        memoriaTabla = self.localMemory.addToMemory("bool")
+                        currentKeyValue.append({"name": str(ctx.getText()[4:]), "type": "bool", "scope": scope, "dirMemoria": memoriaTabla})
+                        self.symbolTable[self.funcName] = currentKeyValue
+                        self.dirMemoriaBool += 1
 
         elif (type == "str"):
             if (',' in ctx.getText()):
                 vars = ctx.getText()[6:].split(',')
                 for x in vars:
-                   currentKeyValue.append({"name": x, "type": "bool", "scope": scope, "dirMemoria": self.dirMemoriaString })
-                   self.symbolTable[self.funcName] = currentKeyValue
-                   self.dirMemoriaString += 1
+                    if scope == "g":
+                        memoriaTabla = self.globalMemory.addToMemory("string")
+                        currentKeyValue.append({"name": x, "type": "string", "scope": scope, "dirMemoria": memoriaTabla })
+                        self.symbolTable[self.funcName] = currentKeyValue
+                        self.dirMemoriaString += 1
+                    else:
+                        memoriaTabla = self.localMemory.addToMemory("string")
+                        currentKeyValue.append({"name": x, "type": "string", "scope": scope, "dirMemoria": memoriaTabla })
+                        self.symbolTable[self.funcName] = currentKeyValue
+                        self.dirMemoriaString += 1
             else:
-                currentKeyValue.append({"name": str(ctx.getText()[6:]), "type": "float", "scope": scope, "dirMemoria": self.dirMemoriaString })
-                self.symbolTable[self.funcName] = currentKeyValue
-                self.dirMemoriaString += 1
+                if scope == "g":
+                    memoriaTabla = self.globalMemory.addToMemory("string")
+                    currentKeyValue.append({"name": str(ctx.getText()[6:]), "type": "string", "scope": scope, "dirMemoria": memoriaTabla })
+                    self.symbolTable[self.funcName] = currentKeyValue
+                    self.dirMemoriaString += 1
+                else:
+                    memoriaTabla = self.localMemory.addToMemory("string")
+                    currentKeyValue.append({"name": str(ctx.getText()[6:]), "type": "string", "scope": scope, "dirMemoria": memoriaTabla })
+                    self.symbolTable[self.funcName] = currentKeyValue
+                    self.dirMemoriaString += 1
     # Exit a parse tree produced by ppGOParser#varsDec.
     def exitVarsDec(self, ctx: ppGOParser.VarsDecContext):
         pass
@@ -239,6 +305,7 @@ class ppGOListener(ParseTreeListener):
     # Exit a parse tree produced by ppGOParser#condition.
     def exitCondition(self, ctx:ppGOParser.ConditionContext):
         self.cuadruplos.append(["Goto", "", "", "numero de cuadruplo si es que existe un else/elsif"])
+        
         pass
 
 

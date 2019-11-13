@@ -1,4 +1,5 @@
 program First:
+int a, b
 func main(){
 int a
 int b, c
