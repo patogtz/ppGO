@@ -26,9 +26,14 @@ if(a==b AND b > c){
 else if (c==d){
 	a = a + 1;
 }
-
+else if (a == b){
+	a = a + b;
+}
+else {
+	a = a;
+}
 loop(i < 15){
-
+	a = b;
 } 
 
 loop(a < b){

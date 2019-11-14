@@ -24,6 +24,7 @@ class ppGOListener(ParseTreeListener):
         self.dirMemoriaBool = 3000
         self.globalMemory = Memory(0)
         self.localMemory = Memory(4000)
+        
         self.constantMemory = Memory(8000)
         # Pila de operaciones para generar cuadruplo
         self.pOper = []
@@ -45,6 +46,7 @@ class ppGOListener(ParseTreeListener):
             i+=1
         """ print(self.globalMemory.memoryContent)
         print(self.localMemory.memoryContent) """
+        print(self.pilaSaltos)
 
     # Enter a parse tree produced by ppGOParser#main.
     def enterMain(self, ctx: ppGOParser.MainContext):
@@ -101,16 +103,31 @@ class ppGOListener(ParseTreeListener):
 
     # Exit a parse tree produced by ppGOParser#block.
     def exitBlock(self, ctx: ppGOParser.BlockContext):
-        # Goto del final del elseif/if
+        #Llena los gotof del if
         if self.expressionParent == "if":
+            #Sacas punto donde se encuentra el GotoF del if
+            fJump = self.pilaSaltos.pop()
             if(self.elifExists or self.elseExists):
-                pass
+                #Sacas punto donde se encuentra el GotoF del if
+                self.cuadruplos.append(["Goto","", "", "placeholder"])
+                self.cuadruplos[fJump][3] = len(self.cuadruplos)
+                self.pilaSaltos.append(len(self.cuadruplos) - 1)
+            else:
+                self.cuadruplos[fJump][3] = len(self.cuadruplos)
+        #Llena los gotof del elseif
         elif self.expressionParent == "elseif":
-            salto = self.pilaSaltos.pop()
-            self.cuadruplos[salto][3] = len(self.cuadruplos)
+            self.elifExists.pop()
+            fJump = self.pilaSaltos.pop()
+            if(self.elifExists or self.elseExists):
+                #Sacas punto donde se encuentra el GotoF del if
+                self.cuadruplos.append(["Goto","", "", "placeholder"])
+                self.cuadruplos[fJump][3] = len(self.cuadruplos)
+                self.pilaSaltos.append(len(self.cuadruplos) - 1)
+            else:
+                self.cuadruplos[fJump][3] = len(self.cuadruplos)
         elif(self.expressionParent == "loop"):
-            self.cuadruplos.append(
-                ["Goto", "", "", "se regresa a  inicio de loop"])
+            pass
+            
 
     # Enter a parse tree produced by ppGOParser#varsDec.
     def enterVarsDec(self, ctx: ppGOParser.VarsDecContext):
@@ -336,6 +353,7 @@ class ppGOListener(ParseTreeListener):
         self.expressionParent = "if"
         expr = ctx.expression().getText()
         self.elifExists = ctx.elseif()
+        print(ctx.elseif())
         self.elseExists = ctx.elsee()
         self.getQuadruples(expr)
         self.pilaOper[:] = []
@@ -346,21 +364,14 @@ class ppGOListener(ParseTreeListener):
     # Exit a parse tree produced by ppGOParser#condition.
     def exitCondition(self, ctx: ppGOParser.ConditionContext):
         self.expressionParent == ""
-        """  #Se llena los Goto de else e if
-        if self.elifExists and not self.elseExists:
-
-        if not self.elifExists and  self.elseExists:
-        if self.elifExists and  self.elseExists:
-                salto = self.pilaSaltos.pop()
-                self.cuadruplos[salto][3] = len(self.cuadruplos)
-        """
-
+        print(self.pilaSaltos)
+        while self.pilaSaltos:
+            salto = self.pilaSaltos.pop()
+            self.cuadruplos[salto][3] = len(self.cuadruplos)
+        
     # Enter a parse tree produced by ppGOParser#elseif.
     def enterElseif(self, ctx: ppGOParser.ElseifContext):
         self.expressionParent = "elseif"
-        self.pilaSaltos.append(len(self.cuadruplos) - 1)
-        salto = self.pilaSaltos.pop()
-        self.cuadruplos[salto][3] = len(self.cuadruplos)
         expr = ctx.expression().getText()
         self.getQuadruples(expr)
         self.pilaOper[:] = []
@@ -432,12 +443,18 @@ class ppGOListener(ParseTreeListener):
     # Enter a parse tree produced by ppGOParser#loop.
     def enterLoop(self, ctx: ppGOParser.LoopContext):
         self.expressionParent = "loop"
+        self.pilaSaltos.append(len(self.cuadruplos))
         expr = ctx.expression().getText()
         self.getQuadruples(expr)
 
     # Exit a parse tree produced by ppGOParser#loop.
     def exitLoop(self, ctx: ppGOParser.LoopContext):
-        self.cuadruplos.append(["Goto", "", "", "begining of loop"])
+        end = self.pilaSaltos.pop()
+        ret = self.pilaSaltos.pop()
+        self.cuadruplos.append(
+                ["Goto", "", "", ret])
+        self.cuadruplos[end][3] = len(self.cuadruplos)
+        """ self.pilaSaltos.append(len(self.cuadruplos)) """
         self.expressionParent = ""
 
     # Enter a parse tree produced by ppGOParser#funcCall.
@@ -531,7 +548,7 @@ class ppGOListener(ParseTreeListener):
                         if(len(self.pOper) == 0):
                             if self.expressionParent == "loop":
                                 self.cuadruplos.append(
-                                    ["GotoT", self.pilaOper.pop(), " ", "while"])
+                                    ["GotoF", self.pilaOper.pop(), " ", "while"])
                                 self.pilaSaltos.append(
                                     len(self.cuadruplos) - 1)
                             else:
