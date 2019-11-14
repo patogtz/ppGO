@@ -9,141 +9,142 @@ import sys
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3.")
-        buf.write("\u012f\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write("\u0132\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4\23\t\23")
         buf.write("\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\3\2")
-        buf.write("\3\2\3\2\3\2\5\2\65\n\2\3\2\3\2\7\29\n\2\f\2\16\2<\13")
-        buf.write("\2\3\3\3\3\3\3\3\3\3\3\3\3\3\4\5\4E\n\4\3\4\3\4\3\4\3")
-        buf.write("\4\3\4\3\4\3\4\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\7\6")
-        buf.write("W\n\6\f\6\16\6Z\13\6\5\6\\\n\6\3\7\3\7\7\7`\n\7\f\7\16")
-        buf.write("\7c\13\7\3\7\3\7\5\7g\n\7\3\7\3\7\3\b\3\b\3\b\3\b\3\b")
-        buf.write("\3\b\7\bq\n\b\f\b\16\bt\13\b\3\b\5\bw\n\b\3\t\3\t\3\t")
-        buf.write("\3\t\3\t\3\t\3\t\3\t\3\t\5\t\u0082\n\t\5\t\u0084\n\t\3")
-        buf.write("\t\5\t\u0087\n\t\6\t\u0089\n\t\r\t\16\t\u008a\3\n\3\n")
-        buf.write("\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\n\u0096\n\n\5\n\u0098\n")
-        buf.write("\n\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13\3\13\3\13\3\13")
-        buf.write("\3\13\7\13\u00a6\n\13\f\13\16\13\u00a9\13\13\3\13\5\13")
-        buf.write("\u00ac\n\13\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\r\3\r\3")
-        buf.write("\r\3\r\3\r\3\16\3\16\3\16\5\16\u00be\n\16\3\17\3\17\3")
-        buf.write("\17\5\17\u00c3\n\17\3\20\3\20\3\20\5\20\u00c8\n\20\3\21")
-        buf.write("\3\21\3\21\5\21\u00cd\n\21\3\22\3\22\3\22\3\22\3\22\3")
-        buf.write("\22\3\22\3\22\3\22\5\22\u00d8\n\22\5\22\u00da\n\22\3\23")
-        buf.write("\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\5\23\u00e5\n")
-        buf.write("\23\5\23\u00e7\n\23\3\23\3\23\3\23\3\23\7\23\u00ed\n\23")
-        buf.write("\f\23\16\23\u00f0\13\23\5\23\u00f2\n\23\3\23\5\23\u00f5")
-        buf.write("\n\23\5\23\u00f7\n\23\3\23\3\23\3\23\3\23\3\23\5\23\u00fe")
-        buf.write("\n\23\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\25\3\25")
-        buf.write("\3\25\3\25\3\25\7\25\u010d\n\25\f\25\16\25\u0110\13\25")
-        buf.write("\5\25\u0112\n\25\3\25\3\25\3\26\3\26\3\26\3\26\3\26\3")
-        buf.write("\26\3\26\3\26\3\26\3\26\3\26\5\26\u0121\n\26\5\26\u0123")
-        buf.write("\n\26\3\26\3\26\3\27\3\27\3\27\3\27\3\27\3\30\3\30\3\30")
-        buf.write("\3\30\2\2\31\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"")
-        buf.write("$&(*,.\2\7\3\2\4\7\3\2\37 \3\2\25\32\3\2\21\22\3\2\23")
-        buf.write("\24\2\u0143\2\60\3\2\2\2\4=\3\2\2\2\6D\3\2\2\2\bM\3\2")
-        buf.write("\2\2\n[\3\2\2\2\f]\3\2\2\2\16r\3\2\2\2\20x\3\2\2\2\22")
-        buf.write("\u008c\3\2\2\2\24\u009d\3\2\2\2\26\u00ad\3\2\2\2\30\u00b5")
-        buf.write("\3\2\2\2\32\u00ba\3\2\2\2\34\u00bf\3\2\2\2\36\u00c4\3")
-        buf.write("\2\2\2 \u00c9\3\2\2\2\"\u00d9\3\2\2\2$\u00fd\3\2\2\2&")
-        buf.write("\u00ff\3\2\2\2(\u0107\3\2\2\2*\u0115\3\2\2\2,\u0126\3")
-        buf.write("\2\2\2.\u012b\3\2\2\2\60\61\7%\2\2\61\62\7,\2\2\62\64")
-        buf.write("\7\35\2\2\63\65\5\20\t\2\64\63\3\2\2\2\64\65\3\2\2\2\65")
-        buf.write("\66\3\2\2\2\66:\5\4\3\2\679\5\6\4\28\67\3\2\2\29<\3\2")
-        buf.write("\2\2:8\3\2\2\2:;\3\2\2\2;\3\3\2\2\2<:\3\2\2\2=>\7\n\2")
-        buf.write("\2>?\7\3\2\2?@\7\13\2\2@A\7\f\2\2AB\5\f\7\2B\5\3\2\2\2")
-        buf.write("CE\5\b\5\2DC\3\2\2\2DE\3\2\2\2EF\3\2\2\2FG\7\n\2\2GH\7")
-        buf.write(",\2\2HI\7\13\2\2IJ\5\n\6\2JK\7\f\2\2KL\5\f\7\2L\7\3\2")
-        buf.write("\2\2MN\t\2\2\2N\t\3\2\2\2OP\5\b\5\2PQ\7,\2\2QX\3\2\2\2")
-        buf.write("RS\7\34\2\2ST\5\b\5\2TU\7,\2\2UW\3\2\2\2VR\3\2\2\2WZ\3")
-        buf.write("\2\2\2XV\3\2\2\2XY\3\2\2\2Y\\\3\2\2\2ZX\3\2\2\2[O\3\2")
-        buf.write("\2\2[\\\3\2\2\2\\\13\3\2\2\2]a\7\r\2\2^`\5\20\t\2_^\3")
-        buf.write("\2\2\2`c\3\2\2\2a_\3\2\2\2ab\3\2\2\2bd\3\2\2\2ca\3\2\2")
-        buf.write("\2df\5\16\b\2eg\5.\30\2fe\3\2\2\2fg\3\2\2\2gh\3\2\2\2")
-        buf.write("hi\7\16\2\2i\r\3\2\2\2jq\5(\25\2kq\5\22\n\2lq\5\24\13")
-        buf.write("\2mq\5&\24\2nq\5,\27\2oq\5*\26\2pj\3\2\2\2pk\3\2\2\2p")
-        buf.write("l\3\2\2\2pm\3\2\2\2pn\3\2\2\2po\3\2\2\2qt\3\2\2\2rp\3")
-        buf.write("\2\2\2rs\3\2\2\2sv\3\2\2\2tr\3\2\2\2uw\5.\30\2vu\3\2\2")
-        buf.write("\2vw\3\2\2\2w\17\3\2\2\2x\u0088\5\b\5\2y\u0083\7,\2\2")
-        buf.write("z{\7\17\2\2{|\7&\2\2|}\7\20\2\2}\u0081\3\2\2\2~\177\7")
-        buf.write("\17\2\2\177\u0080\7&\2\2\u0080\u0082\7\20\2\2\u0081~\3")
-        buf.write("\2\2\2\u0081\u0082\3\2\2\2\u0082\u0084\3\2\2\2\u0083z")
-        buf.write("\3\2\2\2\u0083\u0084\3\2\2\2\u0084\u0086\3\2\2\2\u0085")
-        buf.write("\u0087\7\34\2\2\u0086\u0085\3\2\2\2\u0086\u0087\3\2\2")
-        buf.write("\2\u0087\u0089\3\2\2\2\u0088y\3\2\2\2\u0089\u008a\3\2")
-        buf.write("\2\2\u008a\u0088\3\2\2\2\u008a\u008b\3\2\2\2\u008b\21")
-        buf.write("\3\2\2\2\u008c\u0097\7,\2\2\u008d\u008e\7\17\2\2\u008e")
-        buf.write("\u008f\5\32\16\2\u008f\u0090\7\20\2\2\u0090\u0095\3\2")
-        buf.write("\2\2\u0091\u0092\7\17\2\2\u0092\u0093\5\32\16\2\u0093")
-        buf.write("\u0094\7\20\2\2\u0094\u0096\3\2\2\2\u0095\u0091\3\2\2")
-        buf.write("\2\u0095\u0096\3\2\2\2\u0096\u0098\3\2\2\2\u0097\u008d")
-        buf.write("\3\2\2\2\u0097\u0098\3\2\2\2\u0098\u0099\3\2\2\2\u0099")
-        buf.write("\u009a\7\33\2\2\u009a\u009b\5\32\16\2\u009b\u009c\7\36")
-        buf.write("\2\2\u009c\23\3\2\2\2\u009d\u009e\7!\2\2\u009e\u009f\7")
-        buf.write("\13\2\2\u009f\u00a0\5\32\16\2\u00a0\u00a1\7\f\2\2\u00a1")
-        buf.write("\u00a2\7\r\2\2\u00a2\u00a3\5\16\b\2\u00a3\u00a7\7\16\2")
-        buf.write("\2\u00a4\u00a6\5\26\f\2\u00a5\u00a4\3\2\2\2\u00a6\u00a9")
-        buf.write("\3\2\2\2\u00a7\u00a5\3\2\2\2\u00a7\u00a8\3\2\2\2\u00a8")
-        buf.write("\u00ab\3\2\2\2\u00a9\u00a7\3\2\2\2\u00aa\u00ac\5\30\r")
-        buf.write("\2\u00ab\u00aa\3\2\2\2\u00ab\u00ac\3\2\2\2\u00ac\25\3")
-        buf.write("\2\2\2\u00ad\u00ae\7#\2\2\u00ae\u00af\7\13\2\2\u00af\u00b0")
-        buf.write("\5\32\16\2\u00b0\u00b1\7\f\2\2\u00b1\u00b2\7\r\2\2\u00b2")
-        buf.write("\u00b3\5\16\b\2\u00b3\u00b4\7\16\2\2\u00b4\27\3\2\2\2")
-        buf.write("\u00b5\u00b6\7\"\2\2\u00b6\u00b7\7\r\2\2\u00b7\u00b8\5")
-        buf.write("\16\b\2\u00b8\u00b9\7\16\2\2\u00b9\31\3\2\2\2\u00ba\u00bd")
-        buf.write("\5\34\17\2\u00bb\u00bc\t\3\2\2\u00bc\u00be\5\34\17\2\u00bd")
-        buf.write("\u00bb\3\2\2\2\u00bd\u00be\3\2\2\2\u00be\33\3\2\2\2\u00bf")
-        buf.write("\u00c2\5\36\20\2\u00c0\u00c1\t\4\2\2\u00c1\u00c3\5\36")
-        buf.write("\20\2\u00c2\u00c0\3\2\2\2\u00c2\u00c3\3\2\2\2\u00c3\35")
-        buf.write("\3\2\2\2\u00c4\u00c7\5 \21\2\u00c5\u00c6\t\5\2\2\u00c6")
-        buf.write("\u00c8\5\36\20\2\u00c7\u00c5\3\2\2\2\u00c7\u00c8\3\2\2")
-        buf.write("\2\u00c8\37\3\2\2\2\u00c9\u00cc\5\"\22\2\u00ca\u00cb\t")
-        buf.write("\6\2\2\u00cb\u00cd\5 \21\2\u00cc\u00ca\3\2\2\2\u00cc\u00cd")
-        buf.write("\3\2\2\2\u00cd!\3\2\2\2\u00ce\u00cf\7\13\2\2\u00cf\u00d0")
-        buf.write("\5\32\16\2\u00d0\u00d1\7\f\2\2\u00d1\u00da\3\2\2\2\u00d2")
-        buf.write("\u00d7\5$\23\2\u00d3\u00d4\7\21\2\2\u00d4\u00d8\5\"\22")
-        buf.write("\2\u00d5\u00d6\7\22\2\2\u00d6\u00d8\5\"\22\2\u00d7\u00d3")
-        buf.write("\3\2\2\2\u00d7\u00d5\3\2\2\2\u00d7\u00d8\3\2\2\2\u00d8")
-        buf.write("\u00da\3\2\2\2\u00d9\u00ce\3\2\2\2\u00d9\u00d2\3\2\2\2")
-        buf.write("\u00da#\3\2\2\2\u00db\u00f6\7,\2\2\u00dc\u00dd\7\17\2")
-        buf.write("\2\u00dd\u00de\5\32\16\2\u00de\u00df\7\20\2\2\u00df\u00e4")
-        buf.write("\3\2\2\2\u00e0\u00e1\7\17\2\2\u00e1\u00e2\5\32\16\2\u00e2")
-        buf.write("\u00e3\7\20\2\2\u00e3\u00e5\3\2\2\2\u00e4\u00e0\3\2\2")
-        buf.write("\2\u00e4\u00e5\3\2\2\2\u00e5\u00e7\3\2\2\2\u00e6\u00dc")
-        buf.write("\3\2\2\2\u00e6\u00e7\3\2\2\2\u00e7\u00f7\3\2\2\2\u00e8")
-        buf.write("\u00f1\7\13\2\2\u00e9\u00ee\5\32\16\2\u00ea\u00eb\7\34")
-        buf.write("\2\2\u00eb\u00ed\5\32\16\2\u00ec\u00ea\3\2\2\2\u00ed\u00f0")
-        buf.write("\3\2\2\2\u00ee\u00ec\3\2\2\2\u00ee\u00ef\3\2\2\2\u00ef")
-        buf.write("\u00f2\3\2\2\2\u00f0\u00ee\3\2\2\2\u00f1\u00e9\3\2\2\2")
-        buf.write("\u00f1\u00f2\3\2\2\2\u00f2\u00f3\3\2\2\2\u00f3\u00f5\7")
-        buf.write("\f\2\2\u00f4\u00e8\3\2\2\2\u00f4\u00f5\3\2\2\2\u00f5\u00f7")
-        buf.write("\3\2\2\2\u00f6\u00e6\3\2\2\2\u00f6\u00f4\3\2\2\2\u00f7")
-        buf.write("\u00fe\3\2\2\2\u00f8\u00fe\7&\2\2\u00f9\u00fe\7\'\2\2")
-        buf.write("\u00fa\u00fe\7\b\2\2\u00fb\u00fe\7\t\2\2\u00fc\u00fe\7")
-        buf.write("-\2\2\u00fd\u00db\3\2\2\2\u00fd\u00f8\3\2\2\2\u00fd\u00f9")
-        buf.write("\3\2\2\2\u00fd\u00fa\3\2\2\2\u00fd\u00fb\3\2\2\2\u00fd")
-        buf.write("\u00fc\3\2\2\2\u00fe%\3\2\2\2\u00ff\u0100\7)\2\2\u0100")
-        buf.write("\u0101\7\13\2\2\u0101\u0102\5\32\16\2\u0102\u0103\7\f")
-        buf.write("\2\2\u0103\u0104\7\r\2\2\u0104\u0105\5\16\b\2\u0105\u0106")
-        buf.write("\7\16\2\2\u0106\'\3\2\2\2\u0107\u0108\7,\2\2\u0108\u0111")
-        buf.write("\7\13\2\2\u0109\u010e\5\32\16\2\u010a\u010b\7\34\2\2\u010b")
-        buf.write("\u010d\5\32\16\2\u010c\u010a\3\2\2\2\u010d\u0110\3\2\2")
-        buf.write("\2\u010e\u010c\3\2\2\2\u010e\u010f\3\2\2\2\u010f\u0112")
-        buf.write("\3\2\2\2\u0110\u010e\3\2\2\2\u0111\u0109\3\2\2\2\u0111")
-        buf.write("\u0112\3\2\2\2\u0112\u0113\3\2\2\2\u0113\u0114\7\f\2\2")
-        buf.write("\u0114)\3\2\2\2\u0115\u0116\7(\2\2\u0116\u0117\7\13\2")
-        buf.write("\2\u0117\u0122\7,\2\2\u0118\u0119\7\17\2\2\u0119\u011a")
-        buf.write("\5\32\16\2\u011a\u011b\7\20\2\2\u011b\u0120\3\2\2\2\u011c")
-        buf.write("\u011d\7\17\2\2\u011d\u011e\5\32\16\2\u011e\u011f\7\20")
-        buf.write("\2\2\u011f\u0121\3\2\2\2\u0120\u011c\3\2\2\2\u0120\u0121")
-        buf.write("\3\2\2\2\u0121\u0123\3\2\2\2\u0122\u0118\3\2\2\2\u0122")
-        buf.write("\u0123\3\2\2\2\u0123\u0124\3\2\2\2\u0124\u0125\7\f\2\2")
-        buf.write("\u0125+\3\2\2\2\u0126\u0127\7*\2\2\u0127\u0128\7\13\2")
-        buf.write("\2\u0128\u0129\5\32\16\2\u0129\u012a\7\f\2\2\u012a-\3")
-        buf.write("\2\2\2\u012b\u012c\7+\2\2\u012c\u012d\5\32\16\2\u012d")
-        buf.write("/\3\2\2\2%\64:DX[afprv\u0081\u0083\u0086\u008a\u0095\u0097")
-        buf.write("\u00a7\u00ab\u00bd\u00c2\u00c7\u00cc\u00d7\u00d9\u00e4")
-        buf.write("\u00e6\u00ee\u00f1\u00f4\u00f6\u00fd\u010e\u0111\u0120")
-        buf.write("\u0122")
+        buf.write("\3\2\3\2\3\2\7\2\65\n\2\f\2\16\28\13\2\3\2\3\2\7\2<\n")
+        buf.write("\2\f\2\16\2?\13\2\3\3\3\3\3\3\3\3\3\3\3\3\3\4\5\4H\n\4")
+        buf.write("\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\5\3\5\3\6\3\6\3\6\3\6\3")
+        buf.write("\6\3\6\3\6\7\6Z\n\6\f\6\16\6]\13\6\5\6_\n\6\3\7\3\7\7")
+        buf.write("\7c\n\7\f\7\16\7f\13\7\3\7\3\7\5\7j\n\7\3\7\3\7\3\b\3")
+        buf.write("\b\3\b\3\b\3\b\3\b\7\bt\n\b\f\b\16\bw\13\b\3\b\5\bz\n")
+        buf.write("\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\5\t\u0085\n\t\5")
+        buf.write("\t\u0087\n\t\3\t\5\t\u008a\n\t\6\t\u008c\n\t\r\t\16\t")
+        buf.write("\u008d\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\n\u0099\n")
+        buf.write("\n\5\n\u009b\n\n\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13\3")
+        buf.write("\13\3\13\3\13\3\13\7\13\u00a9\n\13\f\13\16\13\u00ac\13")
+        buf.write("\13\3\13\5\13\u00af\n\13\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3")
+        buf.write("\f\3\r\3\r\3\r\3\r\3\r\3\16\3\16\3\16\5\16\u00c1\n\16")
+        buf.write("\3\17\3\17\3\17\5\17\u00c6\n\17\3\20\3\20\3\20\5\20\u00cb")
+        buf.write("\n\20\3\21\3\21\3\21\5\21\u00d0\n\21\3\22\3\22\3\22\3")
+        buf.write("\22\3\22\3\22\3\22\3\22\3\22\5\22\u00db\n\22\5\22\u00dd")
+        buf.write("\n\22\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\5\23")
+        buf.write("\u00e8\n\23\5\23\u00ea\n\23\3\23\3\23\3\23\3\23\7\23\u00f0")
+        buf.write("\n\23\f\23\16\23\u00f3\13\23\5\23\u00f5\n\23\3\23\5\23")
+        buf.write("\u00f8\n\23\5\23\u00fa\n\23\3\23\3\23\3\23\3\23\3\23\5")
+        buf.write("\23\u0101\n\23\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24")
+        buf.write("\3\25\3\25\3\25\3\25\3\25\7\25\u0110\n\25\f\25\16\25\u0113")
+        buf.write("\13\25\5\25\u0115\n\25\3\25\3\25\3\26\3\26\3\26\3\26\3")
+        buf.write("\26\3\26\3\26\3\26\3\26\3\26\3\26\5\26\u0124\n\26\5\26")
+        buf.write("\u0126\n\26\3\26\3\26\3\27\3\27\3\27\3\27\3\27\3\30\3")
+        buf.write("\30\3\30\3\30\2\2\31\2\4\6\b\n\f\16\20\22\24\26\30\32")
+        buf.write("\34\36 \"$&(*,.\2\7\3\2\4\7\3\2\37 \3\2\25\32\3\2\21\22")
+        buf.write("\3\2\23\24\2\u0146\2\60\3\2\2\2\4@\3\2\2\2\6G\3\2\2\2")
+        buf.write("\bP\3\2\2\2\n^\3\2\2\2\f`\3\2\2\2\16u\3\2\2\2\20{\3\2")
+        buf.write("\2\2\22\u008f\3\2\2\2\24\u00a0\3\2\2\2\26\u00b0\3\2\2")
+        buf.write("\2\30\u00b8\3\2\2\2\32\u00bd\3\2\2\2\34\u00c2\3\2\2\2")
+        buf.write("\36\u00c7\3\2\2\2 \u00cc\3\2\2\2\"\u00dc\3\2\2\2$\u0100")
+        buf.write("\3\2\2\2&\u0102\3\2\2\2(\u010a\3\2\2\2*\u0118\3\2\2\2")
+        buf.write(",\u0129\3\2\2\2.\u012e\3\2\2\2\60\61\7%\2\2\61\62\7,\2")
+        buf.write("\2\62\66\7\35\2\2\63\65\5\20\t\2\64\63\3\2\2\2\658\3\2")
+        buf.write("\2\2\66\64\3\2\2\2\66\67\3\2\2\2\679\3\2\2\28\66\3\2\2")
+        buf.write("\29=\5\4\3\2:<\5\6\4\2;:\3\2\2\2<?\3\2\2\2=;\3\2\2\2=")
+        buf.write(">\3\2\2\2>\3\3\2\2\2?=\3\2\2\2@A\7\n\2\2AB\7\3\2\2BC\7")
+        buf.write("\13\2\2CD\7\f\2\2DE\5\f\7\2E\5\3\2\2\2FH\5\b\5\2GF\3\2")
+        buf.write("\2\2GH\3\2\2\2HI\3\2\2\2IJ\7\n\2\2JK\7,\2\2KL\7\13\2\2")
+        buf.write("LM\5\n\6\2MN\7\f\2\2NO\5\f\7\2O\7\3\2\2\2PQ\t\2\2\2Q\t")
+        buf.write("\3\2\2\2RS\5\b\5\2ST\7,\2\2T[\3\2\2\2UV\7\34\2\2VW\5\b")
+        buf.write("\5\2WX\7,\2\2XZ\3\2\2\2YU\3\2\2\2Z]\3\2\2\2[Y\3\2\2\2")
+        buf.write("[\\\3\2\2\2\\_\3\2\2\2][\3\2\2\2^R\3\2\2\2^_\3\2\2\2_")
+        buf.write("\13\3\2\2\2`d\7\r\2\2ac\5\20\t\2ba\3\2\2\2cf\3\2\2\2d")
+        buf.write("b\3\2\2\2de\3\2\2\2eg\3\2\2\2fd\3\2\2\2gi\5\16\b\2hj\5")
+        buf.write(".\30\2ih\3\2\2\2ij\3\2\2\2jk\3\2\2\2kl\7\16\2\2l\r\3\2")
+        buf.write("\2\2mt\5(\25\2nt\5\22\n\2ot\5\24\13\2pt\5&\24\2qt\5,\27")
+        buf.write("\2rt\5*\26\2sm\3\2\2\2sn\3\2\2\2so\3\2\2\2sp\3\2\2\2s")
+        buf.write("q\3\2\2\2sr\3\2\2\2tw\3\2\2\2us\3\2\2\2uv\3\2\2\2vy\3")
+        buf.write("\2\2\2wu\3\2\2\2xz\5.\30\2yx\3\2\2\2yz\3\2\2\2z\17\3\2")
+        buf.write("\2\2{\u008b\5\b\5\2|\u0086\7,\2\2}~\7\17\2\2~\177\7&\2")
+        buf.write("\2\177\u0080\7\20\2\2\u0080\u0084\3\2\2\2\u0081\u0082")
+        buf.write("\7\17\2\2\u0082\u0083\7&\2\2\u0083\u0085\7\20\2\2\u0084")
+        buf.write("\u0081\3\2\2\2\u0084\u0085\3\2\2\2\u0085\u0087\3\2\2\2")
+        buf.write("\u0086}\3\2\2\2\u0086\u0087\3\2\2\2\u0087\u0089\3\2\2")
+        buf.write("\2\u0088\u008a\7\34\2\2\u0089\u0088\3\2\2\2\u0089\u008a")
+        buf.write("\3\2\2\2\u008a\u008c\3\2\2\2\u008b|\3\2\2\2\u008c\u008d")
+        buf.write("\3\2\2\2\u008d\u008b\3\2\2\2\u008d\u008e\3\2\2\2\u008e")
+        buf.write("\21\3\2\2\2\u008f\u009a\7,\2\2\u0090\u0091\7\17\2\2\u0091")
+        buf.write("\u0092\5\32\16\2\u0092\u0093\7\20\2\2\u0093\u0098\3\2")
+        buf.write("\2\2\u0094\u0095\7\17\2\2\u0095\u0096\5\32\16\2\u0096")
+        buf.write("\u0097\7\20\2\2\u0097\u0099\3\2\2\2\u0098\u0094\3\2\2")
+        buf.write("\2\u0098\u0099\3\2\2\2\u0099\u009b\3\2\2\2\u009a\u0090")
+        buf.write("\3\2\2\2\u009a\u009b\3\2\2\2\u009b\u009c\3\2\2\2\u009c")
+        buf.write("\u009d\7\33\2\2\u009d\u009e\5\32\16\2\u009e\u009f\7\36")
+        buf.write("\2\2\u009f\23\3\2\2\2\u00a0\u00a1\7!\2\2\u00a1\u00a2\7")
+        buf.write("\13\2\2\u00a2\u00a3\5\32\16\2\u00a3\u00a4\7\f\2\2\u00a4")
+        buf.write("\u00a5\7\r\2\2\u00a5\u00a6\5\16\b\2\u00a6\u00aa\7\16\2")
+        buf.write("\2\u00a7\u00a9\5\26\f\2\u00a8\u00a7\3\2\2\2\u00a9\u00ac")
+        buf.write("\3\2\2\2\u00aa\u00a8\3\2\2\2\u00aa\u00ab\3\2\2\2\u00ab")
+        buf.write("\u00ae\3\2\2\2\u00ac\u00aa\3\2\2\2\u00ad\u00af\5\30\r")
+        buf.write("\2\u00ae\u00ad\3\2\2\2\u00ae\u00af\3\2\2\2\u00af\25\3")
+        buf.write("\2\2\2\u00b0\u00b1\7#\2\2\u00b1\u00b2\7\13\2\2\u00b2\u00b3")
+        buf.write("\5\32\16\2\u00b3\u00b4\7\f\2\2\u00b4\u00b5\7\r\2\2\u00b5")
+        buf.write("\u00b6\5\16\b\2\u00b6\u00b7\7\16\2\2\u00b7\27\3\2\2\2")
+        buf.write("\u00b8\u00b9\7\"\2\2\u00b9\u00ba\7\r\2\2\u00ba\u00bb\5")
+        buf.write("\16\b\2\u00bb\u00bc\7\16\2\2\u00bc\31\3\2\2\2\u00bd\u00c0")
+        buf.write("\5\34\17\2\u00be\u00bf\t\3\2\2\u00bf\u00c1\5\34\17\2\u00c0")
+        buf.write("\u00be\3\2\2\2\u00c0\u00c1\3\2\2\2\u00c1\33\3\2\2\2\u00c2")
+        buf.write("\u00c5\5\36\20\2\u00c3\u00c4\t\4\2\2\u00c4\u00c6\5\36")
+        buf.write("\20\2\u00c5\u00c3\3\2\2\2\u00c5\u00c6\3\2\2\2\u00c6\35")
+        buf.write("\3\2\2\2\u00c7\u00ca\5 \21\2\u00c8\u00c9\t\5\2\2\u00c9")
+        buf.write("\u00cb\5\36\20\2\u00ca\u00c8\3\2\2\2\u00ca\u00cb\3\2\2")
+        buf.write("\2\u00cb\37\3\2\2\2\u00cc\u00cf\5\"\22\2\u00cd\u00ce\t")
+        buf.write("\6\2\2\u00ce\u00d0\5 \21\2\u00cf\u00cd\3\2\2\2\u00cf\u00d0")
+        buf.write("\3\2\2\2\u00d0!\3\2\2\2\u00d1\u00d2\7\13\2\2\u00d2\u00d3")
+        buf.write("\5\32\16\2\u00d3\u00d4\7\f\2\2\u00d4\u00dd\3\2\2\2\u00d5")
+        buf.write("\u00da\5$\23\2\u00d6\u00d7\7\21\2\2\u00d7\u00db\5\"\22")
+        buf.write("\2\u00d8\u00d9\7\22\2\2\u00d9\u00db\5\"\22\2\u00da\u00d6")
+        buf.write("\3\2\2\2\u00da\u00d8\3\2\2\2\u00da\u00db\3\2\2\2\u00db")
+        buf.write("\u00dd\3\2\2\2\u00dc\u00d1\3\2\2\2\u00dc\u00d5\3\2\2\2")
+        buf.write("\u00dd#\3\2\2\2\u00de\u00f9\7,\2\2\u00df\u00e0\7\17\2")
+        buf.write("\2\u00e0\u00e1\5\32\16\2\u00e1\u00e2\7\20\2\2\u00e2\u00e7")
+        buf.write("\3\2\2\2\u00e3\u00e4\7\17\2\2\u00e4\u00e5\5\32\16\2\u00e5")
+        buf.write("\u00e6\7\20\2\2\u00e6\u00e8\3\2\2\2\u00e7\u00e3\3\2\2")
+        buf.write("\2\u00e7\u00e8\3\2\2\2\u00e8\u00ea\3\2\2\2\u00e9\u00df")
+        buf.write("\3\2\2\2\u00e9\u00ea\3\2\2\2\u00ea\u00fa\3\2\2\2\u00eb")
+        buf.write("\u00f4\7\13\2\2\u00ec\u00f1\5\32\16\2\u00ed\u00ee\7\34")
+        buf.write("\2\2\u00ee\u00f0\5\32\16\2\u00ef\u00ed\3\2\2\2\u00f0\u00f3")
+        buf.write("\3\2\2\2\u00f1\u00ef\3\2\2\2\u00f1\u00f2\3\2\2\2\u00f2")
+        buf.write("\u00f5\3\2\2\2\u00f3\u00f1\3\2\2\2\u00f4\u00ec\3\2\2\2")
+        buf.write("\u00f4\u00f5\3\2\2\2\u00f5\u00f6\3\2\2\2\u00f6\u00f8\7")
+        buf.write("\f\2\2\u00f7\u00eb\3\2\2\2\u00f7\u00f8\3\2\2\2\u00f8\u00fa")
+        buf.write("\3\2\2\2\u00f9\u00e9\3\2\2\2\u00f9\u00f7\3\2\2\2\u00fa")
+        buf.write("\u0101\3\2\2\2\u00fb\u0101\7&\2\2\u00fc\u0101\7\'\2\2")
+        buf.write("\u00fd\u0101\7\b\2\2\u00fe\u0101\7\t\2\2\u00ff\u0101\7")
+        buf.write("-\2\2\u0100\u00de\3\2\2\2\u0100\u00fb\3\2\2\2\u0100\u00fc")
+        buf.write("\3\2\2\2\u0100\u00fd\3\2\2\2\u0100\u00fe\3\2\2\2\u0100")
+        buf.write("\u00ff\3\2\2\2\u0101%\3\2\2\2\u0102\u0103\7)\2\2\u0103")
+        buf.write("\u0104\7\13\2\2\u0104\u0105\5\32\16\2\u0105\u0106\7\f")
+        buf.write("\2\2\u0106\u0107\7\r\2\2\u0107\u0108\5\16\b\2\u0108\u0109")
+        buf.write("\7\16\2\2\u0109\'\3\2\2\2\u010a\u010b\7,\2\2\u010b\u0114")
+        buf.write("\7\13\2\2\u010c\u0111\5\32\16\2\u010d\u010e\7\34\2\2\u010e")
+        buf.write("\u0110\5\32\16\2\u010f\u010d\3\2\2\2\u0110\u0113\3\2\2")
+        buf.write("\2\u0111\u010f\3\2\2\2\u0111\u0112\3\2\2\2\u0112\u0115")
+        buf.write("\3\2\2\2\u0113\u0111\3\2\2\2\u0114\u010c\3\2\2\2\u0114")
+        buf.write("\u0115\3\2\2\2\u0115\u0116\3\2\2\2\u0116\u0117\7\f\2\2")
+        buf.write("\u0117)\3\2\2\2\u0118\u0119\7(\2\2\u0119\u011a\7\13\2")
+        buf.write("\2\u011a\u0125\7,\2\2\u011b\u011c\7\17\2\2\u011c\u011d")
+        buf.write("\5\32\16\2\u011d\u011e\7\20\2\2\u011e\u0123\3\2\2\2\u011f")
+        buf.write("\u0120\7\17\2\2\u0120\u0121\5\32\16\2\u0121\u0122\7\20")
+        buf.write("\2\2\u0122\u0124\3\2\2\2\u0123\u011f\3\2\2\2\u0123\u0124")
+        buf.write("\3\2\2\2\u0124\u0126\3\2\2\2\u0125\u011b\3\2\2\2\u0125")
+        buf.write("\u0126\3\2\2\2\u0126\u0127\3\2\2\2\u0127\u0128\7\f\2\2")
+        buf.write("\u0128+\3\2\2\2\u0129\u012a\7*\2\2\u012a\u012b\7\13\2")
+        buf.write("\2\u012b\u012c\5\32\16\2\u012c\u012d\7\f\2\2\u012d-\3")
+        buf.write("\2\2\2\u012e\u012f\7+\2\2\u012f\u0130\5\32\16\2\u0130")
+        buf.write("/\3\2\2\2%\66=G[^disuy\u0084\u0086\u0089\u008d\u0098\u009a")
+        buf.write("\u00aa\u00ae\u00c0\u00c5\u00ca\u00cf\u00da\u00dc\u00e7")
+        buf.write("\u00e9\u00f1\u00f4\u00f7\u00f9\u0100\u0111\u0114\u0123")
+        buf.write("\u0125")
         return buf.getvalue()
 
 
@@ -280,8 +281,11 @@ class ppGOParser ( Parser ):
             return self.getTypedRuleContext(ppGOParser.MainContext,0)
 
 
-        def varsDec(self):
-            return self.getTypedRuleContext(ppGOParser.VarsDecContext,0)
+        def varsDec(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(ppGOParser.VarsDecContext)
+            else:
+                return self.getTypedRuleContext(ppGOParser.VarsDecContext,i)
 
 
         def modulo(self, i:int=None):
@@ -318,23 +322,25 @@ class ppGOParser ( Parser ):
             self.match(ppGOParser.LITERAL)
             self.state = 48
             self.match(ppGOParser.SEP_COLON)
-            self.state = 50
+            self.state = 52
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ppGOParser.T__1) | (1 << ppGOParser.T__2) | (1 << ppGOParser.T__3) | (1 << ppGOParser.T__4))) != 0):
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ppGOParser.T__1) | (1 << ppGOParser.T__2) | (1 << ppGOParser.T__3) | (1 << ppGOParser.T__4))) != 0):
                 self.state = 49
                 self.varsDec()
+                self.state = 54
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
 
-
-            self.state = 52
+            self.state = 55
             self.main()
-            self.state = 56
+            self.state = 59
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ppGOParser.T__1) | (1 << ppGOParser.T__2) | (1 << ppGOParser.T__3) | (1 << ppGOParser.T__4) | (1 << ppGOParser.FUNCTION))) != 0):
-                self.state = 53
+                self.state = 56
                 self.modulo()
-                self.state = 58
+                self.state = 61
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -386,15 +392,15 @@ class ppGOParser ( Parser ):
         self.enterRule(localctx, 2, self.RULE_main)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 59
-            self.match(ppGOParser.FUNCTION)
-            self.state = 60
-            self.match(ppGOParser.T__0)
-            self.state = 61
-            self.match(ppGOParser.LEFT_PAR)
             self.state = 62
-            self.match(ppGOParser.RIGHT_PAR)
+            self.match(ppGOParser.FUNCTION)
             self.state = 63
+            self.match(ppGOParser.T__0)
+            self.state = 64
+            self.match(ppGOParser.LEFT_PAR)
+            self.state = 65
+            self.match(ppGOParser.RIGHT_PAR)
+            self.state = 66
             self.body()
         except RecognitionException as re:
             localctx.exception = re
@@ -456,25 +462,25 @@ class ppGOParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 66
+            self.state = 69
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ppGOParser.T__1) | (1 << ppGOParser.T__2) | (1 << ppGOParser.T__3) | (1 << ppGOParser.T__4))) != 0):
-                self.state = 65
+                self.state = 68
                 self.tipo()
 
 
-            self.state = 68
-            self.match(ppGOParser.FUNCTION)
-            self.state = 69
-            self.match(ppGOParser.LITERAL)
-            self.state = 70
-            self.match(ppGOParser.LEFT_PAR)
             self.state = 71
-            self.args()
+            self.match(ppGOParser.FUNCTION)
             self.state = 72
-            self.match(ppGOParser.RIGHT_PAR)
+            self.match(ppGOParser.LITERAL)
             self.state = 73
+            self.match(ppGOParser.LEFT_PAR)
+            self.state = 74
+            self.args()
+            self.state = 75
+            self.match(ppGOParser.RIGHT_PAR)
+            self.state = 76
             self.body()
         except RecognitionException as re:
             localctx.exception = re
@@ -513,7 +519,7 @@ class ppGOParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 75
+            self.state = 78
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ppGOParser.T__1) | (1 << ppGOParser.T__2) | (1 << ppGOParser.T__3) | (1 << ppGOParser.T__4))) != 0)):
                 self._errHandler.recoverInline(self)
@@ -575,25 +581,25 @@ class ppGOParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 89
+            self.state = 92
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ppGOParser.T__1) | (1 << ppGOParser.T__2) | (1 << ppGOParser.T__3) | (1 << ppGOParser.T__4))) != 0):
-                self.state = 77
+                self.state = 80
                 self.tipo()
-                self.state = 78
+                self.state = 81
                 self.match(ppGOParser.LITERAL)
-                self.state = 86
+                self.state = 89
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while _la==ppGOParser.SEP_COMMA:
-                    self.state = 80
+                    self.state = 83
                     self.match(ppGOParser.SEP_COMMA)
-                    self.state = 81
+                    self.state = 84
                     self.tipo()
-                    self.state = 82
+                    self.state = 85
                     self.match(ppGOParser.LITERAL)
-                    self.state = 88
+                    self.state = 91
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
 
@@ -656,29 +662,29 @@ class ppGOParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 91
+            self.state = 94
             self.match(ppGOParser.LEFT_BRACKET)
-            self.state = 95
+            self.state = 98
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ppGOParser.T__1) | (1 << ppGOParser.T__2) | (1 << ppGOParser.T__3) | (1 << ppGOParser.T__4))) != 0):
-                self.state = 92
+                self.state = 95
                 self.varsDec()
-                self.state = 97
+                self.state = 100
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 98
+            self.state = 101
             self.block()
-            self.state = 100
+            self.state = 103
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==ppGOParser.RETURN:
-                self.state = 99
+                self.state = 102
                 self.return2()
 
 
-            self.state = 102
+            self.state = 105
             self.match(ppGOParser.RIGHT_BRACKET)
         except RecognitionException as re:
             localctx.exception = re
@@ -762,53 +768,53 @@ class ppGOParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 112
+            self.state = 115
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ppGOParser.IF) | (1 << ppGOParser.INPUT) | (1 << ppGOParser.LOOP) | (1 << ppGOParser.PRINT) | (1 << ppGOParser.LITERAL))) != 0):
-                self.state = 110
+                self.state = 113
                 self._errHandler.sync(self)
                 la_ = self._interp.adaptivePredict(self._input,7,self._ctx)
                 if la_ == 1:
-                    self.state = 104
+                    self.state = 107
                     self.funcCall()
                     pass
 
                 elif la_ == 2:
-                    self.state = 105
+                    self.state = 108
                     self.assigment()
                     pass
 
                 elif la_ == 3:
-                    self.state = 106
+                    self.state = 109
                     self.condition()
                     pass
 
                 elif la_ == 4:
-                    self.state = 107
+                    self.state = 110
                     self.loop()
                     pass
 
                 elif la_ == 5:
-                    self.state = 108
+                    self.state = 111
                     self.print2()
                     pass
 
                 elif la_ == 6:
-                    self.state = 109
+                    self.state = 112
                     self.read()
                     pass
 
 
-                self.state = 114
+                self.state = 117
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 116
+            self.state = 119
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,9,self._ctx)
             if la_ == 1:
-                self.state = 115
+                self.state = 118
                 self.return2()
 
 
@@ -882,53 +888,53 @@ class ppGOParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 118
+            self.state = 121
             self.tipo()
-            self.state = 134 
+            self.state = 137 
             self._errHandler.sync(self)
             _alt = 1
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt == 1:
-                    self.state = 119
+                    self.state = 122
                     self.match(ppGOParser.LITERAL)
-                    self.state = 129
+                    self.state = 132
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
                     if _la==ppGOParser.LEFT_SBRACKET:
-                        self.state = 120
+                        self.state = 123
                         self.match(ppGOParser.LEFT_SBRACKET)
 
-                        self.state = 121
+                        self.state = 124
                         self.match(ppGOParser.VAR_INT)
-                        self.state = 122
+                        self.state = 125
                         self.match(ppGOParser.RIGHT_SBRACKET)
-                        self.state = 127
+                        self.state = 130
                         self._errHandler.sync(self)
                         _la = self._input.LA(1)
                         if _la==ppGOParser.LEFT_SBRACKET:
-                            self.state = 124
+                            self.state = 127
                             self.match(ppGOParser.LEFT_SBRACKET)
 
-                            self.state = 125
+                            self.state = 128
                             self.match(ppGOParser.VAR_INT)
-                            self.state = 126
+                            self.state = 129
                             self.match(ppGOParser.RIGHT_SBRACKET)
 
 
 
 
-                    self.state = 132
+                    self.state = 135
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
                     if _la==ppGOParser.SEP_COMMA:
-                        self.state = 131
+                        self.state = 134
                         self.match(ppGOParser.SEP_COMMA)
 
 
 
                 else:
                     raise NoViableAltException(self)
-                self.state = 136 
+                self.state = 139 
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,13,self._ctx)
 
@@ -996,39 +1002,39 @@ class ppGOParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 138
+            self.state = 141
             self.match(ppGOParser.LITERAL)
-            self.state = 149
+            self.state = 152
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==ppGOParser.LEFT_SBRACKET:
-                self.state = 139
+                self.state = 142
                 self.match(ppGOParser.LEFT_SBRACKET)
 
-                self.state = 140
+                self.state = 143
                 self.expression()
-                self.state = 141
+                self.state = 144
                 self.match(ppGOParser.RIGHT_SBRACKET)
-                self.state = 147
+                self.state = 150
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if _la==ppGOParser.LEFT_SBRACKET:
-                    self.state = 143
+                    self.state = 146
                     self.match(ppGOParser.LEFT_SBRACKET)
 
-                    self.state = 144
+                    self.state = 147
                     self.expression()
-                    self.state = 145
+                    self.state = 148
                     self.match(ppGOParser.RIGHT_SBRACKET)
 
 
 
 
-            self.state = 151
+            self.state = 154
             self.match(ppGOParser.EQUAL)
-            self.state = 152
+            self.state = 155
             self.expression()
-            self.state = 153
+            self.state = 156
             self.match(ppGOParser.SEP_SEMICOLON)
         except RecognitionException as re:
             localctx.exception = re
@@ -1100,35 +1106,35 @@ class ppGOParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 155
-            self.match(ppGOParser.IF)
-            self.state = 156
-            self.match(ppGOParser.LEFT_PAR)
-            self.state = 157
-            self.expression()
             self.state = 158
-            self.match(ppGOParser.RIGHT_PAR)
+            self.match(ppGOParser.IF)
             self.state = 159
-            self.match(ppGOParser.LEFT_BRACKET)
+            self.match(ppGOParser.LEFT_PAR)
             self.state = 160
-            self.block()
+            self.expression()
             self.state = 161
+            self.match(ppGOParser.RIGHT_PAR)
+            self.state = 162
+            self.match(ppGOParser.LEFT_BRACKET)
+            self.state = 163
+            self.block()
+            self.state = 164
             self.match(ppGOParser.RIGHT_BRACKET)
-            self.state = 165
+            self.state = 168
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==ppGOParser.ELSEIF:
-                self.state = 162
+                self.state = 165
                 self.elseif()
-                self.state = 167
+                self.state = 170
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 169
+            self.state = 172
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==ppGOParser.ELSE:
-                self.state = 168
+                self.state = 171
                 self.elsee()
 
 
@@ -1190,19 +1196,19 @@ class ppGOParser ( Parser ):
         self.enterRule(localctx, 20, self.RULE_elseif)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 171
-            self.match(ppGOParser.ELSEIF)
-            self.state = 172
-            self.match(ppGOParser.LEFT_PAR)
-            self.state = 173
-            self.expression()
             self.state = 174
-            self.match(ppGOParser.RIGHT_PAR)
+            self.match(ppGOParser.ELSEIF)
             self.state = 175
-            self.match(ppGOParser.LEFT_BRACKET)
+            self.match(ppGOParser.LEFT_PAR)
             self.state = 176
-            self.block()
+            self.expression()
             self.state = 177
+            self.match(ppGOParser.RIGHT_PAR)
+            self.state = 178
+            self.match(ppGOParser.LEFT_BRACKET)
+            self.state = 179
+            self.block()
+            self.state = 180
             self.match(ppGOParser.RIGHT_BRACKET)
         except RecognitionException as re:
             localctx.exception = re
@@ -1252,13 +1258,13 @@ class ppGOParser ( Parser ):
         self.enterRule(localctx, 22, self.RULE_elsee)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 179
-            self.match(ppGOParser.ELSE)
-            self.state = 180
-            self.match(ppGOParser.LEFT_BRACKET)
-            self.state = 181
-            self.block()
             self.state = 182
+            self.match(ppGOParser.ELSE)
+            self.state = 183
+            self.match(ppGOParser.LEFT_BRACKET)
+            self.state = 184
+            self.block()
+            self.state = 185
             self.match(ppGOParser.RIGHT_BRACKET)
         except RecognitionException as re:
             localctx.exception = re
@@ -1309,20 +1315,20 @@ class ppGOParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 184
-            self.expression1()
             self.state = 187
+            self.expression1()
+            self.state = 190
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==ppGOParser.AND or _la==ppGOParser.OR:
-                self.state = 185
+                self.state = 188
                 _la = self._input.LA(1)
                 if not(_la==ppGOParser.AND or _la==ppGOParser.OR):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
                     self.consume()
-                self.state = 186
+                self.state = 189
                 self.expression1()
 
 
@@ -1387,20 +1393,20 @@ class ppGOParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 189
-            self.exp()
             self.state = 192
+            self.exp()
+            self.state = 195
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ppGOParser.LESS_THAN) | (1 << ppGOParser.GREATER_THAN) | (1 << ppGOParser.NOT_EQUAL) | (1 << ppGOParser.EQUAL_RELOP) | (1 << ppGOParser.GREATER_EQUAL) | (1 << ppGOParser.LESS_EQUAL))) != 0):
-                self.state = 190
+                self.state = 193
                 _la = self._input.LA(1)
                 if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ppGOParser.LESS_THAN) | (1 << ppGOParser.GREATER_THAN) | (1 << ppGOParser.NOT_EQUAL) | (1 << ppGOParser.EQUAL_RELOP) | (1 << ppGOParser.GREATER_EQUAL) | (1 << ppGOParser.LESS_EQUAL))) != 0)):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
                     self.consume()
-                self.state = 191
+                self.state = 194
                 self.exp()
 
 
@@ -1454,20 +1460,20 @@ class ppGOParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 194
-            self.term()
             self.state = 197
+            self.term()
+            self.state = 200
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==ppGOParser.PLUS or _la==ppGOParser.MINUS:
-                self.state = 195
+                self.state = 198
                 _la = self._input.LA(1)
                 if not(_la==ppGOParser.PLUS or _la==ppGOParser.MINUS):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
                     self.consume()
-                self.state = 196
+                self.state = 199
                 self.exp()
 
 
@@ -1521,20 +1527,20 @@ class ppGOParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 199
-            self.factor()
             self.state = 202
+            self.factor()
+            self.state = 205
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==ppGOParser.TIMES or _la==ppGOParser.DIVISION:
-                self.state = 200
+                self.state = 203
                 _la = self._input.LA(1)
                 if not(_la==ppGOParser.TIMES or _la==ppGOParser.DIVISION):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
                     self.consume()
-                self.state = 201
+                self.state = 204
                 self.term()
 
 
@@ -1596,35 +1602,35 @@ class ppGOParser ( Parser ):
         localctx = ppGOParser.FactorContext(self, self._ctx, self.state)
         self.enterRule(localctx, 32, self.RULE_factor)
         try:
-            self.state = 215
+            self.state = 218
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [ppGOParser.LEFT_PAR]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 204
+                self.state = 207
                 self.match(ppGOParser.LEFT_PAR)
-                self.state = 205
+                self.state = 208
                 self.expression()
-                self.state = 206
+                self.state = 209
                 self.match(ppGOParser.RIGHT_PAR)
                 pass
             elif token in [ppGOParser.T__5, ppGOParser.T__6, ppGOParser.VAR_INT, ppGOParser.VAR_FLOAT, ppGOParser.LITERAL, ppGOParser.VAR_STRING]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 208
+                self.state = 211
                 self.var_cte()
-                self.state = 213
+                self.state = 216
                 self._errHandler.sync(self)
                 la_ = self._interp.adaptivePredict(self._input,22,self._ctx)
                 if la_ == 1:
-                    self.state = 209
+                    self.state = 212
                     self.match(ppGOParser.PLUS)
-                    self.state = 210
+                    self.state = 213
                     self.factor()
 
                 elif la_ == 2:
-                    self.state = 211
+                    self.state = 214
                     self.match(ppGOParser.MINUS)
-                    self.state = 212
+                    self.state = 215
                     self.factor()
 
 
@@ -1710,38 +1716,38 @@ class ppGOParser ( Parser ):
         self.enterRule(localctx, 34, self.RULE_var_cte)
         self._la = 0 # Token type
         try:
-            self.state = 251
+            self.state = 254
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [ppGOParser.LITERAL]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 217
+                self.state = 220
                 self.match(ppGOParser.LITERAL)
-                self.state = 244
+                self.state = 247
                 self._errHandler.sync(self)
                 la_ = self._interp.adaptivePredict(self._input,29,self._ctx)
                 if la_ == 1:
-                    self.state = 228
+                    self.state = 231
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
                     if _la==ppGOParser.LEFT_SBRACKET:
-                        self.state = 218
+                        self.state = 221
                         self.match(ppGOParser.LEFT_SBRACKET)
 
-                        self.state = 219
+                        self.state = 222
                         self.expression()
-                        self.state = 220
+                        self.state = 223
                         self.match(ppGOParser.RIGHT_SBRACKET)
-                        self.state = 226
+                        self.state = 229
                         self._errHandler.sync(self)
                         _la = self._input.LA(1)
                         if _la==ppGOParser.LEFT_SBRACKET:
-                            self.state = 222
+                            self.state = 225
                             self.match(ppGOParser.LEFT_SBRACKET)
 
-                            self.state = 223
+                            self.state = 226
                             self.expression()
-                            self.state = 224
+                            self.state = 227
                             self.match(ppGOParser.RIGHT_SBRACKET)
 
 
@@ -1750,33 +1756,33 @@ class ppGOParser ( Parser ):
                     pass
 
                 elif la_ == 2:
-                    self.state = 242
+                    self.state = 245
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
                     if _la==ppGOParser.LEFT_PAR:
-                        self.state = 230
+                        self.state = 233
                         self.match(ppGOParser.LEFT_PAR)
-                        self.state = 239
+                        self.state = 242
                         self._errHandler.sync(self)
                         _la = self._input.LA(1)
                         if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ppGOParser.T__5) | (1 << ppGOParser.T__6) | (1 << ppGOParser.LEFT_PAR) | (1 << ppGOParser.VAR_INT) | (1 << ppGOParser.VAR_FLOAT) | (1 << ppGOParser.LITERAL) | (1 << ppGOParser.VAR_STRING))) != 0):
-                            self.state = 231
+                            self.state = 234
                             self.expression()
-                            self.state = 236
+                            self.state = 239
                             self._errHandler.sync(self)
                             _la = self._input.LA(1)
                             while _la==ppGOParser.SEP_COMMA:
-                                self.state = 232
+                                self.state = 235
                                 self.match(ppGOParser.SEP_COMMA)
-                                self.state = 233
+                                self.state = 236
                                 self.expression()
-                                self.state = 238
+                                self.state = 241
                                 self._errHandler.sync(self)
                                 _la = self._input.LA(1)
 
 
 
-                        self.state = 241
+                        self.state = 244
                         self.match(ppGOParser.RIGHT_PAR)
 
 
@@ -1786,27 +1792,27 @@ class ppGOParser ( Parser ):
                 pass
             elif token in [ppGOParser.VAR_INT]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 246
+                self.state = 249
                 self.match(ppGOParser.VAR_INT)
                 pass
             elif token in [ppGOParser.VAR_FLOAT]:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 247
+                self.state = 250
                 self.match(ppGOParser.VAR_FLOAT)
                 pass
             elif token in [ppGOParser.T__5]:
                 self.enterOuterAlt(localctx, 4)
-                self.state = 248
+                self.state = 251
                 self.match(ppGOParser.T__5)
                 pass
             elif token in [ppGOParser.T__6]:
                 self.enterOuterAlt(localctx, 5)
-                self.state = 249
+                self.state = 252
                 self.match(ppGOParser.T__6)
                 pass
             elif token in [ppGOParser.VAR_STRING]:
                 self.enterOuterAlt(localctx, 6)
-                self.state = 250
+                self.state = 253
                 self.match(ppGOParser.VAR_STRING)
                 pass
             else:
@@ -1870,19 +1876,19 @@ class ppGOParser ( Parser ):
         self.enterRule(localctx, 36, self.RULE_loop)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 253
-            self.match(ppGOParser.LOOP)
-            self.state = 254
-            self.match(ppGOParser.LEFT_PAR)
-            self.state = 255
-            self.expression()
             self.state = 256
-            self.match(ppGOParser.RIGHT_PAR)
+            self.match(ppGOParser.LOOP)
             self.state = 257
-            self.match(ppGOParser.LEFT_BRACKET)
+            self.match(ppGOParser.LEFT_PAR)
             self.state = 258
-            self.block()
+            self.expression()
             self.state = 259
+            self.match(ppGOParser.RIGHT_PAR)
+            self.state = 260
+            self.match(ppGOParser.LEFT_BRACKET)
+            self.state = 261
+            self.block()
+            self.state = 262
             self.match(ppGOParser.RIGHT_BRACKET)
         except RecognitionException as re:
             localctx.exception = re
@@ -1942,31 +1948,31 @@ class ppGOParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 261
+            self.state = 264
             self.match(ppGOParser.LITERAL)
-            self.state = 262
+            self.state = 265
             self.match(ppGOParser.LEFT_PAR)
-            self.state = 271
+            self.state = 274
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ppGOParser.T__5) | (1 << ppGOParser.T__6) | (1 << ppGOParser.LEFT_PAR) | (1 << ppGOParser.VAR_INT) | (1 << ppGOParser.VAR_FLOAT) | (1 << ppGOParser.LITERAL) | (1 << ppGOParser.VAR_STRING))) != 0):
-                self.state = 263
+                self.state = 266
                 self.expression()
-                self.state = 268
+                self.state = 271
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while _la==ppGOParser.SEP_COMMA:
-                    self.state = 264
+                    self.state = 267
                     self.match(ppGOParser.SEP_COMMA)
-                    self.state = 265
+                    self.state = 268
                     self.expression()
-                    self.state = 270
+                    self.state = 273
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
 
 
 
-            self.state = 273
+            self.state = 276
             self.match(ppGOParser.RIGHT_PAR)
         except RecognitionException as re:
             localctx.exception = re
@@ -2035,38 +2041,38 @@ class ppGOParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 275
+            self.state = 278
             self.match(ppGOParser.INPUT)
-            self.state = 276
+            self.state = 279
             self.match(ppGOParser.LEFT_PAR)
 
-            self.state = 277
+            self.state = 280
             self.match(ppGOParser.LITERAL)
-            self.state = 288
+            self.state = 291
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==ppGOParser.LEFT_SBRACKET:
-                self.state = 278
+                self.state = 281
                 self.match(ppGOParser.LEFT_SBRACKET)
-                self.state = 279
+                self.state = 282
                 self.expression()
-                self.state = 280
+                self.state = 283
                 self.match(ppGOParser.RIGHT_SBRACKET)
-                self.state = 286
+                self.state = 289
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if _la==ppGOParser.LEFT_SBRACKET:
-                    self.state = 282
+                    self.state = 285
                     self.match(ppGOParser.LEFT_SBRACKET)
-                    self.state = 283
+                    self.state = 286
                     self.expression()
-                    self.state = 284
+                    self.state = 287
                     self.match(ppGOParser.RIGHT_SBRACKET)
 
 
 
 
-            self.state = 290
+            self.state = 293
             self.match(ppGOParser.RIGHT_PAR)
         except RecognitionException as re:
             localctx.exception = re
@@ -2116,13 +2122,13 @@ class ppGOParser ( Parser ):
         self.enterRule(localctx, 42, self.RULE_print2)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 292
-            self.match(ppGOParser.PRINT)
-            self.state = 293
-            self.match(ppGOParser.LEFT_PAR)
-            self.state = 294
-            self.expression()
             self.state = 295
+            self.match(ppGOParser.PRINT)
+            self.state = 296
+            self.match(ppGOParser.LEFT_PAR)
+            self.state = 297
+            self.expression()
+            self.state = 298
             self.match(ppGOParser.RIGHT_PAR)
         except RecognitionException as re:
             localctx.exception = re
@@ -2166,9 +2172,9 @@ class ppGOParser ( Parser ):
         self.enterRule(localctx, 44, self.RULE_return2)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 297
+            self.state = 300
             self.match(ppGOParser.RETURN)
-            self.state = 298
+            self.state = 301
             self.expression()
         except RecognitionException as re:
             localctx.exception = re

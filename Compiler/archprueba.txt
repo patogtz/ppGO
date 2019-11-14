@@ -1,5 +1,6 @@
 program First:
 int a, b
+string z
 func main(){
 int a
 int b, c
