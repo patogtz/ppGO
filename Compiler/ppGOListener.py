@@ -6,7 +6,8 @@ if __name__ is not None and "." in __name__:
     from .ppGOParser import ppGOParser
 else:
     from ppGOParser import ppGOParser
-
+from semanticCube import cuboSemantico
+import sys
 # This class defines a complete listener for a parse tree produced by ppGOParser.
 
 
@@ -41,9 +42,9 @@ class ppGOListener(ParseTreeListener):
     # Exit a parse tree produced by ppGOParser#program.
     def exitProgram(self, ctx: ppGOParser.ProgramContext):
         i = 0
-        for c in self.cuadruplos:
+        """ for c in self.cuadruplos:
             print(i, " ", *c)
-            i+=1
+            i+=1 """
         """ print(self.globalMemory.memoryContent)
         print(self.localMemory.memoryContent) """
         print(self.pilaSaltos)
@@ -153,10 +154,18 @@ class ppGOListener(ParseTreeListener):
             scope = "g"
         else:
             scope = "l"
+        #Agrega las variables int a la tabla de variables
         if(type == "int"):
+            #Detecta si estan en la misma linea
             if(',' in ctx.getText()):
                 vars = ctx.getText()[3:].split(',')
+                #Mete cada variable de la linea a la tabla
                 for x in vars:
+                    #Checa si ya existe la variable en el scope, en caso de que si regresa un error
+                    if  self.funcName in self.symbolTable:
+                        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+                        varExist = x in d
+                        if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
                     if scope == "g":
                         memoriaTabla = self.globalMemory.addToMemory("int")
                         currentKeyValue.append(
@@ -169,8 +178,13 @@ class ppGOListener(ParseTreeListener):
                             {"name": x, "type": "int", "scope": scope, "dirMemoria": memoriaTabla})
                         self.symbolTable[self.funcName] = currentKeyValue
                         self.dirMemoriaInt += 1
-
+            #En caso de que solo haya una variable en la linea
             else:
+                #Checa si ya existe la variable en el scope, en caso de que si regresa un error
+                if  self.funcName in self.symbolTable:
+                    d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+                    varExist = ctx.getText()[3:] in d
+                    if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
                 if scope == "g":
                     memoriaTabla = self.globalMemory.addToMemory("int")
                     name = ctx.getText()[3:]
@@ -185,11 +199,18 @@ class ppGOListener(ParseTreeListener):
                         {"name": name, "type": "int", "scope": scope, "dirMemoria": memoriaTabla})
                     self.symbolTable[self.funcName] = currentKeyValue
                     self.dirMemoriaInt += 1
-
+        #Agrega las variables float a la tabla de variables
         elif (type == "flo"):
+            #Detecta si estan en la misma linea
             if (',' in ctx.getText()):
                 vars = ctx.getText()[5:].split(',')
+                #Mete cada variable a tabla 
                 for x in vars:
+                    #Checa si ya existe la variable en el scope, en caso de que si regresa un error
+                    if  self.funcName in self.symbolTable:
+                        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+                        varExist = x in d
+                        if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
                     if scope == "g":
                         memoriaTabla = self.globalMemory.addToMemory("float")
                         currentKeyValue.append(
@@ -202,7 +223,13 @@ class ppGOListener(ParseTreeListener):
                             {"name": x, "type": "float", "scope": scope, "dirMemoria": memoriaTabla})
                         self.symbolTable[self.funcName] = currentKeyValue
                         self.dirMemoriaFloat += 1
+            #Si hay una variable en la fila
             else:
+                #Checa si ya existe la variable en el scope, en caso de que si regresa un error
+                if  self.funcName in self.symbolTable:
+                    d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+                    varExist = ctx.getText()[5:] in d
+                    if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
                 if scope == "g":
                     memoriaTabla = self.globalMemory.addToMemory("float")
                     currentKeyValue.append({"name": str(
@@ -219,6 +246,11 @@ class ppGOListener(ParseTreeListener):
             if (',' in ctx.getText()):
                 vars = ctx.getText()[4:].split(',')
                 for x in vars:
+                    #Valida que no exista esa variable en la tabla de variables
+                    if  self.funcName in self.symbolTable:
+                        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+                        varExist = x in d
+                        if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
                     if scope == "g":
                         memoriaTabla = self.globalMemory.addToMemory("bool")
                         currentKeyValue.append(
@@ -232,6 +264,11 @@ class ppGOListener(ParseTreeListener):
                         self.symbolTable[self.funcName] = currentKeyValue
                         self.dirMemoriaBool += 1
             else:
+                #Checa si ya existe la variable en el scope, en caso de que si regresa un error
+                if  self.funcName in self.symbolTable:
+                    d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+                    varExist = ctx.getText()[4:] in d
+                    if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
                 if scope == "g":
                     memoriaTabla = self.globalMemory.addToMemory("bool")
                     currentKeyValue.append({"name": str(
@@ -244,11 +281,15 @@ class ppGOListener(ParseTreeListener):
                         ctx.getText()[4:]), "type": "bool", "scope": scope, "dirMemoria": memoriaTabla})
                     self.symbolTable[self.funcName] = currentKeyValue
                     self.dirMemoriaBool += 1
-
         elif (type == "str"):
             if (',' in ctx.getText()):
                 vars = ctx.getText()[6:].split(',')
                 for x in vars:
+                    #Valida que no exista esa variable en la tabla de variables
+                    if  self.funcName in self.symbolTable:
+                        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+                        varExist = x in d
+                        if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
                     if scope == "g":
                         memoriaTabla = self.globalMemory.addToMemory("string")
                         currentKeyValue.append(
@@ -262,6 +303,11 @@ class ppGOListener(ParseTreeListener):
                         self.symbolTable[self.funcName] = currentKeyValue
                         self.dirMemoriaString += 1
             else:
+                 #Checa si ya existe la variable en el scope, en caso de que si regresa un error
+                if  self.funcName in self.symbolTable:
+                    d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+                    varExist = ctx.getText()[6:] in d
+                    if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
                 if scope == "g":
                     memoriaTabla = self.globalMemory.addToMemory("string")
                     currentKeyValue.append({"name": str(ctx.getText()[
@@ -304,8 +350,6 @@ class ppGOListener(ParseTreeListener):
                         [self.pOper.pop(), self.pilaOper.pop(), self.pilaOper.pop(), temporal])
                     self.pilaOper.append(temporal)
                     temps = temps + 1
-                    print(self.pilaOper)
-                    print(self.pOper)
                 del self.pOper[-1]
                
             else:  
@@ -338,8 +382,6 @@ class ppGOListener(ParseTreeListener):
                             temps = temps + 1
                 else:
                     while self.pilaOper:
-                        print(self.pilaOper)
-                        print(self.pOper)
                         if self.pOper[len(self.pOper) - 1] == "+" or self.pOper[len(self.pOper) - 1] == "*" or self.pOper[len(self.pOper) - 1] == "/" or self.pOper[len(self.pOper) - 1] == "-":
                             temporal = "t" + str(temps)
                             self.cuadruplos.append(
@@ -352,8 +394,6 @@ class ppGOListener(ParseTreeListener):
                             temps = temps + 1
         while self.pilaOper:
                 if self.pOper[len(self.pOper) - 1] == "+" or self.pOper[len(self.pOper) - 1] == "*" or self.pOper[len(self.pOper) - 1] == "/" or self.pOper[len(self.pOper) - 1] == "-":
-                    print(self.pilaOper)
-                    print(self.pOper)
                     temporal = "t" + str(temps)
                     self.cuadruplos.append(
                         [self.pOper.pop(), self.pilaOper.pop(), self.pilaOper.pop(), temporal])
@@ -459,6 +499,14 @@ class ppGOListener(ParseTreeListener):
 
     # Enter a parse tree produced by ppGOParser#var_cte.
     def enterVar_cte(self, ctx: ppGOParser.Var_cteContext):
+        if ctx.VAR_INT():
+            print(ctx.VAR_INT())
+        elif ctx.VAR_STRING():
+            print(ctx.VAR_STRING())
+        elif ctx.VAR_FLOAT():
+            print(ctx.VAR_FLOAT())
+        elif ctx.VAR_BOOL():
+            print(ctx.VAR_BOOL())
         pass
 
     # Exit a parse tree produced by ppGOParser#var_cte.

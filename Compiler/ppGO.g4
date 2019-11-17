@@ -52,7 +52,7 @@ factor:
 var_cte :
     LITERAL (((LEFT_SBRACKET (expression) RIGHT_SBRACKET) (LEFT_SBRACKET (expression) RIGHT_SBRACKET)?)? | (LEFT_PAR (expression (','  expression)*)? RIGHT_PAR)?)
     | VAR_INT
-    | VAR_FLOAT | 'true' | 'false' | VAR_STRING;
+    | VAR_FLOAT | VAR_BOOL | VAR_STRING;
 
 loop:
     LOOP LEFT_PAR expression RIGHT_PAR LEFT_BRACKET block RIGHT_BRACKET;
@@ -104,12 +104,12 @@ IF               : 'if';
 ELSE             : 'else';
 ELSEIF           : 'else if';
 
-VAR              : 'var';
 
 PROGRAM          : 'program';
 
 VAR_INT          : (DIGIT)+ ;
 VAR_FLOAT        : [+-]?([0-9]*[.])?[0-9]+;
+VAR_BOOL         : 'true' | 'false';
 INPUT              : 'usr_input';
 LOOP             : 'loop';
 
