@@ -22,6 +22,4 @@ def main(argv):
 
 if __name__ == '__main__':
     main(sys.argv)
-    cubo = cuboSemantico().cube
-    cubo["int"]["*"]["float"]
-    """ print(cubo["int"]["*"]["float"]) """
+    """ print(cuboSemantico().cube["int"]["*"]["float"]) """

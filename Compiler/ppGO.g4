@@ -1,7 +1,7 @@
 grammar ppGO;
 
 program : 
-    PROGRAM LITERAL SEP_COLON varsDec* main modulo*;
+    PROGRAM LITERAL SEP_COLON varsDec* modulo* main;
 
 main :
     FUNCTION 'main' LEFT_PAR RIGHT_PAR body;

@@ -1,53 +1,36 @@
 program First:
-int a, b
-string z
+int  b
+string c
+func uno(int a, int b){
+	int a, b
+	a = 4;
+	b = a + 4;
+}
+
+func dos(int c, int d){
+	int c, d, h
+	c = 6;
+	d = c * 8;
+	h = d - 3;
+}
+
 func main(){
-int a
-int b, c
-float d
-bool e
-string s
-int array[15]
-int matrix[4][6]
-int i
+	int adasdasdasd, b, a
+	int  c
+	string d
+	int e
+	e = 4;
+	a = a + c;
+	c = "dada";
+	if (c < e){
+		uno(c * 4, e + 2)
+		dos(c, e)
+	}
+	print(c + 5)
 
-a = 5;
-b = 10;
-c = (a + b * (c * 5)) * 5 * c / d; 
-d = 4.6;
-e = true;
-s = "whatever";
-i = 0;
-array[i] = 1;
-matrix[i][5] = 1;
-
-if( a > b AND c == d){
-	if(b > c){
-		a = a + b;
-		b = b * 2;
-	}
-	else if(c > d){
-		c = 0;
-		d = 0;
-	}
-	else if(a * 4 == c){
-		a = (a * 4 + 5) / (d - 9);
-	}
-	d = h * 6;
-}
-else if(e<>f){
-	if(j *2 > 3){
-		if(z == y){
-			b = b * 4;
-		}
-		y = y + 7;
-	}
-}
-else if(g == h){
-	g = k * 2;
-}
 
 }
+
 
 
 

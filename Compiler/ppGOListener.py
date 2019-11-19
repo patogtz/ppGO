@@ -16,6 +16,7 @@ class ppGOListener(ParseTreeListener):
         self.funcName = "global"
         self.symbolTable = {"global": []}
         self.functionTable = []
+        self.cosntantTable = []
         self.expressionParent = []
         self.elseExists = []
         self.elifExists = []
@@ -25,8 +26,8 @@ class ppGOListener(ParseTreeListener):
         self.dirMemoriaBool = 3000
         self.globalMemory = Memory(0)
         self.localMemory = Memory(4000)
-        
         self.constantMemory = Memory(8000)
+        self.temporalMemory = Memory(12000)
         # Pila de operaciones para generar cuadruplo
         self.pOper = []
         # Pila de operadores para generar cuadruplo
@@ -34,44 +35,53 @@ class ppGOListener(ParseTreeListener):
         # Pila de saltos para llenar los GoTos de los cuadruplos
         self.pilaSaltos = []
         self.cuadruplos = []
+        self.temps = 1
     # Enter a parse tree produced by ppGOParser#program.
 
     def enterProgram(self, ctx: ppGOParser.ProgramContext):
+        self.cuadruplos.append(["goto","main","",""])
         pass
 
     # Exit a parse tree produced by ppGOParser#program.
     def exitProgram(self, ctx: ppGOParser.ProgramContext):
         i = 0
-        """ for c in self.cuadruplos:
+        for c in self.cuadruplos:
             print(i, " ", *c)
-            i+=1 """
-        """ print(self.globalMemory.memoryContent)
+            i+=1 
+        """print(self.globalMemory.memoryContent)
         print(self.localMemory.memoryContent) """
-        print(self.pilaSaltos)
+        print(self.cosntantTable)
 
     # Enter a parse tree produced by ppGOParser#main.
     def enterMain(self, ctx: ppGOParser.MainContext):
+        self.temps = 1
         self.funcName = "main"
-        self.functionTable.append({"name": "main", "type": "void"})
+        self.functionTable.append({"name": "main", "type": "void",  "numberOfArguments":0})
         pass
 
     # Exit a parse tree produced by ppGOParser#main.
     def exitMain(self, ctx: ppGOParser.MainContext):
+        self.cuadruplos.append(["END","","",""])
         pass
 
     # Enter a parse tree produced by ppGOParser#modulo.
     def enterModulo(self, ctx: ppGOParser.ModuloContext):
+        self.temps = 1
         # Get function name for the symbols table
+        arguments = ctx.args().getText().split(',')
+        if arguments[0] == '': numArguments = 0
+        else: numArguments = len(arguments)
         if str(ctx.getChild(1)) == "func":
             self.funcName = str(ctx.getChild(2))
             self.functionTable.append(
-                {"name": self.funcName, "type": str(ctx.getChild(0))})
+                {"name": self.funcName, "type": str(ctx.getChild(0)), "numberOfArguments": numArguments})
         else:
             self.funcName = str(ctx.getChild(1))
-            self.functionTable.append({"name": self.funcName, "type": "void"})
+            self.functionTable.append({"name": self.funcName, "type": "void", "numberOfArguments": numArguments})
 
     # Exit a parse tree produced by ppGOParser#modulo.
     def exitModulo(self, ctx: ppGOParser.ModuloContext):
+        self.cuadruplos.append(["endproc","","",""])
         pass
 
     # Enter a parse tree produced by ppGOParser#tipo.
@@ -169,13 +179,13 @@ class ppGOListener(ParseTreeListener):
                     if scope == "g":
                         memoriaTabla = self.globalMemory.addToMemory("int")
                         currentKeyValue.append(
-                            {"name": x, "type": "int", "scope": scope, "dirMemoria": memoriaTabla})
+                            {"name": x, "type": "int", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
                         self.symbolTable[self.funcName] = currentKeyValue
                         self.dirMemoriaInt += 1
                     else:
                         memoriaTabla = self.localMemory.addToMemory("int")
                         currentKeyValue.append(
-                            {"name": x, "type": "int", "scope": scope, "dirMemoria": memoriaTabla})
+                            {"name": x, "type": "int", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
                         self.symbolTable[self.funcName] = currentKeyValue
                         self.dirMemoriaInt += 1
             #En caso de que solo haya una variable en la linea
@@ -189,14 +199,14 @@ class ppGOListener(ParseTreeListener):
                     memoriaTabla = self.globalMemory.addToMemory("int")
                     name = ctx.getText()[3:]
                     currentKeyValue.append(
-                        {"name": name, "type": "int", "scope": scope, "dirMemoria": memoriaTabla})
+                        {"name": name, "type": "int", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
                     self.symbolTable[self.funcName] = currentKeyValue
                     self.dirMemoriaInt += 1
                 else:
                     memoriaTabla = self.localMemory.addToMemory("int")
                     name = ctx.getText()[3:]
                     currentKeyValue.append(
-                        {"name": name, "type": "int", "scope": scope, "dirMemoria": memoriaTabla})
+                        {"name": name, "type": "int", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
                     self.symbolTable[self.funcName] = currentKeyValue
                     self.dirMemoriaInt += 1
         #Agrega las variables float a la tabla de variables
@@ -214,13 +224,13 @@ class ppGOListener(ParseTreeListener):
                     if scope == "g":
                         memoriaTabla = self.globalMemory.addToMemory("float")
                         currentKeyValue.append(
-                            {"name": x, "type": "float", "scope": scope, "dirMemoria": memoriaTabla})
+                            {"name": x, "type": "float", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
                         self.symbolTable[self.funcName] = currentKeyValue
                         self.dirMemoriaFloat += 1
                     else:
                         memoriaTabla = self.localMemory.addToMemory("float")
                         currentKeyValue.append(
-                            {"name": x, "type": "float", "scope": scope, "dirMemoria": memoriaTabla})
+                            {"name": x, "type": "float", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
                         self.symbolTable[self.funcName] = currentKeyValue
                         self.dirMemoriaFloat += 1
             #Si hay una variable en la fila
@@ -233,13 +243,13 @@ class ppGOListener(ParseTreeListener):
                 if scope == "g":
                     memoriaTabla = self.globalMemory.addToMemory("float")
                     currentKeyValue.append({"name": str(
-                        ctx.getText()[5:]), "type": "float", "scope": scope, "dirMemoria": memoriaTabla})
+                        ctx.getText()[5:]), "type": "float", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
                     self.symbolTable[self.funcName] = currentKeyValue
                     self.dirMemoriaFloat += 1
                 else:
                     memoriaTabla = self.localMemory.addToMemory("float")
                     currentKeyValue.append({"name": str(
-                        ctx.getText()[5:]), "type": "float", "scope": scope, "dirMemoria": memoriaTabla})
+                        ctx.getText()[5:]), "type": "float", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
                     self.symbolTable[self.funcName] = currentKeyValue
                     self.dirMemoriaFloat += 1
         elif (type == "boo"):
@@ -254,13 +264,13 @@ class ppGOListener(ParseTreeListener):
                     if scope == "g":
                         memoriaTabla = self.globalMemory.addToMemory("bool")
                         currentKeyValue.append(
-                            {"name": x, "type": "bool", "scope": scope, "dirMemoria": memoriaTabla})
+                            {"name": x, "type": "bool", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
                         self.symbolTable[self.funcName] = currentKeyValue
                         self.dirMemoriaBool += 1
                     else:
                         memoriaTabla = self.localMemory.addToMemory("bool")
                         currentKeyValue.append(
-                            {"name": x, "type": "bool", "scope": scope, "dirMemoria": memoriaTabla})
+                            {"name": x, "type": "bool", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
                         self.symbolTable[self.funcName] = currentKeyValue
                         self.dirMemoriaBool += 1
             else:
@@ -272,13 +282,13 @@ class ppGOListener(ParseTreeListener):
                 if scope == "g":
                     memoriaTabla = self.globalMemory.addToMemory("bool")
                     currentKeyValue.append({"name": str(
-                        ctx.getText()[4:]), "type": "bool", "scope": scope, "dirMemoria": memoriaTabla})
+                        ctx.getText()[4:]), "type": "bool", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
                     self.symbolTable[self.funcName] = currentKeyValue
                     self.dirMemoriaBool += 1
                 else:
                     memoriaTabla = self.localMemory.addToMemory("bool")
                     currentKeyValue.append({"name": str(
-                        ctx.getText()[4:]), "type": "bool", "scope": scope, "dirMemoria": memoriaTabla})
+                        ctx.getText()[4:]), "type": "bool", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
                     self.symbolTable[self.funcName] = currentKeyValue
                     self.dirMemoriaBool += 1
         elif (type == "str"):
@@ -293,13 +303,13 @@ class ppGOListener(ParseTreeListener):
                     if scope == "g":
                         memoriaTabla = self.globalMemory.addToMemory("string")
                         currentKeyValue.append(
-                            {"name": x, "type": "string", "scope": scope, "dirMemoria": memoriaTabla})
+                            {"name": x, "type": "string", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
                         self.symbolTable[self.funcName] = currentKeyValue
                         self.dirMemoriaString += 1
                     else:
                         memoriaTabla = self.localMemory.addToMemory("string")
                         currentKeyValue.append(
-                            {"name": x, "type": "string", "scope": scope, "dirMemoria": memoriaTabla})
+                            {"name": x, "type": "string", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
                         self.symbolTable[self.funcName] = currentKeyValue
                         self.dirMemoriaString += 1
             else:
@@ -311,13 +321,13 @@ class ppGOListener(ParseTreeListener):
                 if scope == "g":
                     memoriaTabla = self.globalMemory.addToMemory("string")
                     currentKeyValue.append({"name": str(ctx.getText()[
-                                           6:]), "type": "string", "scope": scope, "dirMemoria": memoriaTabla})
+                                           6:]), "type": "string", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
                     self.symbolTable[self.funcName] = currentKeyValue
                     self.dirMemoriaString += 1
                 else:
                     memoriaTabla = self.localMemory.addToMemory("string")
                     currentKeyValue.append({"name": str(ctx.getText()[
-                                           6:]), "type": "string", "scope": scope, "dirMemoria": memoriaTabla})
+                                           6:]), "type": "string", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
                     self.symbolTable[self.funcName] = currentKeyValue
                     self.dirMemoriaString += 1
     # Exit a parse tree produced by ppGOParser#varsDec.
@@ -327,32 +337,53 @@ class ppGOListener(ParseTreeListener):
 
     # Enter a parse tree produced by ppGOParser#assigment.
     def enterAssigment(self, ctx: ppGOParser.AssigmentContext):
+        pass
+    # Exit a parse tree produced by ppGOParser#assigment.
+    def exitAssigment(self, ctx: ppGOParser.AssigmentContext):
         assig = ctx.getText()[:-1]
         splitAssig = [
         ]
-        temps = 1
         # Split the assigment in to tokenns.
         splitAssig = re.split("([-/(*=+)])", assig)
         # Remove random "" generated by the split
         while "" in splitAssig:
             splitAssig.remove("")
+        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+        varExist = splitAssig[0] in d
+        if not varExist: sys.exit("Error: Can't assign a value to a variable that doesn't exist!")
         # Appends the first element of the new splitted list to pilaOper
         self.pilaOper.append(splitAssig[0])
         del splitAssig[0]
         for i in range(len(splitAssig)):
             x = splitAssig[i]
+            """ if x == 
+            d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+            varExist = splitAssig[0] in d
+            if not varExist: sys.exit("Error: Can't assign a value to a variable that doesn't exist!") """
             if(x == "=" or x == "+" or x == "-" or x == "*" or x == "/" or x == "("):
                 self.pOper.append(x)
             elif x == ")":
                 while self.pOper[-1] != "(":
-                    temporal = "t" + str(temps)
+                    temporal = "t" + str(self.temps)
+                    operador = self.pOper.pop()
+                    operandoDer = self.pilaOper.pop()
+                    operandoIzq = self.pilaOper.pop()
+                    tipoOperIzq = next(item for item in self.symbolTable[self.funcName] if item["name"] == operandoIzq)['type']
+                    tipoOperDer = next(item for item in self.symbolTable[self.funcName] if item["name"] == operandoDer)['type']
+                    type = cuboSemantico().cube[tipoOperIzq][operador][tipoOperDer]
+                    if type == "error": sys.exit("Error: ")
                     self.cuadruplos.append(
-                        [self.pOper.pop(), self.pilaOper.pop(), self.pilaOper.pop(), temporal])
+                        [operador, operandoIzq , operandoDer, temporal])
                     self.pilaOper.append(temporal)
-                    temps = temps + 1
+                    self.temps = self.temps + 1
                 del self.pOper[-1]
-               
-            else:  
+            else: 
+                if x == 'true' or x == 'false': isVariable = False
+                else: isVariable = bool(re.match("[a-zA-Z]('_'?([a-zA-Z]|(DIGIT)))*", x))
+                if isVariable: 
+                    d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+                    varExist = x in d
+                    if not varExist: sys.exit("Error: Can't use an undeclared variable in an expression!")
                 self.pilaOper.append(x)
                 if i + 1 < len(splitAssig):
                     nxt = splitAssig[i + 1]
@@ -363,54 +394,85 @@ class ppGOListener(ParseTreeListener):
                             if (nxt == "+" or nxt == "-" or nxt == "*" or nxt == "/"):
                                 pass
                             else:
+                                operador = self.pOper.pop()
+                                operandoIzq = self.pilaOper.pop()
+                                resultado = self.pilaOper.pop()
+                                tipoOperIzq = next(item for item in self.symbolTable[self.funcName] if item["name"] == operandoIzq)['type']
                                 self.cuadruplos.append(
-                                    [self.pOper.pop(), self.pilaOper.pop(), " ", self.pilaOper.pop()])
+                                    [operador, operandoIzq, " ", resultado])
                         if (self.pOper[len(self.pOper) - 1] == "+" or self.pOper[len(self.pOper) - 1] == "-"):
                             if (nxt == "*" or x == "/"):
                                 pass
                             else:
-                                temporal = "t" + str(temps)
+                                temporal = "t" + str(self.temps)
+                                operador = self.pOper.pop()
+                                operandoDer = self.pilaOper.pop()
+                                operandoIzq = self.pilaOper.pop()
+                                tipoOperIzq = next(item for item in self.symbolTable[self.funcName] if item["name"] == operandoIzq)['type']
+                                tipoOperDer = next(item for item in self.symbolTable[self.funcName] if item["name"] == operandoDer)['type']
+                                type = cuboSemantico().cube[tipoOperIzq][operador][tipoOperDer]
+                                if type == "error": sys.exit("Error: ")
                                 self.cuadruplos.append(
-                                    [self.pOper.pop(), self.pilaOper.pop(), self.pilaOper.pop(), temporal])
+                                    [operador, operandoIzq, operandoDer, temporal])
                                 self.pilaOper.append(temporal)
-                                temps = temps + 1
+                                self.temps = self.temps + 1
                         if (self.pOper[len(self.pOper) - 1] == "*" or self.pOper[len(self.pOper) - 1] == "/"):
-                            temporal = "t" + str(temps)
+                            temporal = "t" + str(self.temps)
+                            operador = self.pOper.pop()
+                            operandoDer = self.pilaOper.pop()
+                            operandoIzq = self.pilaOper.pop()
+                            tipoOperIzq = next(item for item in self.symbolTable[self.funcName] if item["name"] == operandoIzq)['type']
+                            tipoOperDer = next(item for item in self.symbolTable[self.funcName] if item["name"] == operandoDer)['type']
+                            type = cuboSemantico().cube[tipoOperIzq][operador][tipoOperDer]
+                            if type == "error": sys.exit("Error: ")
                             self.cuadruplos.append(
-                                [self.pOper.pop(), self.pilaOper.pop(), self.pilaOper.pop(), temporal])
+                                [operador, operandoIzq, operandoDer, temporal])
                             self.pilaOper.append(temporal)
-                            temps = temps + 1
+                            self.temps = self.temps + 1
                 else:
                     while self.pilaOper:
                         if self.pOper[len(self.pOper) - 1] == "+" or self.pOper[len(self.pOper) - 1] == "*" or self.pOper[len(self.pOper) - 1] == "/" or self.pOper[len(self.pOper) - 1] == "-":
-                            temporal = "t" + str(temps)
+                            temporal = "t" + str(self.temps)
+                            operador = self.pOper.pop()
+                            operandoDer = self.pilaOper.pop()
+                            operandoIzq = self.pilaOper.pop()
+                            """                             tipoOperIzq = next(item for item in self.symbolTable[self.funcName] if item["name"] == operandoIzq)['type']
+                            tipoOperDer = next(item for item in self.symbolTable[self.funcName] if item["name"] == operandoDer)['type'] """
+                            """ type = cuboSemantico().cube[tipoOperIzq][operador][tipoOperDer] """
+                            """ if type[0:5] == "Error": sys.exit(type) """
                             self.cuadruplos.append(
-                                [self.pOper.pop(), self.pilaOper.pop(), self.pilaOper.pop(), temporal])
+                                [operador, operandoIzq, operandoDer, temporal])
                             self.pilaOper.append(temporal)
-                            temps = temps + 1
+                            self.temps = self.temps + 1
                         if self.pOper[len(self.pOper) - 1] == "=":
+                            operador = self.pOper.pop()
+                            operandoIzq = self.pilaOper.pop()
+                            resultado = self.pilaOper.pop()
+                            """ tipoOperIzq = next(item for item in self.symbolTable[self.funcName] if item["name"] == operandoIzq)['type'] """
                             self.cuadruplos.append(
-                                [self.pOper.pop(), self.pilaOper.pop(), " ", self.pilaOper.pop()])
-                            temps = temps + 1
+                                [operador, operandoIzq, " ", resultado])
         while self.pilaOper:
                 if self.pOper[len(self.pOper) - 1] == "+" or self.pOper[len(self.pOper) - 1] == "*" or self.pOper[len(self.pOper) - 1] == "/" or self.pOper[len(self.pOper) - 1] == "-":
-                    temporal = "t" + str(temps)
+                    temporal = "t" + str(self.temps)
+                    operador = self.pOper.pop()
+                    operandoDer = self.pilaOper.pop()
+                    operandoIzq = self.pilaOper.pop()
+                    tipoOperIzq = next(item for item in self.symbolTable[self.funcName] if item["name"] == operandoIzq)['type']
+                    tipoOperDer = next(item for item in self.symbolTable[self.funcName] if item["name"] == operandoDer)['type']
+                    type = cuboSemantico().cube[tipoOperIzq][operador][tipoOperDer]
+                    if type == "error": sys.exit("Error: ")
                     self.cuadruplos.append(
-                        [self.pOper.pop(), self.pilaOper.pop(), self.pilaOper.pop(), temporal])
+                        [operador, operandoIzq, operandoDer, temporal])
                     self.pilaOper.append(temporal)
-                    temps = temps + 1
+                    self.temps = self.temps + 1
                 else:
+                    operador = self.pOper.pop()
+                    operandoIzq = self.pilaOper.pop()
+                    resultado = self.pilaOper.pop()
+                    tipoOperIzq = next(item for item in self.symbolTable[self.funcName] if item["name"] == operandoIzq)['type']
                     self.cuadruplos.append(
-                    [self.pOper.pop(), self.pilaOper.pop(), " ", self.pilaOper.pop()])
-                
-
-               
-                
-
-            
-
-    # Exit a parse tree produced by ppGOParser#assigment.
-    def exitAssigment(self, ctx: ppGOParser.AssigmentContext):
+                        [operador, operandoIzq, " ", resultado])
+        
         self.pilaOper[:] = []
         self.pOper[:] = []
 
@@ -499,15 +561,31 @@ class ppGOListener(ParseTreeListener):
 
     # Enter a parse tree produced by ppGOParser#var_cte.
     def enterVar_cte(self, ctx: ppGOParser.Var_cteContext):
+        #Guarda las constantes en la memoria y el valor en la tabla de constantes
         if ctx.VAR_INT():
-            print(ctx.VAR_INT())
+            d = dict((i['value'], i['memory']) for i in self.cosntantTable)
+            constExist = int(ctx.getText()) in d
+            if not constExist:
+                memory = self.constantMemory.addToMemory("int")
+                self.cosntantTable.append({"value": int(ctx.getText()), "memory": memory})
         elif ctx.VAR_STRING():
-            print(ctx.VAR_STRING())
+            d = dict((i['value'], i['memory']) for i in self.cosntantTable)
+            constExist = ctx.getText() in d
+            if not constExist:
+                memory = self.constantMemory.addToMemory("string")
+                self.cosntantTable.append({"value": ctx.getText(), "memory": memory})
         elif ctx.VAR_FLOAT():
-            print(ctx.VAR_FLOAT())
+            d = dict((i['value'], i['memory']) for i in self.cosntantTable)
+            constExist = float(ctx.getText()) in d
+            if not constExist:
+                memory = self.constantMemory.addToMemory("float")
+                self.cosntantTable.append({"value": float(ctx.getText()), "memory": memory})
         elif ctx.VAR_BOOL():
-            print(ctx.VAR_BOOL())
-        pass
+            d = dict((i['value'], i['memory']) for i in self.cosntantTable)
+            constExist = ctx.getText() in d
+            if not constExist:
+                memory = self.constantMemory.addToMemory("bool")
+                self.cosntantTable.append({"value": ctx.getText(), "memory": memory})
 
     # Exit a parse tree produced by ppGOParser#var_cte.
     def exitVar_cte(self, ctx: ppGOParser.Var_cteContext):
@@ -533,10 +611,29 @@ class ppGOListener(ParseTreeListener):
     # Enter a parse tree produced by ppGOParser#funcCall.
 
     def enterFuncCall(self, ctx: ppGOParser.FuncCallContext):
+        self.expressionParent.append("funccall")
+        self.cuadruplos.append(["era", "","", ctx.LITERAL()])
+        d = dict((i['name'], i['numberOfArguments']) for i in self.functionTable)
+        print(d[ctx.LITERAL().getText()])
+        print(self.functionTable)
+        """ if( d[ctx.LITERAL().getText() == len(ctx.expression()): """
+        if d[ctx.LITERAL().getText()] != len(ctx.expression()):
+            sys.exit("Error: Diferente numero de parametros en la llamada a la funcion '" + ctx.LITERAL().getText() + "' que en la declaracion" )
+
+        for i in ctx.expression():
+            x = re.split(r'(["AND"]+|["OR"]+|\W+)', i.getText())
+            if len(x) > 1: self.getQuadruples(i.getText())
+            elif len(x) == 1:  self.cuadruplos.append(
+                                    ["parametros", i.getText(), " ", ""])
+            
+
+        
         pass
 
     # Exit a parse tree produced by ppGOParser#funcCall.
     def exitFuncCall(self, ctx: ppGOParser.FuncCallContext):
+        self.cuadruplos.append(["gosub", "","", ctx.LITERAL()])
+        self.expressionParent.pop()
         pass
 
     # Enter a parse tree produced by ppGOParser#read.
@@ -549,10 +646,17 @@ class ppGOListener(ParseTreeListener):
 
     # Enter a parse tree produced by ppGOParser#print2.
     def enterPrint2(self, ctx: ppGOParser.Print2Context):
+        self.expressionParent.append("print")
+        x = re.split(r'(["AND"]+|["OR"]+|\W+)', ctx.expression().getText())
+        if len(x) > 1: self.getQuadruples(ctx.expression().getText())
+        elif len(x) == 1:  self.cuadruplos.append(
+                                    ["print",  ctx.expression().getText(), " ", ""])
         pass
 
     # Exit a parse tree produced by ppGOParser#print2.
     def exitPrint2(self, ctx: ppGOParser.Print2Context):
+        self.expressionParent.pop()
+        
         pass
 
     # Enter a parse tree produced by ppGOParser#return2.
@@ -564,13 +668,18 @@ class ppGOListener(ParseTreeListener):
         pass
 
     def getQuadruples(self, expr):
-        temps = 1
         splittedExpr = re.split(r'(["AND"]+|["OR"]+|\W+)', expr)
         while "" in splittedExpr:
             splittedExpr.remove("")
         while splittedExpr[0] == "(":
             self.pOper.append(splittedExpr[0])
             del splittedExpr[0]
+        if splittedExpr[0] == 'true' or splittedExpr[0] == 'false': isVariable = False
+        else: isVariable = bool(re.match("[a-zA-Z]('_'?([a-zA-Z]|(DIGIT)))*", splittedExpr[0]))
+        if isVariable: 
+            d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+            varExist = splittedExpr[0] in d
+            if not varExist: sys.exit("Error: Can't use an undeclared variable in an expression!")
         self.pilaOper.append(splittedExpr[0])
         del splittedExpr[0]
         for i in range(len(splittedExpr)):
@@ -579,13 +688,19 @@ class ppGOListener(ParseTreeListener):
                 self.pOper.append(x)
             elif x == ")":
                 while self.pOper[-1] != "(":
-                    temporal = "t" + str(temps)
+                    temporal = "t" + str(self.temps)
                     self.cuadruplos.append(
                         [self.pOper.pop(), self.pilaOper.pop(), self.pilaOper.pop(), temporal])
                     self.pilaOper.append(temporal)
-                    temps = temps + 1
+                    self.temps = self.temps + 1
                 del self.pOper[-1]
             else:
+                if x == 'true' or x == 'false': isVariable = False
+                else: isVariable = bool(re.match("[a-zA-Z]('_'?([a-zA-Z]|(DIGIT)))*", x))
+                if isVariable: 
+                    d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+                    varExist = x in d
+                    if not varExist: sys.exit("Error: Can't use an undeclared variable in an expression!")
                 self.pilaOper.append(x)
                 if i + 1 < len(splittedExpr):
                     nxt = splittedExpr[i + 1]
@@ -596,26 +711,26 @@ class ppGOListener(ParseTreeListener):
                             if (nxt == "+" or x == "-" or x == "*" or x == "/"):
                                 pass
                             else:
-                                temporal = "t" + str(temps)
+                                temporal = "t" + str(self.temps)
                                 self.cuadruplos.append(
                                     [self.pOper.pop(), self.pilaOper.pop(), self.pilaOper.pop(), temporal])
                                 self.pilaOper.append(temporal)
-                                temps = temps + 1
+                                self.temps = self.temps + 1
                         elif (self.pOper[len(self.pOper) - 1] == "+" or self.pOper[len(self.pOper) - 1] == "-"):
                             if (nxt == "*" or x == "/"):
                                 pass
                             else:
-                                temporal = "t" + str(temps)
+                                temporal = "t" + str(self.temps)
                                 self.cuadruplos.append(
                                     [self.pOper.pop(), self.pilaOper.pop(), self.pilaOper.pop(), temporal])
                                 self.pilaOper.append(temporal)
-                                temps = temps + 1
+                                self.temps = self.temps + 1
                         elif (self.pOper[len(self.pOper) - 1] == "*" or self.pOper[len(self.pOper) - 1] == "/"):
-                            temporal = "t" + str(temps)
+                            temporal = "t" + str(self.temps)
                             self.cuadruplos.append(
                                 [self.pOper.pop(), self.pilaOper.pop(), self.pilaOper.pop(), temporal])
                             self.pilaOper.append(temporal)
-                            temps = temps + 1
+                            self.temps = self.temps + 1
                 else:
                     while self.pilaOper:
                         if(len(self.pOper) == 0):
@@ -624,14 +739,21 @@ class ppGOListener(ParseTreeListener):
                                     ["GotoF", self.pilaOper.pop(), " ", "while"])
                                 self.pilaSaltos.append(
                                     len(self.cuadruplos) - 1)
-                            else:
+                            elif self.expressionParent[len(self.expressionParent)-1]  == "if" or self.expressionParent[len(self.expressionParent)-1]  == "elseif":
                                 self.cuadruplos.append(
                                     ["GotoF", self.pilaOper.pop(), " ", "donde acaba el if/elif"])
                                 self.pilaSaltos.append(
                                     len(self.cuadruplos) - 1)
+                            elif self.expressionParent[len(self.expressionParent)-1]  == "funccall":
+                                self.cuadruplos.append(
+                                    ["parametros", self.pilaOper.pop(), "", ""])
+                            elif self.expressionParent[len(self.expressionParent)-1]  == "print":
+                                self.cuadruplos.append(
+                                    ["print", self.pilaOper.pop(), " ", "" ])
+                            
                         else:
-                            temporal = "t" + str(temps)
+                            temporal = "t" + str(self.temps)
                             self.cuadruplos.append(
                                 [self.pOper.pop(), self.pilaOper.pop(), self.pilaOper.pop(), temporal])
                             self.pilaOper.append(temporal)
-                            temps = temps + 1
+                            self.temps = self.temps + 1

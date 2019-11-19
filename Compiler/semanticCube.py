@@ -6,56 +6,56 @@ class cuboSemantico():
                 "*" : {
                     "int": "int",
                     "float": "float",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't multiply int with bool",
+                    "string": "Error: Can't multiply int with string"
                 },
                 "/" : {
                     "int": "float",
                     "float": "float",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't divide int with bool",
+                    "string": "Error: Can't divide int with string"
                 },
                 "+" : {
                     "int": "int",
                     "float": "float",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't sum int with bool",
+                    "string": "Error: Can't sum int with string"
                 },
                 "-" : {
                     "int": "int",
                     "float": "float",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't substract int with bool",
+                    "string": "Error: Can't substract int with string"
                 },
                 "<" : {
                     "int": "bool",
                     "float": "bool",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't compare int with bool",
+                    "string": "Error: Can't compare int with string"
                 },
                 ">" : {
                     "int": "bool",
                     "float": "bool",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't compare int with bool",
+                    "string": "Error: Can't compare int with string"
                 },
                 ">=" : {
                     "int": "bool",
                     "float": "bool",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't compare int with bool",
+                    "string": "Error: Can't compare int with string"
                 },
                 "==" : {
                     "int": "bool",
                     "float": "bool",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't compare int with bool",
+                    "string": "Error: Can't compare int with string"
                 },
                 "<>" : {
                     "int": "bool",
                     "float": "bool",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't compare int with bool",
+                    "string": "Error: Can't compare int with string"
                 }
             },
             ######################### FLOAT #############################
@@ -63,170 +63,170 @@ class cuboSemantico():
                 "*" : {
                     "int": "float",
                     "float": "float",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't multiply float with bool",
+                    "string": "Error: Can't multiply float with string"
                 },
                 "/" : {
                     "int": "float",
                     "float": "float",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't divide float with bool",
+                    "string": "Error: Can't divide float with string"
                 },
                 "+" : {
                     "int": "float",
                     "float": "float",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't sum float with bool",
+                    "string": "Error: Can't sum float with string"
                 },
                 "-" : {
                     "int": "float",
                     "float": "float",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't substract float with bool",
+                    "string": "Error: Can't substract float with string"
                 },
                 "<" : {
                     "int": "bool",
                     "float": "bool",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't compare float with bool",
+                    "string": "Error: Can't compare float with string"
                 },
                 ">" : {
                     "int": "bool",
                     "float": "bool",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't compare float with bool",
+                    "string": "Error: Can't compare float with string"
                 },
                 ">=" : {
                     "int": "bool",
                     "float": "bool",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't compare float with bool",
+                    "string": "Error: Can't compare float with string"
                 },
                 "==" : {
                     "int": "bool",
                     "float": "bool",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't compare float with bool",
+                    "string": "Error: Can't compare float with string"
                 },
                 "<>" : {
                     "int": "bool",
                     "float": "bool",
-                    "bool": "error",
-                    "string": "error"
+                    "bool": "Error: Can't compare float with bool",
+                    "string": "Error: Can't compare float with string"
                 }
             },
             ######################### BOOL #############################
             "bool": {
                 "*" : {
-                    "int": "error",
-                    "float": "error",
-                    "bool": "error",
-                    "string": "error"
+                    "int": "Error: Error: Can't multiply with bool.",
+                    "float": "Error: Error: Can't multiply with bool.",
+                    "bool": "Error: Can't multiply with bool.",
+                    "string":  "Error: Can't multiply with bool."
                 },
                 "/" : {
-                    "int": "error",
-                    "float": "error",
-                    "bool": "error",
-                    "string": "error"
+                    "int": "Error: Can't divide with bool.",
+                    "float": "Error: Can't divide with bool.",
+                    "bool": "Error: Can't divide with bool.",
+                    "string": "Error: Can't divide with bool."
                 },
                 "+" : {
-                    "int": "error",
-                    "float": "error",
-                    "bool": "error",
-                    "string": "error"
+                    "int": "Error: Cannot sum with bool",
+                    "float": "Error: Cannot sum with bool",
+                    "bool": "Error: Cannot sum with bool",
+                    "string": "Error: Cannot sum with bool"
                 },
                 "-" : {
-                    "int": "error",
-                    "float": "error",
-                    "bool": "error",
-                    "string": "error"
+                    "int": "Error: Cannot substract with bool.",
+                    "float": "Error: Cannot substract with bool.",
+                    "bool": "Error: Cannot substract with bool.",
+                    "string": "Error: Cannot substract with bool."
                 },
                 "<" : {
-                    "int": "error",
-                    "float": "error",
-                    "bool": "error",
-                    "string": "error"
+                    "int": "Error: Can't compare a bool this way.",
+                    "float": "Error: Can't compare a bool this way.",
+                    "bool": "Error: Can't compare a bool this way.",
+                    "string": "Error: Can't compare a bool this way."
                 },
                 ">" : {
-                    "int": "error",
-                    "float": "error",
-                    "bool": "error",
-                    "string": "error"
+                    "int": "Error: Can't compare a bool this way.",
+                    "float": "Error: Can't compare a bool this way.",
+                    "bool": "Error: Can't compare a bool this way.",
+                    "string": "Error: Can't compare a bool this way."
                 },
                 ">=" : {
-                    "int": "error",
-                    "float": "error",
-                    "bool": "error",
-                    "string": "error"
+                    "int": "Error: Can't compare a bool this way.",
+                    "float": "Error: Can't compare a bool this way.",
+                    "bool": "Error: Can't compare a bool this way.",
+                    "string": "Error: Can't compare a bool this way."
                 },
                 "==" : {
-                    "int": "error",
-                    "float": "error",
+                    "int": "Error: Can't compare bool with int",
+                    "float": "Error: Can't compare bool with float",
                     "bool": "bool",
-                    "string": "error"
+                    "string": "Error: Can't compare bool with string"
                 },
                 "<>" : {
-                    "int": "error",
-                    "float": "error",
+                    "int": "Error: Can't compare bool with int",
+                    "float": "Error: Can't compare bool with float",
                     "bool": "bool",
-                    "string": "error"
+                    "string": "Error: Can't compare bool with string"
                 }
             },
               ######################### STRING #############################
         
             "string": {
                 "*" : {
-                    "int": "error",
-                    "float": "error",
-                    "bool": "error",
-                    "string": "error"
+                    "int": "Error: Can't multiply a string.",
+                    "float": "Error: Can't multiply a string.",
+                    "bool": "Error: Can't multiply a string.",
+                    "string": "Error: Can't multiply a string."
                 },
                 "/" : {
-                    "int": "error",
-                    "float": "error",
-                    "bool": "error",
-                    "string": "error"
+                    "int": "Error: Can't divide a string.",
+                    "float": "Error: Can't divide a string.",
+                    "bool": "Error: Can't divide a string.",
+                    "string": "Error: Can't divide a string."
                 },
                 "+" : {
-                    "int": "error",
-                    "float": "error",
-                    "bool": "error",
+                    "int": "Error: Can't sum a string with int.",
+                    "float": "Error: Can't sum a string with float.",
+                    "bool": "Error: Can't sum a string with bool.",
                     "string": "string"
                 },
                 "-" : {
-                    "int": "error",
-                    "float": "error",
-                    "bool": "error",
-                    "string": "error"
+                    "int": "Error: Can't substract a string with int.",
+                    "float": "Error: Can't substract a string float.",
+                    "bool": "Error: Can't substract a string bool.",
+                    "string": "Error: Can't substract a string string."
                 },
                 "<" : {
-                    "int": "error",
-                    "float": "error",
-                    "bool": "error",
-                    "string": "error"
+                    "int": "Error: Can't compare a string.",
+                    "float": "Error: Can't compare a string.",
+                    "bool": "Error: Can't compare a string.",
+                    "string": "Error: Can't compare a string."
                 },
                 ">" : {
-                    "int": "error",
-                    "float": "error",
-                    "bool": "error",
-                    "string": "error"
+                    "int": "Error: Can't compare a string.",
+                    "float": "Error: Can't compare a string.",
+                    "bool": "Error: Can't compare a string.",
+                    "string": "Error: Can't compare a string."
                 },
                 ">=" : {
-                    "int": "error",
-                    "float": "error",
-                    "bool": "error",
-                    "string": "error"
+                    "int": "Error: Can't compare a string",
+                    "float": "Error: Can't compare a string",
+                    "bool": "Error: Can't compare a string",
+                    "string": "Error: Can't compare a string"
                 },
                 "==" : {
-                    "int": "error",
-                    "float": "error",
-                    "bool": "error",
+                    "int": "Error: Can't compare a string with int.",
+                    "float": "Error: Can't compare a string with float.",
+                    "bool": "Error: Can't compare a string with bool.",
                     "string": "bool"
                 },
                 "<>" : {
-                    "int": "error",
-                    "float": "error",
-                    "bool": "error",
+                    "int": "Error: Can't compare a string with int.",
+                    "float": "Error: Can't compare a string with float.",
+                    "bool": "Error: Can't compare a string with bool.",
                     "string": "bool"
                 }
             }
@@ -248,6 +248,5 @@ class cuboSemantico():
             'Goto' : 13,
             'GotoV' : 14,
             'GotoF' : 15
-
         }
-          
+        
