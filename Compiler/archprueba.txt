@@ -1,6 +1,5 @@
 program First:
 int  b
-string c
 func uno(int a, int b){
 	int a, b
 	a = 4;
@@ -16,17 +15,15 @@ func dos(int c, int d){
 
 func main(){
 	int adasdasdasd, b, a
-	int  c
 	string d
 	int e
-	e = 4;
-	a = a + c;
-	c = "dada";
-	if (c < e){
-		uno(c * 4, e + 2)
+	int c
+	e = 4 + c;
+	if (9< e){
+		uno( c , e + 2)
 		dos(c, e)
 	}
-	print(c + 5)
+	print(3 + 5)
 
 
 }

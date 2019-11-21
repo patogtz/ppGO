@@ -231,6 +231,7 @@ class cuboSemantico():
                 }
             }
         }
+
         self.idOfOper = {
             '*' : 0,
             '/' : 1,
