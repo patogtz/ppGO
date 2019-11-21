@@ -37,6 +37,10 @@ class Memory:
                 self.memoryContent[currentMemoryBool] = "VALOR DE VARIABLE bool"
                 self.memoryBool += 1
                 return currentMemoryBool
+        
+    def writeMemory(self, memorySpace, content):
+        self.memoryContent[memorySpace] = content
+
             
 
 
