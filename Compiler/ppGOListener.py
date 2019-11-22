@@ -659,8 +659,7 @@ class ppGOListener(ParseTreeListener):
     def exitLoop(self, ctx: ppGOParser.LoopContext):
         end = self.pilaSaltos.pop()
         ret = self.pilaSaltos.pop()
-        self.cuadruplos.append(
-                ["Goto", "", "", ret])
+        self.cuadruplos.append(["Goto", "", "", ret])
         self.cuadruplos[end][3] = len(self.cuadruplos)
         """ self.pilaSaltos.append(len(self.cuadruplos)) """
         self.expressionParent.pop()
@@ -771,8 +770,21 @@ class ppGOListener(ParseTreeListener):
                     operador = self.pOper.pop()
                     operandoDer = self.pilaOper.pop()
                     operandoIzq = self.pilaOper.pop()
-                    self.cuadruplos.append(
-                        [operador, operandoIzq, operandoDer, temporal])
+                    tipoOperDer = self.checkOperand(operandoDer)
+                    tipoOperIzq = self.checkOperand(operandoIzq)
+                    tipoTemporal = cuboSemantico().cube[tipoOperIzq][operador][tipoOperDer]
+                    if tipoTemporal[0:5] == "Error": sys.exit(tipoTemporal)
+                    """ self.cuadruplos.append(
+                        [operador, operandoIzq , operandoDer, temporal]) """
+
+
+                    
+                    memory = self.temporalMemory.addToMemory(tipoTemporal)
+                    self.tempTable[self.funcName].append({"name": temporal, "memory": memory, "type" : tipoTemporal})
+                    memoryOperDer = self.getMemoryAddress(operandoDer)
+                    memoryOperIzq = self.getMemoryAddress(operandoIzq)
+                    memoryTemp = self.getMemoryAddress(temporal)
+                    self.cuadruplos.append([operador, memoryOperIzq , memoryOperDer, memoryTemp])
                     self.pilaOper.append(temporal)
                     self.temps = self.temps + 1
                 del self.pOper[-1]
@@ -792,8 +804,21 @@ class ppGOListener(ParseTreeListener):
                                 operador = self.pOper.pop()
                                 operandoDer = self.pilaOper.pop()
                                 operandoIzq = self.pilaOper.pop()
-                                self.cuadruplos.append(
-                                    [operador, operandoIzq , operandoDer, temporal])
+                                tipoOperDer = self.checkOperand(operandoDer)
+                                tipoOperIzq = self.checkOperand(operandoIzq)
+                                tipoTemporal = cuboSemantico().cube[tipoOperIzq][operador][tipoOperDer]
+                                if tipoTemporal[0:5] == "Error": sys.exit(tipoTemporal)
+                                """ self.cuadruplos.append(
+                                    [operador, operandoIzq , operandoDer, temporal]) """
+
+
+                                
+                                memory = self.temporalMemory.addToMemory(tipoTemporal)
+                                self.tempTable[self.funcName].append({"name": temporal, "memory": memory, "type" : tipoTemporal})
+                                memoryOperDer = self.getMemoryAddress(operandoDer)
+                                memoryOperIzq = self.getMemoryAddress(operandoIzq)
+                                memoryTemp = self.getMemoryAddress(temporal)
+                                self.cuadruplos.append([operador, memoryOperIzq , memoryOperDer, memoryTemp])
                                 self.pilaOper.append(temporal)
                                 self.temps = self.temps + 1
                         elif (self.pOper[len(self.pOper) - 1] == "+" or self.pOper[len(self.pOper) - 1] == "-"):
@@ -813,36 +838,62 @@ class ppGOListener(ParseTreeListener):
                             operador = self.pOper.pop()
                             operandoDer = self.pilaOper.pop()
                             operandoIzq = self.pilaOper.pop()
-                            self.cuadruplos.append(
-                                [operador, operandoIzq , operandoDer, temporal])
+                            tipoOperDer = self.checkOperand(operandoDer)
+                            tipoOperIzq = self.checkOperand(operandoIzq)
+                            tipoTemporal = cuboSemantico().cube[tipoOperIzq][operador][tipoOperDer]
+                            if tipoTemporal[0:5] == "Error": sys.exit(tipoTemporal)
+                            """ self.cuadruplos.append(
+                                [operador, operandoIzq , operandoDer, temporal]) """
+
+
+                            
+                            memory = self.temporalMemory.addToMemory(tipoTemporal)
+                            self.tempTable[self.funcName].append({"name": temporal, "memory": memory, "type" : tipoTemporal})
+                            memoryOperDer = self.getMemoryAddress(operandoDer)
+                            memoryOperIzq = self.getMemoryAddress(operandoIzq)
+                            memoryTemp = self.getMemoryAddress(temporal)
+                            self.cuadruplos.append([operador, memoryOperIzq , memoryOperDer, memoryTemp])
                             self.pilaOper.append(temporal)
                             self.temps = self.temps + 1
                 else:
                     while self.pilaOper:
                         if(len(self.pOper) == 0):
                             if self.expressionParent[len(self.expressionParent)-1]  == "loop":
-                                self.cuadruplos.append(
-                                    ["GotoF", self.pilaOper.pop(), " ", "while"])
+                                mem  = self.getMemoryAddress(self.pilaOper.pop())
+                                self.cuadruplos.append(["GotoF", mem , " ", "while"])
                                 self.pilaSaltos.append(
                                     len(self.cuadruplos) - 1)
                             elif self.expressionParent[len(self.expressionParent)-1]  == "if" or self.expressionParent[len(self.expressionParent)-1]  == "elseif":
-                                self.cuadruplos.append(
-                                    ["GotoF", self.pilaOper.pop(), " ", "donde acaba el if/elif"])
+                                mem = self.getMemoryAddress(self.pilaOper.pop())
+                                self.cuadruplos.append( ["GotoF", mem , " ", "donde acaba el if/elif"])
                                 self.pilaSaltos.append(
                                     len(self.cuadruplos) - 1)
                             elif self.expressionParent[len(self.expressionParent)-1]  == "funccall":
-                                self.cuadruplos.append(
-                                    ["parametros", self.pilaOper.pop(), "", ""])
+                                mem = self.getMemoryAddress(self.pilaOper.pop())
+                                self.cuadruplos.append(["parametros", mem , "", ""])
                             elif self.expressionParent[len(self.expressionParent)-1]  == "print":
-                                self.cuadruplos.append(
-                                    ["print", self.pilaOper.pop(), " ", "" ])        
+                                mem = self.getMemoryAddress(self.pilaOper.pop())
+                                self.cuadruplos.append(["print", mem , " ", "" ])        
                         else:
                             temporal = "t" + str(self.temps)
                             operador = self.pOper.pop()
                             operandoDer = self.pilaOper.pop()
                             operandoIzq = self.pilaOper.pop()
-                            self.cuadruplos.append(
-                                [operador, operandoIzq , operandoDer, temporal])
+                            tipoOperDer = self.checkOperand(operandoDer)
+                            tipoOperIzq = self.checkOperand(operandoIzq)
+                            tipoTemporal = cuboSemantico().cube[tipoOperIzq][operador][tipoOperDer]
+                            if tipoTemporal[0:5] == "Error": sys.exit(tipoTemporal)
+                            """ self.cuadruplos.append(
+                                [operador, operandoIzq , operandoDer, temporal]) """
+
+
+                            
+                            memory = self.temporalMemory.addToMemory(tipoTemporal)
+                            self.tempTable[self.funcName].append({"name": temporal, "memory": memory, "type" : tipoTemporal})
+                            memoryOperDer = self.getMemoryAddress(operandoDer)
+                            memoryOperIzq = self.getMemoryAddress(operandoIzq)
+                            memoryTemp = self.getMemoryAddress(temporal)
+                            self.cuadruplos.append([operador, memoryOperIzq , memoryOperDer, memoryTemp])
                             self.pilaOper.append(temporal)
                             self.temps = self.temps + 1
 
