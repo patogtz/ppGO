@@ -58,7 +58,7 @@ loop:
     LOOP LEFT_PAR expression RIGHT_PAR LEFT_BRACKET block RIGHT_BRACKET;
 
 funcCall :
-    LITERAL LEFT_PAR ((expression) (',' expression)*)? RIGHT_PAR;
+    LITERAL LEFT_PAR ((expression | funcCall) (',' (expression | funcCall))*)? RIGHT_PAR;
 
 read : 
     INPUT LEFT_PAR (LITERAL ((LEFT_SBRACKET expression RIGHT_SBRACKET)  (LEFT_SBRACKET expression RIGHT_SBRACKET)?)? RIGHT_PAR);

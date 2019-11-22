@@ -1,12 +1,13 @@
 program First:
 int  b
-func uno(int a, int b){
+func uno(int ano, int bagina){
 	int a, b
 	a = 4;
 	b = a + 4;
+	ano = 8;
 }
 
-func dos(int c, int d){
+func dos(int concha, int dick){
 	int c, d, h
 	c = 6;
 	d = c * 8;
@@ -14,15 +15,20 @@ func dos(int c, int d){
 }
 
 func main(){
-	int adasdasdasd, b, a
-	string d
-	int e
-	int c
-	e = 4 + c;
-	if (9< e){
-		uno( c , e + 2)
-		dos(c, e)
+	int a, b
+	float c, d
+	string e, f 
+	bool g, h
+	
+	
+	a = 5 + 7;
+	if(a < 5) {
+		a = 5;
 	}
+	else {
+		a = 7;
+	}
+	
 	print(3 + 5)
 
 

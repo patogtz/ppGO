@@ -8,13 +8,11 @@ class Memory:
         self.memoryContent = {}
 
     def eraseMemory(self):
-        print("Erasing memory")
         self.memoryInt = 0 + self.startAddress
         self.memoryFloat = 1000 + self.startAddress
         self.memoryString = 2000 + self.startAddress
         self.memoryBool = 3000 + self.startAddress
         self.memoryContent.clear()
-
 
     def addToMemory(self, type):
             if (type == "int"):
