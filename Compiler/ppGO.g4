@@ -45,20 +45,14 @@ exp :
 term : 
     factor ((TIMES | DIVISION) term)?;
 
-factor: 
-	LEFT_PAR expression RIGHT_PAR
-	| var_cte (PLUS factor| MINUS factor)? ;
-
-var_cte :
-    LITERAL (((LEFT_SBRACKET (expression) RIGHT_SBRACKET) (LEFT_SBRACKET (expression) RIGHT_SBRACKET)?)? | (LEFT_PAR (expression (','  expression)*)? RIGHT_PAR)?)
-    | VAR_INT
-    | VAR_FLOAT | VAR_BOOL | VAR_STRING;
+factor
+    : LEFT_PAR expression RIGHT_PAR |  LITERAL ((((LEFT_SBRACKET (expression) RIGHT_SBRACKET) (LEFT_SBRACKET (expression) RIGHT_SBRACKET)?)?) | LEFT_PAR exp (',' exp)* RIGHT_PAR) | VAR_INT | VAR_FLOAT | VAR_BOOL | VAR_STRING;
 
 loop:
     LOOP LEFT_PAR expression RIGHT_PAR LEFT_BRACKET block RIGHT_BRACKET;
 
 funcCall :
-    LITERAL LEFT_PAR ((expression | funcCall) (',' (expression | funcCall))*)? RIGHT_PAR;
+    LITERAL LEFT_PAR ((expression) (',' expression)*)? RIGHT_PAR;
 
 read : 
     INPUT LEFT_PAR (LITERAL ((LEFT_SBRACKET expression RIGHT_SBRACKET)  (LEFT_SBRACKET expression RIGHT_SBRACKET)?)? RIGHT_PAR);

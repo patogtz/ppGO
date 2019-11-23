@@ -1,35 +1,27 @@
 program First:
-int  b
-func uno(int ano, int bagina){
-	int a, b
-	a = 4;
-	b = a + 4;
-	ano = 8;
-}
-
-func dos(int concha, int dick){
-	int c, d, h
-	c = 6;
-	d = c * 8;
-	h = d - 3;
-}
 
 func main(){
-	int a, b
-	float c, d
-	string e, f 
-	bool g, h
-	
-	
-	a = 5 + 7;
-	if(a < 5) {
-		a = 5;
+int a, b, c, d
+
+if(a + b > d){
+	if( a < b ){
+		a = 0;
+		b = b + d;
 	}
-	else {
-		a = 7;
+	else{
+		c = a + b;
 	}
+	loop(a == b){
+		a = b;
+	}
+
+}
+else{
+	a = b + c;
+}
+d = b + a * c;
 	
-	print(3 + 5)
+	
 
 
 }
