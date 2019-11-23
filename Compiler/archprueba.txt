@@ -1,9 +1,24 @@
 program First:
+int a
+int func uno(int b, int c ){
+	int a, f, h
+	a = 5;
+	b = 3;
+	if( a < b ){
+		b = a + a;
+	}
+}
 
 func main(){
 int a, b, c, d
-
+b  = 3;
+a = 5 + b;
+a = 4;
+d= 5;
+c = 3;
 if(a + b > d){
+	uno(a + b, c)
+
 	if( a < b ){
 		a = 0;
 		b = b + d;
@@ -11,15 +26,13 @@ if(a + b > d){
 	else{
 		c = a + b;
 	}
-	loop(a == b){
-		a = b;
-	}
+	
 
 }
 else{
-	a = b + c;
+	a = b + 6;
 }
-d = b + a * c;
+d = b + a * 6;
 	
 	
 
