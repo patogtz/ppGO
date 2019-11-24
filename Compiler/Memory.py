@@ -18,11 +18,11 @@ class Memory:
             if (type == "int"):
                 currentMemoryInt = self.memoryInt
                 self.memoryInt += 1
-                self.memoryContent[currentMemoryInt] = "VALOR DE VARIABLE int"
+                self.memoryContent[currentMemoryInt] = "valor variable int"
                 return currentMemoryInt
             elif (type == "float"):
                 currentMemoryFloat= self.memoryFloat
-                self.memoryContent[currentMemoryFloat] = "VALOR DE VARIABLE float"
+                self.memoryContent[currentMemoryFloat] = "valor variable float"
                 self.memoryFloat += 1
                 return currentMemoryFloat
             elif (type == "string"):
@@ -36,8 +36,13 @@ class Memory:
                 self.memoryBool += 1
                 return currentMemoryBool
         
-    def writeMemory(self, memorySpace, content):
+        
+    def setMemory(self, memorySpace, content):
         self.memoryContent[memorySpace] = content
+   
+    def getMemory(self, memorySpace):
+        return self.memoryContent[memorySpace]
+
 
             
 
