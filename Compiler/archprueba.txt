@@ -1,10 +1,12 @@
 program First:
 int a
 func uno(int a){
-	int b;
+	int b
 }
 func main(){
 	float b
+	int c[9]
+	int d
 	b = 4.5;
 	a = 0;
 	loop(a < 5){

@@ -46,10 +46,10 @@ class ppGOListener(ParseTreeListener):
     # Exit a parse tree produced by ppGOParser#program.
     def exitProgram(self, ctx: ppGOParser.ProgramContext):
         i = 0
-        """ print("TABLA CONSTANTES: ", self.cosntantTable, '\n')
+        print("TABLA CONSTANTES: ", self.cosntantTable, '\n')
         print("TABLA Variables: ", self.symbolTable, '\n')
         print("TABLA Temporales: ", self.tempTable)
-        for c in self.cuadruplos:
+        """for c in self.cuadruplos:
             print(i, " ", *c)
             i+=1 """
         vm = VirtualMachine(self.cuadruplos, self.localMemory, self.temporalMemory, self.globalMemory, self.constantMemory)
@@ -106,7 +106,6 @@ class ppGOListener(ParseTreeListener):
         count = 0
         self.tablaParametro[self.funcName] = []
         if len(x) != 0:
-            print(len(x))
             for i in x:
                 if(ctx.tipo()[count].getText() == "int"): memoriaTabla = self.localMemory.addToMemory("int")
                 elif(ctx.tipo()[count].getText() == "float"): memoriaTabla = self.localMemory.addToMemory("float")
@@ -169,167 +168,34 @@ class ppGOListener(ParseTreeListener):
             return "Error: String Memory Exceeded"
         if(self.dirMemoriaBool > 3999):
             return "Error: Bool Memory Exceeded" """
-        print(ctx.LITERAL())
-        name = ""
         currentKeyValue = []
         key = str(self.funcName)
         if key in self.symbolTable.keys():
             currentKeyValue = self.symbolTable[key]
-        type = ctx.getText()[:3]
         if self.funcName == "global":
             scope = "g"
         else:
             scope = "l"
         #Agrega las variables int a la tabla de variables
-        if(type == "int"):
-            #Detecta si estan en la misma linea
-            if(',' in ctx.getText()):
-                vars = ctx.getText()[3:].split(',')
-                #Mete cada variable de la linea a la tabla
-                for x in vars:
-                    #Checa si ya existe la variable en el scope, en caso de que si regresa un error
-                    if  self.funcName in self.symbolTable:
-                        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
-                        varExist = x in d
-                        if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
-                    if scope == "g":
-                        memoriaTabla = self.globalMemory.addToMemory("int")
-                        currentKeyValue.append(
-                            {"name": x, "type": "int", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
-                        self.symbolTable[self.funcName] = currentKeyValue
-                    else:
-                        memoriaTabla = self.localMemory.addToMemory("int")
-                        currentKeyValue.append(
-                            {"name": x, "type": "int", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
-                        self.symbolTable[self.funcName] = currentKeyValue
-            #En caso de que solo haya una variable en la linea
+        for item in ctx.LITERAL():
+            x = item.getText()
+            #Mete cada variable de la linea a la tabla
+            #Checa si ya existe la variable en el scope, en caso de que si regresa un error
+            if  self.funcName in self.symbolTable:
+                d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+                varExist = x in d
+                if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
+            if scope == "g":
+                memoriaTabla = self.globalMemory.addToMemory(ctx.tipo().getText())
+                currentKeyValue.append(
+                    {"name": x, "type": ctx.tipo().getText(), "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
+                self.symbolTable[self.funcName] = currentKeyValue
             else:
-                #Checa si ya existe la variable en el scope, en caso de que si regresa un error
-                if  self.funcName in self.symbolTable:
-                    d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
-                    varExist = ctx.getText()[3:] in d
-                    if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
-                if scope == "g":
-                    memoriaTabla = self.globalMemory.addToMemory("int")
-                    name = ctx.getText()[3:]
-                    currentKeyValue.append(
-                        {"name": name, "type": "int", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
-                    self.symbolTable[self.funcName] = currentKeyValue
-                else:
-                    memoriaTabla = self.localMemory.addToMemory("int")
-                    name = ctx.getText()[3:]
-                    currentKeyValue.append(
-                        {"name": name, "type": "int", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
-                    self.symbolTable[self.funcName] = currentKeyValue
-        #Agrega las variables float a la tabla de variables
-        elif (type == "flo"):
-            #Detecta si estan en la misma linea
-            if (',' in ctx.getText()):
-                vars = ctx.getText()[5:].split(',')
-                #Mete cada variable a tabla 
-                for x in vars:
-                    #Checa si ya existe la variable en el scope, en caso de que si regresa un error
-                    if  self.funcName in self.symbolTable:
-                        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
-                        varExist = x in d
-                        if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
-                    if scope == "g":
-                        memoriaTabla = self.globalMemory.addToMemory("float")
-                        currentKeyValue.append(
-                            {"name": x, "type": "float", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
-                        self.symbolTable[self.funcName] = currentKeyValue
-                    else:
-                        memoriaTabla = self.localMemory.addToMemory("float")
-                        currentKeyValue.append(
-                            {"name": x, "type": "float", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
-                        self.symbolTable[self.funcName] = currentKeyValue
-            #Si hay una variable en la fila
-            else:
-                #Checa si ya existe la variable en el scope, en caso de que si regresa un error
-                if  self.funcName in self.symbolTable:
-                    d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
-                    varExist = ctx.getText()[5:] in d
-                    if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
-                if scope == "g":
-                    memoriaTabla = self.globalMemory.addToMemory("float")
-                    currentKeyValue.append({"name": str(
-                        ctx.getText()[5:]), "type": "float", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
-                    self.symbolTable[self.funcName] = currentKeyValue
-                else:
-                    memoriaTabla = self.localMemory.addToMemory("float")
-                    currentKeyValue.append({"name": str(
-                        ctx.getText()[5:]), "type": "float", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
-                    self.symbolTable[self.funcName] = currentKeyValue
-        elif (type == "boo"):
-            if (',' in ctx.getText()):
-                vars = ctx.getText()[4:].split(',')
-                for x in vars:
-                    #Valida que no exista esa variable en la tabla de variables
-                    if  self.funcName in self.symbolTable:
-                        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
-                        varExist = x in d
-                        if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
-                    if scope == "g":
-                        memoriaTabla = self.globalMemory.addToMemory("bool")
-                        currentKeyValue.append(
-                            {"name": x, "type": "bool", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
-                        self.symbolTable[self.funcName] = currentKeyValue
-                    else:
-                        memoriaTabla = self.localMemory.addToMemory("bool")
-                        currentKeyValue.append(
-                            {"name": x, "type": "bool", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
-                        self.symbolTable[self.funcName] = currentKeyValue
-            else:
-                #Checa si ya existe la variable en el scope, en caso de que si regresa un error
-                if  self.funcName in self.symbolTable:
-                    d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
-                    varExist = ctx.getText()[4:] in d
-                    if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
-                if scope == "g":
-                    memoriaTabla = self.globalMemory.addToMemory("bool")
-                    currentKeyValue.append({"name": str(
-                        ctx.getText()[4:]), "type": "bool", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
-                    self.symbolTable[self.funcName] = currentKeyValue
-                else:
-                    memoriaTabla = self.localMemory.addToMemory("bool")
-                    currentKeyValue.append({"name": str(
-                        ctx.getText()[4:]), "type": "bool", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
-                    self.symbolTable[self.funcName] = currentKeyValue
-        elif (type == "str"):
-            if (',' in ctx.getText()):
-                vars = ctx.getText()[6:].split(',')
-                for x in vars:
-                    #Valida que no exista esa variable en la tabla de variables
-                    if  self.funcName in self.symbolTable:
-                        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
-                        varExist = x in d
-                        if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
-                    if scope == "g":
-                        memoriaTabla = self.globalMemory.addToMemory("string")
-                        currentKeyValue.append(
-                            {"name": x, "type": "string", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
-                        self.symbolTable[self.funcName] = currentKeyValue
-                    else:
-                        memoriaTabla = self.localMemory.addToMemory("string")
-                        currentKeyValue.append(
-                            {"name": x, "type": "string", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
-                        self.symbolTable[self.funcName] = currentKeyValue
-            else:
-                 #Checa si ya existe la variable en el scope, en caso de que si regresa un error
-                if  self.funcName in self.symbolTable:
-                    d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
-                    varExist = ctx.getText()[6:] in d
-                    if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
-                if scope == "g":
-                    memoriaTabla = self.globalMemory.addToMemory("string")
-                    currentKeyValue.append({"name": str(ctx.getText()[
-                                           6:]), "type": "string", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
-                    self.symbolTable[self.funcName] = currentKeyValue
-                else:
-                    memoriaTabla = self.localMemory.addToMemory("string")
-                    currentKeyValue.append({"name": str(ctx.getText()[
-                                           6:]), "type": "string", "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
-                    self.symbolTable[self.funcName] = currentKeyValue
+                memoriaTabla = self.localMemory.addToMemory(ctx.tipo().getText())
+                currentKeyValue.append(
+                    {"name": x, "type": ctx.tipo().getText(), "scope": scope, "dirMemoria": memoriaTabla, "asignado": False})
+                self.symbolTable[self.funcName] = currentKeyValue
+           
     # Exit a parse tree produced by ppGOParser#varsDec.
 
     def exitVarsDec(self, ctx: ppGOParser.VarsDecContext):
