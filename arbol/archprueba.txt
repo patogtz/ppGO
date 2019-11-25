@@ -4,18 +4,15 @@ int func dos( int a){
 	print (a)
 }
 int func uno(int a, int b){
-	if(a < 4){
-		print(a)
-		uno(a + 1, a)
-	}
 	
+
 }
 func main(){
 	int b
 	a = 1;
-	c = 1;
-
-	uno(a,c)
+	c = 7;
+	
+	return uno(a ,c) + 5
 		
 
 }

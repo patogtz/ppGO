@@ -1,4 +1,4 @@
-// Generated from /Users/Pato/Desktop/ppGO/Compiler/ppGO.g4 by ANTLR 4.7.1
+// Generated from ppGO.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ppGOParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.7.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -29,28 +29,37 @@ public class ppGOParser extends Parser {
 		RULE_elseif = 10, RULE_elsee = 11, RULE_expression = 12, RULE_expression1 = 13, 
 		RULE_exp = 14, RULE_term = 15, RULE_factor = 16, RULE_loop = 17, RULE_funcCall = 18, 
 		RULE_read = 19, RULE_print2 = 20, RULE_return2 = 21;
-	public static final String[] ruleNames = {
-		"program", "main", "modulo", "tipo", "args", "body", "block", "varsDec", 
-		"assigment", "condition", "elseif", "elsee", "expression", "expression1", 
-		"exp", "term", "factor", "loop", "funcCall", "read", "print2", "return2"
-	};
+	private static String[] makeRuleNames() {
+		return new String[] {
+			"program", "main", "modulo", "tipo", "args", "body", "block", "varsDec", 
+			"assigment", "condition", "elseif", "elsee", "expression", "expression1", 
+			"exp", "term", "factor", "loop", "funcCall", "read", "print2", "return2"
+		};
+	}
+	public static final String[] ruleNames = makeRuleNames();
 
-	private static final String[] _LITERAL_NAMES = {
-		null, "'main'", "'int'", "'float'", "'string'", "'bool'", "'func'", "'('", 
-		"')'", "'{'", "'}'", "'['", "']'", "'+'", "'-'", "'*'", "'/'", "'<'", 
-		"'>'", "'<>'", "'=='", "'>='", "'<='", "'='", "','", "':'", "';'", "'AND'", 
-		"'OR'", "'if'", "'else'", "'else if'", "'program'", null, null, null, 
-		"'usr_input'", "'loop'", "'print'", "'return'"
-	};
-	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, "FUNCTION", "LEFT_PAR", "RIGHT_PAR", 
-		"LEFT_BRACKET", "RIGHT_BRACKET", "LEFT_SBRACKET", "RIGHT_SBRACKET", "PLUS", 
-		"MINUS", "TIMES", "DIVISION", "LESS_THAN", "GREATER_THAN", "NOT_EQUAL", 
-		"EQUAL_RELOP", "GREATER_EQUAL", "LESS_EQUAL", "EQUAL", "SEP_COMMA", "SEP_COLON", 
-		"SEP_SEMICOLON", "AND", "OR", "IF", "ELSE", "ELSEIF", "PROGRAM", "VAR_INT", 
-		"VAR_FLOAT", "VAR_BOOL", "INPUT", "LOOP", "PRINT", "RETURN", "LITERAL", 
-		"VAR_STRING", "WHITESPACE"
-	};
+	private static String[] makeLiteralNames() {
+		return new String[] {
+			null, "'main'", "'int'", "'float'", "'string'", "'bool'", "'func'", "'('", 
+			"')'", "'{'", "'}'", "'['", "']'", "'+'", "'-'", "'*'", "'/'", "'<'", 
+			"'>'", "'<>'", "'=='", "'>='", "'<='", "'='", "','", "':'", "';'", "'AND'", 
+			"'OR'", "'if'", "'else'", "'else if'", "'program'", null, null, null, 
+			"'usr_input'", "'loop'", "'print'", "'return'"
+		};
+	}
+	private static final String[] _LITERAL_NAMES = makeLiteralNames();
+	private static String[] makeSymbolicNames() {
+		return new String[] {
+			null, null, null, null, null, null, "FUNCTION", "LEFT_PAR", "RIGHT_PAR", 
+			"LEFT_BRACKET", "RIGHT_BRACKET", "LEFT_SBRACKET", "RIGHT_SBRACKET", "PLUS", 
+			"MINUS", "TIMES", "DIVISION", "LESS_THAN", "GREATER_THAN", "NOT_EQUAL", 
+			"EQUAL_RELOP", "GREATER_EQUAL", "LESS_EQUAL", "EQUAL", "SEP_COMMA", "SEP_COLON", 
+			"SEP_SEMICOLON", "AND", "OR", "IF", "ELSE", "ELSEIF", "PROGRAM", "VAR_INT", 
+			"VAR_FLOAT", "VAR_BOOL", "INPUT", "LOOP", "PRINT", "RETURN", "LITERAL", 
+			"VAR_STRING", "WHITESPACE"
+		};
+	}
+	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -100,6 +109,7 @@ public class ppGOParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
+
 	public static class ProgramContext extends ParserRuleContext {
 		public TerminalNode PROGRAM() { return getToken(ppGOParser.PROGRAM, 0); }
 		public TerminalNode LITERAL() { return getToken(ppGOParser.LITERAL, 0); }
@@ -123,6 +133,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_program; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterProgram(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitProgram(this);
+		}
 	}
 
 	public final ProgramContext program() throws RecognitionException {
@@ -196,6 +214,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_main; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterMain(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitMain(this);
+		}
 	}
 
 	public final MainContext main() throws RecognitionException {
@@ -245,6 +271,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_modulo; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterModulo(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitModulo(this);
+		}
 	}
 
 	public final ModuloContext modulo() throws RecognitionException {
@@ -294,6 +328,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_tipo; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterTipo(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitTipo(this);
+		}
 	}
 
 	public final TipoContext tipo() throws RecognitionException {
@@ -337,10 +379,22 @@ public class ppGOParser extends Parser {
 		public TerminalNode LITERAL(int i) {
 			return getToken(ppGOParser.LITERAL, i);
 		}
+		public List<TerminalNode> SEP_COMMA() { return getTokens(ppGOParser.SEP_COMMA); }
+		public TerminalNode SEP_COMMA(int i) {
+			return getToken(ppGOParser.SEP_COMMA, i);
+		}
 		public ArgsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_args; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterArgs(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitArgs(this);
+		}
 	}
 
 	public final ArgsContext args() throws RecognitionException {
@@ -414,6 +468,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_body; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterBody(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitBody(this);
+		}
 	}
 
 	public final BodyContext body() throws RecognitionException {
@@ -510,6 +572,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_block; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterBlock(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitBlock(this);
+		}
 	}
 
 	public final BlockContext block() throws RecognitionException {
@@ -620,6 +690,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_varsDec; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterVarsDec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitVarsDec(this);
+		}
 	}
 
 	public final VarsDecContext varsDec() throws RecognitionException {
@@ -731,6 +809,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_assigment; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterAssigment(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitAssigment(this);
+		}
 	}
 
 	public final AssigmentContext assigment() throws RecognitionException {
@@ -820,6 +906,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_condition; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterCondition(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitCondition(this);
+		}
 	}
 
 	public final ConditionContext condition() throws RecognitionException {
@@ -896,6 +990,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_elseif; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterElseif(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitElseif(this);
+		}
 	}
 
 	public final ElseifContext elseif() throws RecognitionException {
@@ -942,6 +1044,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_elsee; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterElsee(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitElsee(this);
+		}
 	}
 
 	public final ElseeContext elsee() throws RecognitionException {
@@ -984,6 +1094,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitExpression(this);
+		}
 	}
 
 	public final ExpressionContext expression() throws RecognitionException {
@@ -1045,6 +1163,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expression1; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterExpression1(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitExpression1(this);
+		}
 	}
 
 	public final Expression1Context expression1() throws RecognitionException {
@@ -1102,6 +1228,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_exp; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterExp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitExp(this);
+		}
 	}
 
 	public final ExpContext exp() throws RecognitionException {
@@ -1159,6 +1293,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_term; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterTerm(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitTerm(this);
+		}
 	}
 
 	public final TermContext term() throws RecognitionException {
@@ -1232,6 +1374,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_factor; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterFactor(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitFactor(this);
+		}
 	}
 
 	public final FactorContext factor() throws RecognitionException {
@@ -1360,6 +1510,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_loop; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterLoop(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitLoop(this);
+		}
 	}
 
 	public final LoopContext loop() throws RecognitionException {
@@ -1405,10 +1563,22 @@ public class ppGOParser extends Parser {
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
+		public List<TerminalNode> SEP_COMMA() { return getTokens(ppGOParser.SEP_COMMA); }
+		public TerminalNode SEP_COMMA(int i) {
+			return getToken(ppGOParser.SEP_COMMA, i);
+		}
 		public FuncCallContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_funcCall; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterFuncCall(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitFuncCall(this);
+		}
 	}
 
 	public final FuncCallContext funcCall() throws RecognitionException {
@@ -1488,6 +1658,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_read; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterRead(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitRead(this);
+		}
 	}
 
 	public final ReadContext read() throws RecognitionException {
@@ -1561,6 +1739,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_print2; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterPrint2(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitPrint2(this);
+		}
 	}
 
 	public final Print2Context print2() throws RecognitionException {
@@ -1599,6 +1785,14 @@ public class ppGOParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_return2; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).enterReturn2(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ppGOListener ) ((ppGOListener)listener).exitReturn2(this);
+		}
 	}
 
 	public final Return2Context return2() throws RecognitionException {
