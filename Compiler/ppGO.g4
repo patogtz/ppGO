@@ -23,13 +23,12 @@ varsDec:
 			)?
 		)? SEP_COMMA?
 	)+;
-
+array: 
+	LITERAL LEFT_SBRACKET (exp) RIGHT_SBRACKET (
+			LEFT_SBRACKET ( exp ) RIGHT_SBRACKET)?;
 assigment:
-	LITERAL (
-		(LEFT_SBRACKET (expression) RIGHT_SBRACKET) (
-			LEFT_SBRACKET (expression) RIGHT_SBRACKET
-		)?
-	)? EQUAL expression SEP_SEMICOLON;
+	(LITERAL | array)
+		 EQUAL expression SEP_SEMICOLON;
 
 condition:
 	IF LEFT_PAR expression RIGHT_PAR LEFT_BRACKET block RIGHT_BRACKET (
@@ -38,6 +37,8 @@ condition:
 elseif:
 	ELSEIF LEFT_PAR expression RIGHT_PAR LEFT_BRACKET block RIGHT_BRACKET;
 elsee: ELSE LEFT_BRACKET block RIGHT_BRACKET;
+
+
 expression: expression1 ((AND | OR) expression1)?;
 
 expression1:
@@ -59,15 +60,9 @@ term: factor ((TIMES | DIVISION) term)?;
 factor:
 	LEFT_PAR expression RIGHT_PAR
 	| LITERAL (
-		(
-			(
-				(LEFT_SBRACKET (expression) RIGHT_SBRACKET) (
-					LEFT_SBRACKET (expression) RIGHT_SBRACKET
-				)?
-			)?
-		)
-		| LEFT_PAR expression (',' expression)* RIGHT_PAR
-	)
+	 LEFT_PAR expression (',' expression)* RIGHT_PAR
+	)?
+	| array
 	| VAR_INT
 	| VAR_FLOAT
 	| VAR_BOOL
@@ -88,7 +83,7 @@ read:
 		)? RIGHT_PAR
 	);
 
-print2: PRINT LEFT_PAR expression RIGHT_PAR;
+print2: PRINT LEFT_PAR (expression | array) RIGHT_PAR ;
 
 return2: RETURN expression;
 

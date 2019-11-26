@@ -26,6 +26,7 @@ class ppGOListener(ParseTreeListener):
         self.localMemory = Memory(4000)
         self.constantMemory = Memory(8000)
         self.temporalMemory = Memory(12000)
+        self.apMemory = Memory(16000)
         # Pila de operaciones para generar cuadruplo
         self.pOper = []
         # Pila de operadores para generar cuadruplo
@@ -54,7 +55,7 @@ class ppGOListener(ParseTreeListener):
         for c in self.cuadruplos:
             print(i, " ", *c)
             i+=1
-        vm = VirtualMachine(self.cuadruplos, self.localMemory, self.temporalMemory, self.globalMemory, self.constantMemory, self.functionTable, self.tablaParametro, self.symbolTable)
+        vm = VirtualMachine(self.cuadruplos, self.localMemory, self.temporalMemory, self.globalMemory, self.constantMemory, self.functionTable, self.tablaParametro, self.symbolTable, self.apMemory)
         vm.execute()
        
     # Enter a parse tree produced by ppGOParser#main.
@@ -84,7 +85,7 @@ class ppGOListener(ParseTreeListener):
             self.functionTable.append(
                 {"name": self.funcName, "type": ctx.tipo().getText(), "numberOfArguments": numArguments, "arguments": arguments, "currentCuadruple": len(self.cuadruplos), "memory": memory })
             
-            self.symbolTable['global'].append({"name": self.funcName, "type": ctx.tipo().getText(), "scope": "g", "memory": memory, "asignado": True})
+            self.symbolTable['global'].append({"name": self.funcName, "type": ctx.tipo().getText(), "scope": "g", "dirMemoria": memory, "asignado": True})
         else:
             self.funcName = str(ctx.getChild(1))
             self.functionTable.append({"name": self.funcName, "type": "void", "numberOfArguments": numArguments, "arguments": arguments, "currentCuadruple": len(self.cuadruplos), "memory": "NULL"})
@@ -118,11 +119,11 @@ class ppGOListener(ParseTreeListener):
                 elif(ctx.tipo()[count].getText() == "string"): memoriaTabla = self.localMemory.addToMemory("string", 1)
                 elif(ctx.tipo()[count].getText() == "bool"): memoriaTabla = self.localMemory.addToMemory("bool", 1)
                 if count == 0:
-                    self.symbolTable[self.funcName] = [{"name": ctx.LITERAL()[count].getText(), "type": ctx.tipo()[count].getText(), "scope": "l", "memory": memoriaTabla, "asignado": True, "dim": 0, "cap1": "None" ,"cap2": "None"}]
-                    self.tablaParametro[self.funcName].append({"name": ctx.LITERAL()[count].getText(), "type": ctx.tipo()[count].getText(), "scope": "l", "memory": memoriaTabla})
+                    self.symbolTable[self.funcName] = [{"name": ctx.LITERAL()[count].getText(), "type": ctx.tipo()[count].getText(), "scope": "l", "dirMemoria": memoriaTabla, "asignado": True, "dim": 0, "cap1": "None" ,"cap2": "None"}]
+                    self.tablaParametro[self.funcName].append({"name": ctx.LITERAL()[count].getText(), "type": ctx.tipo()[count].getText(), "scope": "l", "dirMemoria": memoriaTabla})
                 else:
-                    self.symbolTable[self.funcName].append({"name": ctx.LITERAL()[count].getText(), "type": ctx.tipo()[count].getText(), "scope": "l", "memory": memoriaTabla, "asignado": True, "dim": 0, "cap1": "None" ,"cap2": "None"})
-                    self.tablaParametro[self.funcName].append({"name": ctx.LITERAL()[count].getText(), "type": ctx.tipo()[count].getText(), "scope": "l", "memory": memoriaTabla})
+                    self.symbolTable[self.funcName].append({"name": ctx.LITERAL()[count].getText(), "type": ctx.tipo()[count].getText(), "scope": "l", "dirMemoria": memoriaTabla, "asignado": True, "dim": 0, "cap1": "None" ,"cap2": "None"})
+                    self.tablaParametro[self.funcName].append({"name": ctx.LITERAL()[count].getText(), "type": ctx.tipo()[count].getText(), "scope": "l", "dirMemoria": memoriaTabla})
 
                 count+=1
 
@@ -167,13 +168,13 @@ class ppGOListener(ParseTreeListener):
 
     # Enter a parse tree produced by ppGOParser#varsDec.
     def enterVarsDec(self, ctx: ppGOParser.VarsDecContext):
-        """  if(self.memoriaInt > 999):
+        """  if(self.dirMemoriaInt > 999):
             return "Error: Int Memory Exceeded"
-        if(self.memoriaFloat > 1999):
+        if(self.dirMemoriaFloat > 1999):
             return "Error: Float Memory Exceeded"
-        if(self.memoriaString > 2999):
+        if(self.dirMemoriaString > 2999):
             return "Error: String Memory Exceeded"
-        if(self.memoriaBool > 3999):
+        if(self.dirMemoriaBool > 3999):
             return "Error: Bool Memory Exceeded" """
         currentKeyValue = []
         key = str(self.funcName)
@@ -209,12 +210,12 @@ class ppGOListener(ParseTreeListener):
             if scope == "g":
                 memoriaTabla = self.globalMemory.addToMemory(ctx.tipo().getText() , memorySpace)
                 currentKeyValue.append(
-                    {"name": x, "type": ctx.tipo().getText(), "scope": scope, "memory": memoriaTabla, "asignado": False, "dim": dim, "cap1": cap1 ,"cap2": cap2})
+                    {"name": x, "type": ctx.tipo().getText(), "scope": scope, "dirMemoria": memoriaTabla, "asignado": False, "dim": dim, "cap1": cap1 ,"cap2": cap2})
                 self.symbolTable[self.funcName] = currentKeyValue
             else:
                 memoriaTabla = self.localMemory.addToMemory(ctx.tipo().getText(), memorySpace)
                 currentKeyValue.append(
-                    {"name": x, "type": ctx.tipo().getText(), "scope": scope, "memory": memoriaTabla, "asignado": False, "dim": dim, "cap1":cap1 ,"cap2":cap2})
+                    {"name": x, "type": ctx.tipo().getText(), "scope": scope, "dirMemoria": memoriaTabla, "asignado": False, "dim": dim, "cap1":cap1 ,"cap2":cap2})
                 self.symbolTable[self.funcName] = currentKeyValue
            
     # Exit a parse tree produced by ppGOParser#varsDec.
@@ -224,51 +225,60 @@ class ppGOListener(ParseTreeListener):
             d = next(item for item in self.functionTable if item['name'] == self.funcName)
             d['currentCuadruple'] = len(self.cuadruplos)
 
+    def enterArray(self, ctx: ppGOParser.VarsDecContext):
+        pass
+    def exitArray(self, ctx: ppGOParser.VarsDecContext):
+        index = self.pilaOper.pop()
+        varTableAux = next(item for item in self.symbolTable[self.funcName] if item['name'] == 'b')
+        memBase = varTableAux['dirMemoria']
+        tipo = varTableAux['type']
+        """ varAuxConst = next(item for item in self.cosntantTable if item['memory'] == index) """
+        """ indexValue = varAuxConst["value"] """
+        limSup = varTableAux["cap1"] - 1
+        self.cuadruplos.append(["VER", index, 0, limSup])
+        temp = self.apMemory.addToMemory(tipo, 1)
+        self.cuadruplos.append(["ppgo", index, memBase, temp])
+        """ temp = memBase + indexValue """
+        self.pilaOper.append(temp)
+        pass
+
     # Enter a parse tree produced by ppGOParser#assigment.
     def enterAssigment(self, ctx: ppGOParser.AssigmentContext):
-           
-
+            if ctx.LITERAL():
+                name = ctx.LITERAL().getText()                
+            elif ctx.array:
+                name = ctx.array().LITERAL().getText()
+            print(ctx.getText())
             function = self.funcName        
-            self.pOper.append(ctx.EQUAL().getText())
+            self.pOper.append("=")
             if not self.symbolTable: sys.exit("Error: You cannot assign without variable declaration.")
             d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
-            varExist = ctx.LITERAL().getText() in d
+            varExist = name in d
             if not varExist:
                 d = dict((i['name'], i['type']) for i in self.symbolTable['global'])
-                varExist = ctx.LITERAL().getText() in d
+                varExist = name in d
                 if not varExist:
                     sys.exit("Error: Can't assign a value to a variable that doesn't exist!")
                 else:
                     function = 'global'
-            dAux = next(item for item in self.symbolTable[function] if item['name'] == ctx.LITERAL().getText())
+            dAux = next(item for item in self.symbolTable[function] if item['name'] == name)
             dAux['asignado'] = True
-            memory = next(item for item in self.symbolTable[function] if item["name"] == ctx.LITERAL().getText())['memory']
+            memory = next(item for item in self.symbolTable[function] if item["name"] == name)['dirMemoria']
             self.pilaOper.append(memory)
-            self.pilaTypes.append(d[ctx.LITERAL().getText()])
+            self.pilaTypes.append(d[name])
+            
             
 
     # Exit a parse tree produced by ppGOParser#assigment.
     def exitAssigment(self, ctx: ppGOParser.AssigmentContext):
 
         if(self.pilaTypes.pop() == self.pilaTypes.pop()):
-            if ctx.RIGHT_SBRACKET():
-                igual = self.pilaOper.pop()
-                index = self.pilaOper.pop()
-                varTableAux = next(item for item in self.symbolTable[self.funcName] if item['name'] == 'b')
-                memBase = varTableAux['memory']
-                varAuxConst = next(item for item in self.cosntantTable if item['memory'] == index)
-                indexValue = varAuxConst["value"]
-                limSup = varTableAux["cap1"] - 1
-                self.cuadruplos.append(["VER", index, 0, limSup])
-                temp = memBase + indexValue
-                self.cuadruplos.append(["=", igual, " ", temp])
-            else:
                 leftOperand = self.pilaOper.pop()
                 result = self.pilaOper.pop()
                 operator = self.pOper.pop()
                 self.cuadruplos.append([operator, leftOperand, " ", result])
         else:
-            sys.exit("Error: Los tipos no coinciden en asignacion")
+            sys.exit("Error: Los types no coinciden en asignacion")
         pass
 
 
@@ -339,16 +349,16 @@ class ppGOListener(ParseTreeListener):
                 self.k += 1
                 if self.k == len(self.tablaParametro[function]):
                     self.expressionParent.pop()
-                    direccionMemFuncion = next(item for item in self.symbolTable['global'] if item['name'] == self.funcNameAUX)["memory"]
+                    direccionMemFuncion = next(item for item in self.symbolTable['global'] if item['name'] == self.funcNameAUX)["dirMemoria"]
                     function = self.funcNameAUX
                     d = next(item for item in self.functionTable if item['name'] == function)
                     initAddress = d["currentCuadruple"]
-                    tipoFuncion = next(item for item in self.functionTable if item['name'] == self.funcNameAUX)["type"]
+                    typeFuncion = next(item for item in self.functionTable if item['name'] == self.funcNameAUX)["type"]
                     self.cuadruplos.append(["GOSUB", self.funcNameAUX," ", initAddress])
-                    temp = self.temporalMemory.addToMemory(tipoFuncion, 1)
+                    temp = self.temporalMemory.addToMemory(typeFuncion, 1)
                     self.cuadruplos.append(['=', direccionMemFuncion, "", temp])
                     self.pilaOper.append(temp)
-                    self.pilaTypes.append(tipoFuncion)
+                    self.pilaTypes.append(typeFuncion)
                     self.k = 0
         if self.pOper:
             if self.pOper[-1] == 'AND' or self.pOper[-1] == 'OR':
@@ -554,14 +564,14 @@ class ppGOListener(ParseTreeListener):
                     else:
                         function = 'global'
                 d = next(item for item in self.symbolTable[function] if item['name'] == ctx.LITERAL().getText())
-                memory = d['memory']
+                memory = d['dirMemoria']
                 self.pilaOper.append(memory)
                 if self.expressionParent:
                     if self.expressionParent[-1] != 'args':
                             self.checIfAssigned(ctx.LITERAL().getText(), function, False)
                     else:
                         self.checIfAssigned(ctx.LITERAL().getText(), function, True)
-                tipoX = next(item for item in self.symbolTable[function] if item["name"] == ctx.LITERAL().getText())['type']
+                typeX = next(item for item in self.symbolTable[function] if item["name"] == ctx.LITERAL().getText())['type']
                 self.pilaTypes.append(tipoX)
         if(ctx.LEFT_PAR()):
             self.pOper.append('(')
@@ -572,23 +582,7 @@ class ppGOListener(ParseTreeListener):
     def exitFactor(self, ctx: ppGOParser.FactorContext):
         if(ctx.RIGHT_PAR()):
             self.pOper.pop()
-        if(ctx.LEFT_SBRACKET()):
-            index = self.pilaOper.pop()
-            varTableAux = next(item for item in self.symbolTable[self.funcName] if item['name'] == ctx.LITERAL().getText())
-            memBase = varTableAux['memory']
-            if index < 12000 and index > 7999: 
-                auxTable = self.cosntantTable
-                value = "value"
-            elif index > 3999 and index < 8000: 
-                auxTable = self.symbolTable[self.funcName]
-                value = "name"
-            
-            varAuxConst = next(item for item in auxTable if item['memory'] == index)
-            indexValue = varAuxConst[value]
-            limSup = varTableAux["cap1"] - 1
-            self.cuadruplos.append(["VER", index, 0, limSup])
-            temp = memBase + indexValue
-            self.pilaOper.append(temp)
+
 
 
         

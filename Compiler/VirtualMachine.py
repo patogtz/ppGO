@@ -1,7 +1,7 @@
 from Memory import Memory
 import sys
 class VirtualMachine:
-    def __init__(self, cuadruplos, localMemory, temporalMemory, globalMemory, constantMemory, funcTable, paramTable, varTable):
+    def __init__(self, cuadruplos, localMemory, temporalMemory, globalMemory, constantMemory, funcTable, paramTable, varTable, apMemory):
         self.cuadruplos = cuadruplos
         self.localMemory = localMemory
         self.temporalMemory = temporalMemory 
@@ -15,6 +15,7 @@ class VirtualMachine:
         self.cuadAux = []
         self.paramTable = paramTable
         self.varTable = varTable
+        self.apMemory = apMemory
 
     def execute(self):
         
@@ -23,7 +24,6 @@ class VirtualMachine:
             operand = self.cuadruplos[self.currentIndex][0]
             leftOper = self.cuadruplos[self.currentIndex][1]
             rightOper = self.cuadruplos[self.currentIndex][2]
-
             result = self.cuadruplos[self.currentIndex][3]
             #Checa Relop
             if operand == '<':
@@ -89,9 +89,13 @@ class VirtualMachine:
                 self.setMemoryValue(result, valueResult)
                 self.currentIndex += 1
             elif operand == '=':
+                if result > 15999:
+                    result = self.getMemoryValue(result)
+                if leftOper > 15999:
+                    leftOper = self.getMemoryValue(leftOper)
+                
                 leftValue = self.getMemoryValue(leftOper)
-                valueResult = leftValue
-                self.setMemoryValue(result, valueResult)
+                self.setMemoryValue(result, leftValue)
                 self.currentIndex += 1
             #Goto y GotoF
             elif operand == 'Goto':
@@ -123,7 +127,11 @@ class VirtualMachine:
                 self.currentIndex = self.cuadAux.pop() + 1
  
             elif operand == 'PRINT':
-                resultValue = self.getMemoryValue(result)
+                if result > 15999:
+                    pointer = self.getMemoryValue(result)
+                    resultValue = self.getMemoryValue(pointer)
+                else:
+                    resultValue = self.getMemoryValue(result)
                 print(resultValue)
                 self.currentIndex += 1
             elif operand == 'RETURN':
@@ -135,15 +143,18 @@ class VirtualMachine:
                 self.localMemoryStack.pop()
             elif operand == 'VER':
                 index = self.getMemoryValue(leftOper)
-                print(index)
                 if index < 1 or index > result:
                     sys.exit("Error: Index out of bounds")
                 self.currentIndex += 1
-                
-            
+            elif operand == 'ppgo':
+                index = self.getMemoryValue(leftOper)
+                newIndex = index + rightOper
+                self.setMemoryValue(result, newIndex)
+                self.currentIndex += 1
             
             else:
                 self.currentIndex += 1
+
             
             
            
@@ -168,6 +179,8 @@ class VirtualMachine:
         #Constant Memory
         elif memorySpace >= 12000 and memorySpace < 16000:
             return self.temporalMemory.getMemory(memorySpace)
+        elif memorySpace >= 16000 and memorySpace < 20000:
+            return self.apMemory.getMemory(memorySpace)
 
     def setMemoryValue(self, memorySpace, value):
         #Global Memory
@@ -185,6 +198,7 @@ class VirtualMachine:
         #Constant Memory
         elif memorySpace >= 12000 and memorySpace < 16000:
             return self.temporalMemory.setMemory(memorySpace, value)
-
+        else:
+            return self.apMemory.setMemory(memorySpace, value)
     
     
