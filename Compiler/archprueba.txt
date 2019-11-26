@@ -1,14 +1,37 @@
 program First:
+int x
+int c
+int func uno(int a){
+	if (a < 2){
+        return 1
+	}
+ 
+	return a * uno(a  - 1)
 
+}
 
-
+int func fibo(int b){
+	if(b < 2){
+		return b
+	}
+	return fibo(b - 1) + fibo(b - 2)
+}
 
 func main(){
-	int a[3]
-	int b[5]
-	a[3] = 5
-	b[2] = a[3];
-	print(b[1 + 3])
+	int a[5][5]
+	int z[5]
+	int i
+	i = 0;
+	
+	z[0] = 3;
+	z[1] = 3;
+	z[2] = 4;
+	z[3] = 5;
+
+	x = uno(11);
+	i = fibo(17)
+	print(x)
+	print(i)
 
 }
 

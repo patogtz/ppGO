@@ -9,8 +9,8 @@ class VirtualMachine:
         self.constantMemory = constantMemory
         self.currentIndex = 0
         self.funcTable = funcTable
-        self.localMemoryStack = []
-        self.tempMemoryStack = []
+        self.localMemoryStack = [localMemory]
+        self.tempMemoryStack = [temporalMemory]
         self.currentFunc = 0
         self.cuadAux = []
         self.paramTable = paramTable
@@ -20,7 +20,6 @@ class VirtualMachine:
     def execute(self):
         
         while self.currentIndex < len(self.cuadruplos):
-            
             operand = self.cuadruplos[self.currentIndex][0]
             leftOper = self.cuadruplos[self.currentIndex][1]
             rightOper = self.cuadruplos[self.currentIndex][2]
@@ -114,6 +113,8 @@ class VirtualMachine:
             elif operand == 'PARAMETER':
                 leftOperVal =  self.getMemoryValue(leftOper)
                 newLocalMemory = Memory(4000)
+                newTempMemory = Memory(12000)
+                self.tempMemoryStack.append(newTempMemory)
                 self.localMemoryStack.append(newLocalMemory)
                 memoria = self.paramTable[self.currentFunc][result-1]['dirMemoria']
                 self.setMemoryValue(memoria, leftOperVal)
@@ -124,6 +125,7 @@ class VirtualMachine:
                 self.currentIndex = result
             elif operand == 'endproc':
                 self.localMemoryStack.pop()
+                self.tempMemoryStack.pop()
                 self.currentIndex = self.cuadAux.pop() + 1
  
             elif operand == 'PRINT':
@@ -141,9 +143,10 @@ class VirtualMachine:
                 self.setMemoryValue(currentFuncSpace, resultValue)
                 self.currentIndex = self.cuadAux.pop() + 1
                 self.localMemoryStack.pop()
+                self.tempMemoryStack.pop()
             elif operand == 'VER':
                 index = self.getMemoryValue(leftOper)
-                if index < 1 or index > result:
+                if index < 0 or index > result:
                     sys.exit("Error: Index out of bounds")
                 self.currentIndex += 1
             elif operand == 'ppgo':
@@ -151,7 +154,6 @@ class VirtualMachine:
                 newIndex = index + rightOper
                 self.setMemoryValue(result, newIndex)
                 self.currentIndex += 1
-            
             else:
                 self.currentIndex += 1
 
@@ -170,7 +172,7 @@ class VirtualMachine:
 
         #Local Memory
         elif memorySpace >= 4000 and memorySpace < 8000:
-            return self.localMemory.getMemory(memorySpace)
+            return self.localMemoryStack[-1].getMemory(memorySpace)
         
         #Constant Memory
         elif memorySpace >= 8000 and memorySpace < 12000:
@@ -178,7 +180,7 @@ class VirtualMachine:
 
         #Constant Memory
         elif memorySpace >= 12000 and memorySpace < 16000:
-            return self.temporalMemory.getMemory(memorySpace)
+            return self.tempMemoryStack[-1].getMemory(memorySpace)
         elif memorySpace >= 16000 and memorySpace < 20000:
             return self.apMemory.getMemory(memorySpace)
 
@@ -189,7 +191,7 @@ class VirtualMachine:
 
         #Local Memory
         elif memorySpace >= 4000 and memorySpace < 8000:
-            return self.localMemory.setMemory(memorySpace, value)
+            return self.localMemoryStack[-1].setMemory(memorySpace, value)
         
         #Constant Memory
         elif memorySpace >= 8000 and memorySpace < 12000:
@@ -197,7 +199,7 @@ class VirtualMachine:
 
         #Constant Memory
         elif memorySpace >= 12000 and memorySpace < 16000:
-            return self.temporalMemory.setMemory(memorySpace, value)
+            return self.tempMemoryStack[-1].setMemory(memorySpace, value)
         else:
             return self.apMemory.setMemory(memorySpace, value)
     
