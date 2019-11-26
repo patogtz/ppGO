@@ -105,7 +105,7 @@ def serializedATN():
         buf.write("\u00de\3\2\2\2\u00dd\u00d9\3\2\2\2\u00dd\u00de\3\2\2\2")
         buf.write("\u00de\u00e0\3\2\2\2\u00df\u00d5\3\2\2\2\u00df\u00e0\3")
         buf.write("\2\2\2\u00e0\u00ed\3\2\2\2\u00e1\u00e2\7\t\2\2\u00e2\u00e7")
-        buf.write("\5\36\20\2\u00e3\u00e4\7\32\2\2\u00e4\u00e6\5\36\20\2")
+        buf.write("\5\32\16\2\u00e3\u00e4\7\32\2\2\u00e4\u00e6\5\32\16\2")
         buf.write("\u00e5\u00e3\3\2\2\2\u00e6\u00e9\3\2\2\2\u00e7\u00e5\3")
         buf.write("\2\2\2\u00e7\u00e8\3\2\2\2\u00e8\u00ea\3\2\2\2\u00e9\u00e7")
         buf.write("\3\2\2\2\u00ea\u00eb\7\n\2\2\u00eb\u00ed\3\2\2\2\u00ec")
@@ -1562,13 +1562,6 @@ class ppGOParser ( Parser ):
         def LITERAL(self):
             return self.getToken(ppGOParser.LITERAL, 0)
 
-        def exp(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(ppGOParser.ExpContext)
-            else:
-                return self.getTypedRuleContext(ppGOParser.ExpContext,i)
-
-
         def SEP_COMMA(self, i:int=None):
             if i is None:
                 return self.getTokens(ppGOParser.SEP_COMMA)
@@ -1670,7 +1663,7 @@ class ppGOParser ( Parser ):
                     self.state = 223
                     self.match(ppGOParser.LEFT_PAR)
                     self.state = 224
-                    self.exp()
+                    self.expression()
                     self.state = 229
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
@@ -1678,7 +1671,7 @@ class ppGOParser ( Parser ):
                         self.state = 225
                         self.match(ppGOParser.SEP_COMMA)
                         self.state = 226
-                        self.exp()
+                        self.expression()
                         self.state = 231
                         self._errHandler.sync(self)
                         _la = self._input.LA(1)

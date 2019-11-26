@@ -1,6 +1,7 @@
 from Memory import Memory
+import sys
 class VirtualMachine:
-    def __init__(self, cuadruplos, localMemory, temporalMemory, globalMemory, constantMemory, funcTable, paramTable):
+    def __init__(self, cuadruplos, localMemory, temporalMemory, globalMemory, constantMemory, funcTable, paramTable, varTable):
         self.cuadruplos = cuadruplos
         self.localMemory = localMemory
         self.temporalMemory = temporalMemory 
@@ -13,9 +14,12 @@ class VirtualMachine:
         self.currentFunc = 0
         self.cuadAux = []
         self.paramTable = paramTable
+        self.varTable = varTable
 
     def execute(self):
+        
         while self.currentIndex < len(self.cuadruplos):
+            
             operand = self.cuadruplos[self.currentIndex][0]
             leftOper = self.cuadruplos[self.currentIndex][1]
             rightOper = self.cuadruplos[self.currentIndex][2]
@@ -80,6 +84,7 @@ class VirtualMachine:
             elif operand == '*':
                 leftValue = self.getMemoryValue(leftOper)
                 rightValue = self.getMemoryValue(rightOper)
+                
                 valueResult = leftValue * rightValue
                 self.setMemoryValue(result, valueResult)
                 self.currentIndex += 1
@@ -101,27 +106,48 @@ class VirtualMachine:
             elif operand == 'ERA':
                 self.currentFunc = result
                 self.currentIndex += 1
+                
             elif operand == 'PARAMETER':
                 leftOperVal =  self.getMemoryValue(leftOper)
                 newLocalMemory = Memory(4000)
                 self.localMemoryStack.append(newLocalMemory)
                 memoria = self.paramTable[self.currentFunc][result-1]['dirMemoria']
-                self.setMemoryValue( memoria, leftOperVal)
+                self.setMemoryValue(memoria, leftOperVal)
                 self.currentIndex += 1
 
             elif operand == 'GOSUB':
                 self.cuadAux.append(self.currentIndex)
                 self.currentIndex = result
             elif operand == 'endproc':
-                self.localMemoryStack.pop(0)
+                self.localMemoryStack.pop()
                 self.currentIndex = self.cuadAux.pop() + 1
  
             elif operand == 'PRINT':
                 resultValue = self.getMemoryValue(result)
                 print(resultValue)
                 self.currentIndex += 1
+            elif operand == 'RETURN':
+                resultValue = self.getMemoryValue(result)
+                d = next(item for item in self.varTable['global'] if item['name'] == self.currentFunc)
+                currentFuncSpace = d["dirMemoria"]
+                self.setMemoryValue(currentFuncSpace, resultValue)
+                self.currentIndex = self.cuadAux.pop() + 1
+                self.localMemoryStack.pop()
+            elif operand == 'VER':
+                index = self.getMemoryValue(leftOper)
+                print(index)
+                if index < 1 or index > result:
+                    sys.exit("Error: Index out of bounds")
+                self.currentIndex += 1
+                
+            
+            
             else:
                 self.currentIndex += 1
+            
+            
+           
+            
             
 
 
@@ -133,7 +159,7 @@ class VirtualMachine:
 
         #Local Memory
         elif memorySpace >= 4000 and memorySpace < 8000:
-            return self.localMemoryStack[0].getMemory(memorySpace)
+            return self.localMemory.getMemory(memorySpace)
         
         #Constant Memory
         elif memorySpace >= 8000 and memorySpace < 12000:
@@ -146,11 +172,11 @@ class VirtualMachine:
     def setMemoryValue(self, memorySpace, value):
         #Global Memory
         if memorySpace >= 0 and memorySpace < 4000:
-            self.globalMemory.setMemory(memorySpace, value)
+            return self.globalMemory.setMemory(memorySpace, value)
 
         #Local Memory
         elif memorySpace >= 4000 and memorySpace < 8000:
-            return self.localMemoryStack[0].setMemory(memorySpace, value)
+            return self.localMemory.setMemory(memorySpace, value)
         
         #Constant Memory
         elif memorySpace >= 8000 and memorySpace < 12000:

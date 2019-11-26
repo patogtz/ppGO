@@ -1,21 +1,21 @@
 program First:
-int a, c
-int func dos( int a){
-	print (a)
-}
-int func uno(int a, int b){
-	
+int a
+int b
+int c
+int x
 
-}
-func main(){
+
+func main() {
 	int b
 	a = 1;
-	c = 7;
+	c = 1;
+	i = 1;
+	x = 20;
 	
-	return uno(a ,c) + 5
-		
+	
 
 }
+
 
 
 

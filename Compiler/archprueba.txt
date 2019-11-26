@@ -1,24 +1,17 @@
 program First:
-int a, c
-int func dos( int a){
-	print (a)
-}
-int func uno(int a, int b){
-	if(a < 4){
-		print(a)
-		uno(a + 1, a)
-	}
-	
-}
+
+
+
+
 func main(){
-	int b
-	a = 1;
-	c = 1;
-
-	uno(a,c)
-		
+	int a
+	int b[5]
+	a = 3;
+	b [3] =  5  ;
+	print(b[a])
 
 }
+
 
 
 

@@ -14,26 +14,26 @@ class Memory:
         self.memoryBool = 3000 + self.startAddress
         self.memoryContent.clear()
 
-    def addToMemory(self, type):
+    def addToMemory(self, type, cap):
             if (type == "int"):
                 currentMemoryInt = self.memoryInt
-                self.memoryInt += 1
+                self.memoryInt += cap
                 self.memoryContent[currentMemoryInt] = "valor variable int"
                 return currentMemoryInt
             elif (type == "float"):
                 currentMemoryFloat= self.memoryFloat
                 self.memoryContent[currentMemoryFloat] = "valor variable float"
-                self.memoryFloat += 1
+                self.memoryFloat += cap
                 return currentMemoryFloat
             elif (type == "string"):
                 currentMemoryString = self.memoryString
                 self.memoryContent[currentMemoryString] = "VALOR DE VARIABLE sttring"
-                self.memoryString += 1
+                self.memoryString += cap
                 return currentMemoryString
             else:
                 currentMemoryBool = self.memoryBool
                 self.memoryContent[currentMemoryBool] = "VALOR DE VARIABLE bool"
-                self.memoryBool += 1
+                self.memoryBool += cap
                 return currentMemoryBool
         
         
