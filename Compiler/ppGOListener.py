@@ -49,9 +49,8 @@ class ppGOListener(ParseTreeListener):
     # Exit a parse tree produced by ppGOParser#program.
     def exitProgram(self, ctx: ppGOParser.ProgramContext):
         i = 0
-        print("TABLA CONSTANTES: ", self.cosntantTable, '\n')
-        print("TABLA Variables: ", self.symbolTable, '\n')
-        """ print("TABLA Temporales: ", self.tempTable)  """
+        print("TABLA vars: ", self.symbolTable)
+        print("TABLA const: ", self.cosntantTable)
         for c in self.cuadruplos:
             print(i, " ", *c)
             i+=1
@@ -226,6 +225,7 @@ class ppGOListener(ParseTreeListener):
             d['currentCuadruple'] = len(self.cuadruplos)
 
     def enterArray(self, ctx: ppGOParser.VarsDecContext):
+        self.pOper.append('(')
         pass
     def exitArray(self, ctx: ppGOParser.VarsDecContext):
         if len(ctx.RIGHT_SBRACKET()) == 1:
@@ -253,9 +253,10 @@ class ppGOListener(ParseTreeListener):
             memoriaAux = index * limSupDim2 + index2
             self.cuadruplos.append(["ppgo", memoriaAux, memBase, temp])
             self.pilaOper.append(temp)
+        self.pOper.pop()
+       
 
 
-            print(index, index2)
         pass
 
     # Enter a parse tree produced by ppGOParser#assigment.
@@ -264,7 +265,6 @@ class ppGOListener(ParseTreeListener):
                 name = ctx.LITERAL().getText()                
             elif ctx.array:
                 name = ctx.array().LITERAL().getText()
-            print(ctx.getText())
             function = self.funcName        
             self.pOper.append("=")
             if not self.symbolTable: sys.exit("Error: You cannot assign without variable declaration.")
@@ -365,7 +365,6 @@ class ppGOListener(ParseTreeListener):
                 self.k += 1
                 if self.k == len(self.tablaParametro[function]):
                     self.expressionParent.pop()
-                    print(self.symbolTable['global'])
                     direccionMemFuncion = next(item for item in self.symbolTable['global'] if item['name'] == self.funcNameAUX)["dirMemoria"]
                     function = self.funcNameAUX
                     d = next(item for item in self.functionTable if item['name'] == function)

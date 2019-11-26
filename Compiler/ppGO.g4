@@ -87,6 +87,8 @@ print2: PRINT LEFT_PAR (expression | array) RIGHT_PAR ;
 
 return2: RETURN expression;
 
+matrixMult: 'matMult' LEFT_PAR array SEP_COMMA array RIGHT_BRACKET;
+
 FUNCTION: 'func';
 LEFT_PAR: '(';
 RIGHT_PAR: ')';

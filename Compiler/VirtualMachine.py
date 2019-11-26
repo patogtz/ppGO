@@ -63,6 +63,11 @@ class VirtualMachine:
                 self.currentIndex += 1
             #Suma,Resta, Division, Multiplicacion y asignacion
             elif operand == '+':
+                if rightOper > 15999:
+                    rightOper = self.getMemoryValue(rightOper)
+                if leftOper > 15999:
+                    leftOper = self.getMemoryValue(leftOper)
+                
                 leftValue = self.getMemoryValue(leftOper)
                 rightValue = self.getMemoryValue(rightOper)
                 valueResult = leftValue + rightValue
