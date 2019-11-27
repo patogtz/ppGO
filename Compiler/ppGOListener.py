@@ -685,10 +685,69 @@ class ppGOListener(ParseTreeListener):
         self.cuadruplos.append(["RETURN", " ", " ",self.pilaOper.pop()])
         self.localMemory.eraseMemory()
         self.temporalMemory.eraseMemory()
+        pass            
+    ##@@@@@@@@@@@@@@@@@@Special FUncion ###################
+    def enterSpecialFunc(self, ctx:ppGOParser.MidpointContext):
+        pass
+
+    def exitSpecialFunc(self, ctx:ppGOParser.MidpointContext):
+        pass
+
+    # Enter a parse tree produced by ppGOParser#midpoint.
+    def enterMidpoint(self, ctx:ppGOParser.MidpointContext):
+
+
+        pass
+
+    # Exit a parse tree produced by ppGOParser#midpoint.
+    def exitMidpoint(self, ctx:ppGOParser.MidpointContext):
+        y2= self.pilaOper.pop()
+        x2 = self.pilaOper.pop()
+        y1 = self.pilaOper.pop()
+        x1 = self.pilaOper.pop()
+        
+        set1 = [x1,y1] 
+        set2 = [x2,y2]
+
+        self.cuadruplos.append(["midpoint", set1, set2, ""])
+
+        print(x1,y1, x2, y2)
+
+    # Enter a parse tree produced by ppGOParser#distance.
+    def enterDistance(self, ctx:ppGOParser.DistanceContext):
+        y2= self.pilaOper.pop()
+        x2 = self.pilaOper.pop()
+        y1 = self.pilaOper.pop()
+        x1 = self.pilaOper.pop()
+        
+        set1 = [x1,y1] 
+        set2 = [x2,y2]
+
+        self.cuadruplos.append(["midpoint", set1, set2, ""])
+        pass
+
+    # Exit a parse tree produced by ppGOParser#distance.
+    def exitDistance(self, ctx:ppGOParser.DistanceContext):
         pass
 
 
-    
+    # Enter a parse tree produced by ppGOParser#power.
+    def enterPower(self, ctx:ppGOParser.PowerContext):
+        pass
+
+    # Exit a parse tree produced by ppGOParser#power.
+    def exitPower(self, ctx:ppGOParser.PowerContext):
+        pass
+
+
+    # Enter a parse tree produced by ppGOParser#sqrt.
+    def enterSqrt(self, ctx:ppGOParser.SqrtContext):
+        pass
+
+    # Exit a parse tree produced by ppGOParser#sqrt.
+    def exitSqrt(self, ctx:ppGOParser.SqrtContext):
+        pass
+
     #Checa si el operando es una varible, constante o temporal
     def checIfAssigned(self,x , function, flag):
         dAux2 = next(item for item in self.symbolTable[function] if item['name'] == x)
@@ -699,7 +758,4 @@ class ppGOListener(ParseTreeListener):
 
 
           
-           
-        
-            
 

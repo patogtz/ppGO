@@ -21,7 +21,6 @@ class VirtualMachine:
         self.output = []
         self.error = False
     def execute(self):
-        
         while self.currentIndex < len(self.cuadruplos):
             operand = self.cuadruplos[self.currentIndex][0]
             leftOper = self.cuadruplos[self.currentIndex][1]
@@ -182,6 +181,21 @@ class VirtualMachine:
                 tempVal = leftValue * rightOper
                 self.setMemoryValue(result, tempVal)
                 self.currentIndex += 1
+        #@@@@@@@@@@@@FUNCIONES ESPECIALES@@@@@@@@@@@@@@@@@@@@@
+            elif operand == 'midpoint':
+                memoryX1 = leftOper[0]
+                memoryY1 = leftOper[1]
+                memoryX2 = rightOper[0]
+                memoryY2 = rightOper[1]
+                x1 = self.getMemoryValue(memoryX1)
+                y1 = self.getMemoryValue(memoryY1)
+                x2 = self.getMemoryValue(memoryX2)
+                y2 = self.getMemoryValue(memoryY2)
+
+                
+
+                self.midpoint(x1,y1,x2,y2)
+                self.currentIndex += 1
 
             else:
                 self.currentIndex += 1
@@ -229,5 +243,14 @@ class VirtualMachine:
             return self.tempMemoryStack[-1].setMemory(memorySpace, value)
         else:
             return self.apMemory.setMemory(memorySpace, value)
+
+
+    #@@@@@@@@@@@@@@@@@FUNCIONES ESPECIALES@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    def midpoint(self, x1, y1, x2 ,y2):
+        xRes = (x1 + x2) / 2
+        yRes = (y1 + y2) / 2
+        result = "The midpoint of (" + str(x1) + ", " +   str(y1) + ")" + " and " + "(" + str(x2) + ", " +   str(y2) +") is: (" +str(xRes) + ", "+ str(yRes) + ")"
+        self.output.append(result)
+        print(result)
     
     

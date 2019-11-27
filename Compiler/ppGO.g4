@@ -13,7 +13,7 @@ args: ((tipo LITERAL) (',' tipo LITERAL)*)?;
 body: LEFT_BRACKET varsDec* block return2? RIGHT_BRACKET;
 
 block:
-	(funcCall | assigment | condition | loop | print2 | read)* return2?;
+	(funcCall | assigment | condition | loop | print2 | read | specialFunc)* return2?;
 
 varsDec:
 	tipo (
@@ -87,7 +87,24 @@ print2: PRINT LEFT_PAR (expression | array) RIGHT_PAR ;
 
 return2: RETURN expression;
 
-matrixMult: 'matMult' LEFT_PAR array SEP_COMMA array RIGHT_BRACKET;
+specialFunc:
+		 midpoint | distance | power | sqrt;
+
+midpoint:
+
+'midpoint' LEFT_PAR exp SEP_COMMA exp SEP_COMMA exp SEP_COMMA exp RIGHT_PAR;
+
+distance:
+
+'distance' LEFT_PAR exp SEP_COMMA exp SEP_COMMA exp SEP_COMMA exp RIGHT_PAR;
+
+power:
+
+'power' LEFT_PAR exp SEP_COMMA exp RIGHT_PAR;
+
+sqrt:
+
+'sqrt' LEFT_PAR exp RIGHT_PAR;
 
 FUNCTION: 'func';
 LEFT_PAR: '(';
