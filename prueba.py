@@ -17,6 +17,9 @@ def compile():
     data = main(program.decode("utf-8")) 
     jsonData = json.dumps(data)
     return Response (jsonData)
+@prueba.route('/hello')
+def helloIndex():
+    return 'Hello World from Python Flask!'
 
 def main(f):
   input_stream = InputStream(f)
