@@ -19,12 +19,15 @@ int func fibo(int b, int a){
 
 func main(){
 	int a[5][5]
-	int z[5]
-	int i
+	int i, z[4];
+	float t
 	int k
 	i = 0;
 	k = 0;
 	z[3] = 3;
+	t = 3.4;
+	k = i / t;
+
 
 	a[3][3] = 1 * 4;
 	k = a[2 + 1][1 + 2] + z[2 + 1];

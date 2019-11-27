@@ -55,6 +55,7 @@ class ppGOListener(ParseTreeListener):
         for c in self.cuadruplos:
             print(i, " ", *c)
             i+=1 """
+        print(self.pilaOper, self.pilaSaltos, self.pilaTypes)
         vm = VirtualMachine(self.cuadruplos, self.localMemory, self.temporalMemory, self.globalMemory, self.constantMemory, self.functionTable, self.tablaParametro, self.symbolTable, self.apMemory)
         self.outputs = vm.execute()
 
@@ -232,6 +233,7 @@ class ppGOListener(ParseTreeListener):
     def exitArray(self, ctx: ppGOParser.VarsDecContext):
         if len(ctx.RIGHT_SBRACKET()) == 1:
             index = self.pilaOper.pop()
+            self.pilaTypes.pop()
             varTableAux = next(item for item in self.symbolTable[self.funcName] if item['name'] == ctx.LITERAL().getText())
             memBase = varTableAux['dirMemoria']
             tipo = varTableAux['type']
@@ -243,7 +245,9 @@ class ppGOListener(ParseTreeListener):
 
         elif len(ctx.RIGHT_SBRACKET()) == 2:
             index2 = self.pilaOper.pop()
+            self.pilaTypes.pop()
             index = self.pilaOper.pop()
+            self.pilaTypes.pop()
             varTableAux = next(item for item in self.symbolTable[self.funcName] if item['name'] == ctx.LITERAL().getText())
             dim2 = varTableAux['cap2']
             memBase = varTableAux['dirMemoria']
@@ -266,6 +270,7 @@ class ppGOListener(ParseTreeListener):
 
     # Enter a parse tree produced by ppGOParser#assigment.
     def enterAssigment(self, ctx: ppGOParser.AssigmentContext):
+            #Checa si es un arreglo y saca el nombre
             if ctx.LITERAL():
                 name = ctx.LITERAL().getText()                
             elif ctx.array:
@@ -285,6 +290,7 @@ class ppGOListener(ParseTreeListener):
             dAux = next(item for item in self.symbolTable[function] if item['name'] == name)
             dAux['asignado'] = True
             memory = next(item for item in self.symbolTable[function] if item["name"] == name)['dirMemoria']
+            
             self.pilaOper.append(memory)
             self.pilaTypes.append(d[name])
             
@@ -365,6 +371,7 @@ class ppGOListener(ParseTreeListener):
                 argType = self.pilaTypes.pop()
                 function = self.funcNameAUX
                 argDecType = self.tablaParametro[function][self.k]["type"]
+                
                 if argDecType != argType: sys.exit("Error: Type mismatch when calling the function: "+ function + ".")
                 self.cuadruplos.append(["PARAMETER", argument, "", self.k + 1])
                 self.k += 1
@@ -515,7 +522,6 @@ class ppGOListener(ParseTreeListener):
     # Enter a parse tree produced by ppGOParser#factor.
    # Enter a parse tree produced by ppGOParser#factor.
     def enterFactor(self, ctx: ppGOParser.FactorContext):
-        
         if ctx.VAR_INT():
             d = dict((i['value'], i['memory']) for i in self.cosntantTable)
             constExist = int(ctx.getText()) in d
@@ -633,9 +639,9 @@ class ppGOListener(ParseTreeListener):
         x = ctx.LITERAL().getText()
         d = dict((i['name'], i['type']) for i in self.functionTable)
         funcExists = x in d
+        if not funcExists: sys.exit("Error: Function " + x +" is undeclared in ! ")
         d = next(item for item in self.functionTable if item['name'] == ctx.LITERAL().getText())
         self.cuadruplos.append(["ERA", " ", " ", ctx.LITERAL().getText()])
-        if not funcExists: sys.exit("Error: Function " + x +" is undeclared in ! ")
         paramsInCall = len(ctx.expression())
         paramsInDec = len(self.tablaParametro[x])
         if paramsInCall != paramsInDec: sys.exit("Error: Number of parameters in function call: "+ x +"." )
@@ -660,13 +666,11 @@ class ppGOListener(ParseTreeListener):
 
     # Enter a parse tree produced by ppGOParser#print2.
     def enterPrint2(self, ctx: ppGOParser.Print2Context):
-        self.expressionParent.append("print")
-
+        pass
 
     # Exit a parse tree produced by ppGOParser#print2.
     def exitPrint2(self, ctx: ppGOParser.Print2Context):
-        self.expressionParent.pop()
-
+        self.pilaTypes.pop()
         self.cuadruplos.append(["PRINT"," ", " ", self.pilaOper.pop()])
         
 
@@ -677,6 +681,7 @@ class ppGOListener(ParseTreeListener):
 
     # Exit a parse tree produced by ppGOParser#return2.
     def exitReturn2(self, ctx: ppGOParser.Return2Context):
+        self.pilaTypes.pop()
         self.cuadruplos.append(["RETURN", " ", " ",self.pilaOper.pop()])
         self.localMemory.eraseMemory()
         self.temporalMemory.eraseMemory()

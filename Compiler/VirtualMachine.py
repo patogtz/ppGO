@@ -19,6 +19,7 @@ class VirtualMachine:
         self.newLocalMemory = Memory
         self.newTempMemory = Memory
         self.output = []
+        self.error = False
     def execute(self):
         
         while self.currentIndex < len(self.cuadruplos):
@@ -91,6 +92,7 @@ class VirtualMachine:
                     leftOper = self.getMemoryValue(leftOper)
                 leftValue = self.getMemoryValue(leftOper)
                 rightValue = self.getMemoryValue(rightOper)
+                if rightValue == 0: sys.exit("Error: Cant divide by 0")
                 valueResult = leftValue / rightValue
                 self.setMemoryValue(result, valueResult)
                 self.currentIndex += 1
@@ -154,6 +156,8 @@ class VirtualMachine:
                     resultValue = self.getMemoryValue(result)
                 self.output.append(resultValue)
                 self.currentIndex += 1
+                print(resultValue)
+
             elif operand == 'RETURN':
                 resultValue = self.getMemoryValue(result)
                 d = next(item for item in self.varTable['global'] if item['name'] == self.currentFunc)

@@ -1,4 +1,4 @@
-import sys
+""" import sys
 from antlr4 import *
 from ppGOLexer import ppGOLexer
 from ppGOParser import ppGOParser
@@ -29,10 +29,12 @@ def main(f):
   walker.walk(printer, tree)
   if parser.getNumberOfSyntaxErrors() == 0:
     return printer.outputs
+  return ["Syntax error: Please check your syntax!"]
   
 
 if __name__ == '__main__':
     prueba.run()
+ """
 
 
 
@@ -55,8 +57,7 @@ if __name__ == '__main__':
 
 
 
-
-""" import sys
+import sys
 from antlr4 import *
 from ppGOLexer import ppGOLexer
 from ppGOParser import ppGOParser
@@ -69,7 +70,10 @@ def main(argv):
   lexer = ppGOLexer(input_stream)
   stream = CommonTokenStream(lexer)
   parser = ppGOParser(stream)
+  
   tree = parser.program()
+  if parser.getNumberOfSyntaxErrors() > 1:
+    sys.exit("Error in syntaxis")
   printer = ppGOListener()
   walker = ParseTreeWalker()
   walker.walk(printer, tree)
@@ -81,4 +85,3 @@ def main(argv):
 
 if __name__ == '__main__':
     main(sys.argv)
-    print(cuboSemantico().cube["int"]["*"]["float"]) """
