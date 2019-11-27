@@ -18,6 +18,7 @@ class VirtualMachine:
         self.apMemory = apMemory
         self.newLocalMemory = Memory
         self.newTempMemory = Memory
+        self.output = []
     def execute(self):
         
         while self.currentIndex < len(self.cuadruplos):
@@ -74,18 +75,30 @@ class VirtualMachine:
                 self.setMemoryValue(result, valueResult)
                 self.currentIndex += 1
             elif operand == '-':
+                if rightOper > 15999:
+                    rightOper = self.getMemoryValue(rightOper)
+                if leftOper > 15999:
+                    leftOper = self.getMemoryValue(leftOper)
                 leftValue = self.getMemoryValue(leftOper)
                 rightValue = self.getMemoryValue(rightOper)
                 valueResult = leftValue - rightValue
                 self.setMemoryValue(result, valueResult)
                 self.currentIndex += 1
             elif operand == '/':
+                if rightOper > 15999:
+                    rightOper = self.getMemoryValue(rightOper)
+                if leftOper > 15999:
+                    leftOper = self.getMemoryValue(leftOper)
                 leftValue = self.getMemoryValue(leftOper)
                 rightValue = self.getMemoryValue(rightOper)
                 valueResult = leftValue / rightValue
                 self.setMemoryValue(result, valueResult)
                 self.currentIndex += 1
             elif operand == '*':
+                if rightOper > 15999:
+                    rightOper = self.getMemoryValue(rightOper)
+                if leftOper > 15999:
+                    leftOper = self.getMemoryValue(leftOper)
                 leftValue = self.getMemoryValue(leftOper)
                 rightValue = self.getMemoryValue(rightOper)
                 
@@ -139,7 +152,7 @@ class VirtualMachine:
                     resultValue = self.getMemoryValue(pointer)
                 else:
                     resultValue = self.getMemoryValue(result)
-                print(resultValue)
+                self.output.append(resultValue)
                 self.currentIndex += 1
             elif operand == 'RETURN':
                 resultValue = self.getMemoryValue(result)
@@ -159,17 +172,18 @@ class VirtualMachine:
                 newIndex = index + rightOper
                 self.setMemoryValue(result, newIndex)
                 self.currentIndex += 1
-            else:
+            #caso para matrices de dos dimensiones
+            elif operand == '**':
+                leftValue = self.getMemoryValue(leftOper)
+                tempVal = leftValue * rightOper
+                self.setMemoryValue(result, tempVal)
                 self.currentIndex += 1
 
-            
-            
-           
-            
-            
+            else:
+                self.currentIndex += 1
+        return self.output
 
 
-            
     def getMemoryValue(self, memorySpace):
         #Global Memory
         if memorySpace >= 0 and memorySpace < 4000:

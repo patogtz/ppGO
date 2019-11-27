@@ -27,6 +27,7 @@ class ppGOListener(ParseTreeListener):
         self.constantMemory = Memory(8000)
         self.temporalMemory = Memory(12000)
         self.apMemory = Memory(16000)
+        self.outputs = []
         # Pila de operaciones para generar cuadruplo
         self.pOper = []
         # Pila de operadores para generar cuadruplo
@@ -49,13 +50,14 @@ class ppGOListener(ParseTreeListener):
     # Exit a parse tree produced by ppGOParser#program.
     def exitProgram(self, ctx: ppGOParser.ProgramContext):
         i = 0
-        print("TABLA vars: ", self.symbolTable)
+        """ print("TABLA vars: ", self.symbolTable)
         print("TABLA const: ", self.cosntantTable)
         for c in self.cuadruplos:
             print(i, " ", *c)
-            i+=1
+            i+=1 """
         vm = VirtualMachine(self.cuadruplos, self.localMemory, self.temporalMemory, self.globalMemory, self.constantMemory, self.functionTable, self.tablaParametro, self.symbolTable, self.apMemory)
-        vm.execute()
+        self.outputs = vm.execute()
+
        
     # Enter a parse tree produced by ppGOParser#main.
     def enterMain(self, ctx: ppGOParser.MainContext):
@@ -243,21 +245,24 @@ class ppGOListener(ParseTreeListener):
             index2 = self.pilaOper.pop()
             index = self.pilaOper.pop()
             varTableAux = next(item for item in self.symbolTable[self.funcName] if item['name'] == ctx.LITERAL().getText())
+            dim2 = varTableAux['cap2']
             memBase = varTableAux['dirMemoria']
             tipo = varTableAux['type']
             limSupDim1 = varTableAux["cap1"] - 1
             limSupDim2 = varTableAux["cap2"] - 1
             self.cuadruplos.append(["VER", index, 0, limSupDim1])
             self.cuadruplos.append(["VER", index2, 0, limSupDim2])
-            temp = self.apMemory.addToMemory(tipo, 1)
-            memoriaAux = index * limSupDim2 + index2
-            self.cuadruplos.append(["ppgo", memoriaAux, memBase, temp])
-            self.pilaOper.append(temp)
+            temp1 = self.temporalMemory.addToMemory(tipo, 1)
+            temp2 = self.temporalMemory.addToMemory(tipo, 1)
+            apTemp = self.apMemory.addToMemory(tipo, 1)
+            self.cuadruplos.append(['**', index , dim2, temp1 ])
+            self.cuadruplos.append(['+', temp1 , index2, temp2 ])
+            self.cuadruplos.append(["ppgo", temp2, memBase, apTemp])
+            self.pilaOper.append(apTemp)
         self.pOper.pop()
        
 
 
-        pass
 
     # Enter a parse tree produced by ppGOParser#assigment.
     def enterAssigment(self, ctx: ppGOParser.AssigmentContext):
