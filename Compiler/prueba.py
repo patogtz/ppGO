@@ -1,4 +1,4 @@
-""" import sys
+import sys
 from antlr4 import *
 from ppGOLexer import ppGOLexer
 from ppGOParser import ppGOParser
@@ -34,7 +34,6 @@ def main(f):
 
 if __name__ == '__main__':
     prueba.run()
- """
 
 
 
@@ -57,7 +56,8 @@ if __name__ == '__main__':
 
 
 
-import sys
+
+""" import sys
 from antlr4 import *
 from ppGOLexer import ppGOLexer
 from ppGOParser import ppGOParser
@@ -84,4 +84,4 @@ def main(argv):
 
 
 if __name__ == '__main__':
-    main(sys.argv)
+    main(sys.argv) """
