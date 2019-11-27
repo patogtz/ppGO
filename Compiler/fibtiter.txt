@@ -1,0 +1,24 @@
+program FibIter:
+
+int func fibIter(int a) {
+   int x, y, z, i
+   x = 0;
+   y = 1;
+   z = 0;
+   i = 0;
+
+   loop(i < a){
+    
+      z = x + y;
+      x = y;
+      y = z;
+      i = i + 1;
+   }
+   return x
+}
+
+func main(){
+	int a
+	a = fibIter(8);
+	print(a)
+}

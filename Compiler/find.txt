@@ -1,0 +1,27 @@
+program Find:
+int x
+func main(){
+    int array[5]
+    int i
+    int len
+    int index
+    int elementToFind
+    i = 0;
+    array[0] = 312;
+    array[1] = 1;
+    array[2] = 31;
+    array[3] = 332;
+    array[4] = 44;
+    len = 5;
+    elementToFind = 332;
+    index = 999999;
+    loop (i < len){
+        if(array[i] == elementToFind){
+            index = i;
+            i = len;
+        }
+        i = i + 1;
+    }
+    print(index)
+
+}

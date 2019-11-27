@@ -1,0 +1,14 @@
+program Factorial:
+
+int func factorial(int a){
+	if (a < 2){
+        return 1
+	}
+	return a * factorial(a  - 1)
+}
+func main() {
+    int a
+    a = 9;
+    print(factorial(a))
+}
+   	

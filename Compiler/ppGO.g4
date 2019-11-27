@@ -63,6 +63,9 @@ factor:
 	 LEFT_PAR expression (',' expression)* RIGHT_PAR
 	)?
 	| array
+	| distance
+	| power
+	| sqrt
 	| VAR_INT
 	| VAR_FLOAT
 	| VAR_BOOL
@@ -88,7 +91,7 @@ print2: PRINT LEFT_PAR (expression | array) RIGHT_PAR ;
 return2: RETURN expression;
 
 specialFunc:
-		 midpoint | distance | power | sqrt;
+		 midpoint | distance | power | sqrt | length;
 
 midpoint:
 
@@ -105,6 +108,35 @@ power:
 sqrt:
 
 'sqrt' LEFT_PAR exp RIGHT_PAR;
+
+length:
+
+'length' LEFT_PAR LITERAL RIGHT_PAR;
+
+sort:
+
+'sort' LEFT_PAR LITERAL RIGHT_PAR;
+
+find:
+
+'find' LEFT_PAR LITERAL SEP_COMMA VAR_INT RIGHT_PAR;
+
+trans:
+
+'trans' LEFT_PAR LITERAL RIGHT_PAR;
+
+matSin:
+
+'matSin' LEFT_PAR LITERAL RIGHT_PAR;
+
+matCos: 
+
+'matCos' LEFT_PAR LITERAL RIGHT_PAR;
+
+
+inverse:
+
+'inverse' LEFT_PAR LITERAL RIGHT_PAR;
 
 FUNCTION: 'func';
 LEFT_PAR: '(';

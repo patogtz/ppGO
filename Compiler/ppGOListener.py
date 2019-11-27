@@ -51,11 +51,10 @@ class ppGOListener(ParseTreeListener):
     def exitProgram(self, ctx: ppGOParser.ProgramContext):
         i = 0
         """ print("TABLA vars: ", self.symbolTable)
-        print("TABLA const: ", self.cosntantTable)
+        print("TABLA const: ", self.cosntantTable)"""
         for c in self.cuadruplos:
             print(i, " ", *c)
-            i+=1 """
-        print(self.pilaOper, self.pilaSaltos, self.pilaTypes)
+            i+=1
         vm = VirtualMachine(self.cuadruplos, self.localMemory, self.temporalMemory, self.globalMemory, self.constantMemory, self.functionTable, self.tablaParametro, self.symbolTable, self.apMemory)
         self.outputs = vm.execute()
 
@@ -242,6 +241,7 @@ class ppGOListener(ParseTreeListener):
             temp = self.apMemory.addToMemory(tipo, 1)
             self.cuadruplos.append(["ppgo", index, memBase, temp])
             self.pilaOper.append(temp)
+            self.pilaTypes.append(tipo)
 
         elif len(ctx.RIGHT_SBRACKET()) == 2:
             index2 = self.pilaOper.pop()
@@ -284,7 +284,7 @@ class ppGOListener(ParseTreeListener):
                 d = dict((i['name'], i['type']) for i in self.symbolTable['global'])
                 varExist = name in d
                 if not varExist:
-                    sys.exit("Error: Can't assign a value to a variable that doesn't exist!")
+                    sys.exit("Error: Can't assign a value to a variable that doesn't exist!" + str(name))
                 else:
                     function = 'global'
             dAux = next(item for item in self.symbolTable[function] if item['name'] == name)
@@ -574,6 +574,10 @@ class ppGOListener(ParseTreeListener):
             #Si es un literal seguido de un parenthesis es una funcion)
             
             if ctx.LEFT_PAR():
+                d = dict((i['name'], i['type']) for i in self.functionTable)
+                varExist = ctx.LITERAL().getText() in d
+                if not varExist:
+                    sys.exit("Function not found!")
                 d = next(item for item in self.functionTable if item['name'] == ctx.LITERAL().getText())
                 self.funcNameAUX = d["name"]
                 self.cuadruplos.append(["ERA", " ", " ", self.funcNameAUX])
@@ -670,7 +674,6 @@ class ppGOListener(ParseTreeListener):
 
     # Exit a parse tree produced by ppGOParser#print2.
     def exitPrint2(self, ctx: ppGOParser.Print2Context):
-        self.pilaTypes.pop()
         self.cuadruplos.append(["PRINT"," ", " ", self.pilaOper.pop()])
         
 
@@ -681,7 +684,6 @@ class ppGOListener(ParseTreeListener):
 
     # Exit a parse tree produced by ppGOParser#return2.
     def exitReturn2(self, ctx: ppGOParser.Return2Context):
-        self.pilaTypes.pop()
         self.cuadruplos.append(["RETURN", " ", " ",self.pilaOper.pop()])
         self.localMemory.eraseMemory()
         self.temporalMemory.eraseMemory()
@@ -705,48 +707,77 @@ class ppGOListener(ParseTreeListener):
         x2 = self.pilaOper.pop()
         y1 = self.pilaOper.pop()
         x1 = self.pilaOper.pop()
-        
+        self.pilaTypes.pop()
+        self.pilaTypes.pop()
+        self.pilaTypes.pop()
+        self.pilaTypes.pop()
         set1 = [x1,y1] 
         set2 = [x2,y2]
 
         self.cuadruplos.append(["midpoint", set1, set2, ""])
 
-        print(x1,y1, x2, y2)
 
     # Enter a parse tree produced by ppGOParser#distance.
     def enterDistance(self, ctx:ppGOParser.DistanceContext):
-        y2= self.pilaOper.pop()
-        x2 = self.pilaOper.pop()
-        y1 = self.pilaOper.pop()
-        x1 = self.pilaOper.pop()
-        
-        set1 = [x1,y1] 
-        set2 = [x2,y2]
-
-        self.cuadruplos.append(["midpoint", set1, set2, ""])
+        self.pOper.append('(')
         pass
 
     # Exit a parse tree produced by ppGOParser#distance.
     def exitDistance(self, ctx:ppGOParser.DistanceContext):
-        pass
-
+        y2= self.pilaOper.pop()
+        x2 = self.pilaOper.pop()
+        y1 = self.pilaOper.pop()
+        x1 = self.pilaOper.pop()
+        self.pilaTypes.pop()
+        self.pilaTypes.pop()
+        self.pilaTypes.pop()
+        self.pilaTypes.pop()
+        set1 = [x1,y1] 
+        set2 = [x2,y2]
+        temp = self.temporalMemory.addToMemory("float", 1)
+        self.cuadruplos.append(["distance", set1, set2, temp])
+        self.pilaOper.append(temp)
+        self.pilaTypes.append("float")
+        self.pOper.pop()
+        
 
     # Enter a parse tree produced by ppGOParser#power.
     def enterPower(self, ctx:ppGOParser.PowerContext):
-        pass
+        self.pOper.append('(')
+      
 
     # Exit a parse tree produced by ppGOParser#power.
     def exitPower(self, ctx:ppGOParser.PowerContext):
-        pass
+        power = self.pilaOper.pop()
+        powerType = self.pilaTypes.pop()
+        num = self.pilaOper.pop()
+        numType = self.pilaTypes.pop()
+
+        if numType != "int" and numType != "float":
+            sys.exit("Error: Type mismatch. Power first argument must be a number")
+        if powerType != "int":
+            sys.exit("Error: Type mismatch. Power second argument must be an int")
+        temp = self.temporalMemory.addToMemory("float", 1)
+        self.cuadruplos.append(["power", num, power, temp ])
+        self.pilaOper.append(temp)
+        self.pilaTypes.append("float")
+        self.pOper.pop()
 
 
     # Enter a parse tree produced by ppGOParser#sqrt.
     def enterSqrt(self, ctx:ppGOParser.SqrtContext):
-        pass
+        self.pOper.append('(')
 
     # Exit a parse tree produced by ppGOParser#sqrt.
     def exitSqrt(self, ctx:ppGOParser.SqrtContext):
-        pass
+        x = self.pilaOper.pop()
+        tipo = self.pilaTypes.pop()
+        temp = self.temporalMemory.addToMemory("float", 1)
+        if tipo != "float" and tipo != "int": sys.exit("Error: Sqrt number must be a number!")
+        self.cuadruplos.append(["sqrt", x, "", temp])
+        self.pilaOper.append(temp)
+        self.pilaTypes.append("float")
+        self.pOper.pop()
 
     #Checa si el operando es una varible, constante o temporal
     def checIfAssigned(self,x , function, flag):
@@ -758,4 +789,79 @@ class ppGOListener(ParseTreeListener):
 
 
           
+
+
+
+
+    # Enter a parse tree produced by ppGOParser#length.
+    def enterLength(self, ctx:ppGOParser.LengthContext):
+        self.pOper.append('(')
+        pass
+
+    # Exit a parse tree produced by ppGOParser#length.
+    def exitLength(self, ctx:ppGOParser.LengthContext):
+        array = self.pilaOper.pop()
+        self.pilaTypes.pop()
+        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+        varExist = array in d
+        if varExist: sys.exit("Error: Can't declare variables with the same name within the same scope!")
+
+
+
+        pass
+
+
+    # Enter a parse tree produced by ppGOParser#sort.
+    def enterSort(self, ctx:ppGOParser.SortContext):
+        pass
+
+    # Exit a parse tree produced by ppGOParser#sort.
+    def exitSort(self, ctx:ppGOParser.SortContext):
+        pass
+
+
+    # Enter a parse tree produced by ppGOParser#find.
+    def enterFind(self, ctx:ppGOParser.FindContext):
+        pass
+
+    # Exit a parse tree produced by ppGOParser#find.
+    def exitFind(self, ctx:ppGOParser.FindContext):
+        pass
+
+
+    # Enter a parse tree produced by ppGOParser#trans.
+    def enterTrans(self, ctx:ppGOParser.TransContext):
+        pass
+
+    # Exit a parse tree produced by ppGOParser#trans.
+    def exitTrans(self, ctx:ppGOParser.TransContext):
+        pass
+
+
+    # Enter a parse tree produced by ppGOParser#matSin.
+    def enterMatSin(self, ctx:ppGOParser.MatSinContext):
+        pass
+
+    # Exit a parse tree produced by ppGOParser#matSin.
+    def exitMatSin(self, ctx:ppGOParser.MatSinContext):
+        pass
+
+
+    # Enter a parse tree produced by ppGOParser#matCos.
+    def enterMatCos(self, ctx:ppGOParser.MatCosContext):
+        pass
+
+    # Exit a parse tree produced by ppGOParser#matCos.
+    def exitMatCos(self, ctx:ppGOParser.MatCosContext):
+        pass
+
+
+    # Enter a parse tree produced by ppGOParser#inverse.
+    def enterInverse(self, ctx:ppGOParser.InverseContext):
+        pass
+
+    # Exit a parse tree produced by ppGOParser#inverse.
+    def exitInverse(self, ctx:ppGOParser.InverseContext):
+        pass
+
 

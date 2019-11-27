@@ -1,0 +1,20 @@
+program factIter:
+int func factIter(int n){
+	int fact 
+    int i
+    
+    fact = 1; 
+    i = 1;  
+
+   loop(i <= n){
+      fact = fact * i; 
+      i = i + 1;
+   }
+   return fact
+}
+
+func main() {
+   int a
+   a = factIter(9);
+   print(a)
+}

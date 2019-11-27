@@ -1,5 +1,6 @@
 from Memory import Memory
 import sys
+import math
 class VirtualMachine:
     def __init__(self, cuadruplos, localMemory, temporalMemory, globalMemory, constantMemory, funcTable, paramTable, varTable, apMemory):
         self.cuadruplos = cuadruplos
@@ -28,39 +29,59 @@ class VirtualMachine:
             result = self.cuadruplos[self.currentIndex][3]
             #Checa Relop
             if operand == '<':
+                if rightOper > 15999:
+                    rightOper = self.getMemoryValue(rightOper)
+                if leftOper > 15999:
+                    leftOper = self.getMemoryValue(leftOper)
                 leftValue = self.getMemoryValue(leftOper)
                 rightValue = self.getMemoryValue(rightOper)
                 valueResult = leftValue < rightValue
                 self.setMemoryValue(result, valueResult)
                 self.currentIndex += 1
             elif operand == '>':
+                if rightOper > 15999:
+                    rightOper = self.getMemoryValue(rightOper)
+                if leftOper > 15999:
+                    leftOper = self.getMemoryValue(leftOper)
                 leftValue = self.getMemoryValue(leftOper)
                 rightValue = self.getMemoryValue(rightOper)
                 valueResult = leftValue > rightValue
                 self.setMemoryValue(result, valueResult)
                 self.currentIndex += 1
             elif operand == '==':
+                if rightOper > 15999:
+                    rightOper = self.getMemoryValue(rightOper)
+                if leftOper > 15999:
+                    leftOper = self.getMemoryValue(leftOper)
                 leftValue = self.getMemoryValue(leftOper)
                 rightValue = self.getMemoryValue(rightOper)
                 valueResult = leftValue == rightValue
                 self.setMemoryValue(result, valueResult)
                 self.currentIndex += 1
             elif operand == '<>':
+                if rightOper > 15999:
+                    rightOper = self.getMemoryValue(rightOper)
+                if leftOper > 15999:
+                    leftOper = self.getMemoryValue(leftOper)
                 leftValue = self.getMemoryValue(leftOper)
                 rightValue = self.getMemoryValue(rightOper)
                 valueResult = leftValue != rightValue
                 self.setMemoryValue(result, valueResult)
                 self.currentIndex += 1
             elif operand == '<=':
+                if rightOper > 15999:
+                    rightOper = self.getMemoryValue(rightOper)
+                if leftOper > 15999:
+                    leftOper = self.getMemoryValue(leftOper)
                 leftValue = self.getMemoryValue(leftOper)
                 rightValue = self.getMemoryValue(rightOper)
                 valueResult = leftValue <= rightValue
                 self.setMemoryValue(result, valueResult)
                 self.currentIndex += 1
-            elif operand == '<=':
+            elif operand == '>=':
                 leftValue = self.getMemoryValue(leftOper)
                 rightValue = self.getMemoryValue(rightOper)
-                valueResult = leftValue <= rightValue
+                valueResult = leftValue >= rightValue
                 self.setMemoryValue(result, valueResult)
                 self.currentIndex += 1
             #Suma,Resta, Division, Multiplicacion y asignacion
@@ -191,10 +212,32 @@ class VirtualMachine:
                 y1 = self.getMemoryValue(memoryY1)
                 x2 = self.getMemoryValue(memoryX2)
                 y2 = self.getMemoryValue(memoryY2)
-
-                
-
                 self.midpoint(x1,y1,x2,y2)
+                self.currentIndex += 1
+            elif operand == 'distance':
+                memoryX1 = leftOper[0]
+                memoryY1 = leftOper[1]
+                memoryX2 = rightOper[0]
+                memoryY2 = rightOper[1]
+                x1 = self.getMemoryValue(memoryX1)
+                y1 = self.getMemoryValue(memoryY1)
+                x2 = self.getMemoryValue(memoryX2)
+                y2 = self.getMemoryValue(memoryY2)
+                distance = self.distance(x1,y1,x2,y2)
+                self.setMemoryValue(result, distance)
+                self.currentIndex += 1
+
+            elif operand == 'power':
+
+                x = self.getMemoryValue(leftOper)
+                power = self.getMemoryValue(rightOper)
+                res = x **power
+                self.setMemoryValue(result, res)
+                self.currentIndex += 1
+            elif operand == 'sqrt':
+                x = self.getMemoryValue(leftOper)
+                resultValue = math.sqrt(x)
+                self.setMemoryValue(result, resultValue)
                 self.currentIndex += 1
 
             else:
@@ -252,5 +295,10 @@ class VirtualMachine:
         result = "The midpoint of (" + str(x1) + ", " +   str(y1) + ")" + " and " + "(" + str(x2) + ", " +   str(y2) +") is: (" +str(xRes) + ", "+ str(yRes) + ")"
         self.output.append(result)
         print(result)
+    
+    def distance(self, x1, y1, x2 ,y2):
+        distance = math.sqrt( ((x2-x1)**2)+((y2-y1)**2) )
+        return distance
+    
     
     

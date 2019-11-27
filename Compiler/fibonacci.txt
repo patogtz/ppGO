@@ -1,0 +1,16 @@
+program Fibo:
+
+int func fibo(int z){
+	if(z < 2) {
+	  return z
+   }
+   return fibo(z - 1) + fibo(z - 2)
+}
+   
+func main(){
+     int a
+     int c
+     a = 8;
+     c = fibo(a);
+     print(c)
+}
