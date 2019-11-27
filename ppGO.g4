@@ -91,7 +91,7 @@ print2: PRINT LEFT_PAR (expression | array) RIGHT_PAR ;
 return2: RETURN expression;
 
 specialFunc:
-		 midpoint | distance | power | sqrt | length;
+		 midpoint | distance | power | sqrt | length | trans | matSin | matCos | inverse | matmult | matsubs | matsum; 
 
 midpoint:
 
@@ -137,6 +137,20 @@ matCos:
 inverse:
 
 'inverse' LEFT_PAR LITERAL RIGHT_PAR;
+
+matmult:
+
+'matmult' LEFT_PAR LITERAL SEP_COMMA LITERAL RIGHT_PAR;
+
+matsum:
+
+'matsum' LEFT_PAR LITERAL SEP_COMMA LITERAL RIGHT_PAR;
+
+matsubs:
+
+'matsubs' LEFT_PAR LITERAL SEP_COMMA LITERAL RIGHT_PAR;
+
+
 
 FUNCTION: 'func';
 LEFT_PAR: '(';

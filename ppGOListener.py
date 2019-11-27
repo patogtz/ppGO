@@ -41,6 +41,7 @@ class ppGOListener(ParseTreeListener):
         self.k  = 0
         self.funcNameAUX = ""
         self.arrayName = ""
+        self.errorMesage = ""
     # Enter a parse tree produced by ppGOParser#program.
 
     def enterProgram(self, ctx: ppGOParser.ProgramContext):
@@ -611,15 +612,7 @@ class ppGOListener(ParseTreeListener):
     # Exit a parse tree produced by ppGOParser#factor.
     def exitFactor(self, ctx: ppGOParser.FactorContext):
         if(ctx.RIGHT_PAR()):
-            self.pOper.pop()
-
-
-
-        
-
-           
-                
-        
+            self.pOper.pop()                
 
     # Enter a parse tree produced by ppGOParser#loop.
     def enterLoop(self, ctx: ppGOParser.LoopContext):
@@ -808,9 +801,6 @@ class ppGOListener(ParseTreeListener):
 
 
 
-        pass
-
-
     # Enter a parse tree produced by ppGOParser#sort.
     def enterSort(self, ctx:ppGOParser.SortContext):
         pass
@@ -835,6 +825,14 @@ class ppGOListener(ParseTreeListener):
 
     # Exit a parse tree produced by ppGOParser#trans.
     def exitTrans(self, ctx:ppGOParser.TransContext):
+        array = ctx.LITERAL().getText()
+        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+        varExist = array in d
+        if not varExist: sys.exit("Error: Cannot do a transpose with an array that doesnt exist")
+        d = next(item for item in self.symbolTable[self.funcName] if item['name'] == array)
+        if d['cap2'] == 'None': sys.exit("Error: Has to be a 2d matrix in order to get the transpose")
+        self.cuadruplos.append(["trans", d["cap1"], d["cap2"], d['dirMemoria'] ])
+
         pass
 
 
@@ -844,6 +842,13 @@ class ppGOListener(ParseTreeListener):
 
     # Exit a parse tree produced by ppGOParser#matSin.
     def exitMatSin(self, ctx:ppGOParser.MatSinContext):
+        array = ctx.LITERAL().getText()
+        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+        varExist = array in d
+        if not varExist: sys.exit("Error: Cannot do a transpose with an array that doesnt exist")
+        d = next(item for item in self.symbolTable[self.funcName] if item['name'] == array)
+        if d['cap2'] == 'None': sys.exit("Error: Has to be a 2d matrix in order to get the use matsin")
+        self.cuadruplos.append(["matsin", d["cap1"], d["cap2"], d['dirMemoria'] ])
         pass
 
 
@@ -853,6 +858,13 @@ class ppGOListener(ParseTreeListener):
 
     # Exit a parse tree produced by ppGOParser#matCos.
     def exitMatCos(self, ctx:ppGOParser.MatCosContext):
+        array = ctx.LITERAL().getText()
+        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+        varExist = array in d
+        if not varExist: sys.exit("Error: Cannot do a transpose with an array that doesnt exist")
+        d = next(item for item in self.symbolTable[self.funcName] if item['name'] == array)
+        if d['cap2'] == 'None': sys.exit("Error: Has to be a 2d matrix in order to get the use matcos")
+        self.cuadruplos.append(["matcos", d["cap1"], d["cap2"], d['dirMemoria'] ])
         pass
 
 
@@ -862,6 +874,78 @@ class ppGOListener(ParseTreeListener):
 
     # Exit a parse tree produced by ppGOParser#inverse.
     def exitInverse(self, ctx:ppGOParser.InverseContext):
+        array = ctx.LITERAL().getText()
+        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+        varExist = array in d
+        if not varExist: sys.exit("Error: Cannot do a Inverse with an array that doesnt exist")
+        d = next(item for item in self.symbolTable[self.funcName] if item['name'] == array)
+        if d['cap2'] == 'None': sys.exit("Error: Has to be a 2d matrix in order to get the use matcos")
+        self.cuadruplos.append(["inverse", d["cap1"], d["cap2"], d['dirMemoria'] ])
+        pass
+
+
+    # Enter a parse tree produced by ppGOParser#matmult.
+    def enterMatmult(self, ctx:ppGOParser.MatmultContext):
+        pass
+
+    # Exit a parse tree produced by ppGOParser#matmult.
+    def exitMatmult(self, ctx:ppGOParser.MatmultContext):
+        array = ctx.LITERAL()[0].getText()
+        array2 = ctx.LITERAL()[1].getText()
+        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+        varExist = array in d
+        varExist2 = array in d
+        if not varExist or not varExist2: sys.exit("Error: Cannot do a matmult with an array that doesnt exist")
+        d = next(item for item in self.symbolTable[self.funcName] if item['name'] == array)
+        if d['cap2'] == 'None': sys.exit("Error: Has to be a 2d matrix in order to get the use matcos")
+        daux = next(item for item in self.symbolTable[self.funcName] if item['name'] == array2)
+        if daux['cap2'] == 'None': sys.exit("Error: Has to be a 2d matrix in order to matmult get the use matcos")
+        self.cuadruplos.append(["matmult", [array, d["cap1"], d["cap2"]], [array2, daux["cap1"], daux["cap2"]] ,[d['dirMemoria'],daux['dirMemoria']]])
+
+
+
+    # Enter a parse tree produced by ppGOParser#matsum.
+    def enterMatsum(self, ctx:ppGOParser.MatsumContext):
+        
+        pass
+
+    # Exit a parse tree produced by ppGOParser#matsum.
+    def exitMatsum(self, ctx:ppGOParser.MatsumContext):
+        array = ctx.LITERAL()[0].getText()
+        array2 = ctx.LITERAL()[1].getText()
+        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+        varExist = array in d
+        varExist2 = array in d
+        if not varExist or not varExist2: sys.exit("Error: Cannot do a matmult with an array that doesnt exist")
+        d = next(item for item in self.symbolTable[self.funcName] if item['name'] == array)
+        if d['cap2'] == 'None': sys.exit("Error: Has to be a 2d matrix in order to get the use matcos")
+        daux = next(item for item in self.symbolTable[self.funcName] if item['name'] == array2)
+        if daux['cap2'] == 'None': sys.exit("Error: Has to be a 2d matrix in order to matmult get the use msum")
+        self.cuadruplos.append(["matsum", [array, d["cap1"], d["cap2"]], [array2, daux["cap1"], daux["cap2"]] ,[d['dirMemoria'],daux['dirMemoria']]])
+
+
+        pass
+
+
+    # Enter a parse tree produced by ppGOParser#matsubs.
+    def enterMatsubs(self, ctx:ppGOParser.MatsubsContext):
+        pass
+
+    # Exit a parse tree produced by ppGOParser#matsubs.
+    def exitMatsubs(self, ctx:ppGOParser.MatsubsContext):
+        array = ctx.LITERAL()[0].getText()
+        array2 = ctx.LITERAL()[1].getText()
+        d = dict((i['name'], i['type']) for i in self.symbolTable[self.funcName])
+        varExist = array in d
+        varExist2 = array in d
+        if not varExist or not varExist2: sys.exit("Error: Cannot do a matmult with an array that doesnt exist")
+        d = next(item for item in self.symbolTable[self.funcName] if item['name'] == array)
+        if d['cap2'] == 'None': sys.exit("Error: Has to be a 2d matrix in order to get the use matsubs")
+        daux = next(item for item in self.symbolTable[self.funcName] if item['name'] == array2)
+        if daux['cap2'] == 'None': sys.exit("Error: Has to be a 2d matrix in order to matmult get the use matsubs")
+        self.cuadruplos.append(["matsubs", [array, d["cap1"], d["cap2"]], [array2, daux["cap1"], daux["cap2"]] ,[d['dirMemoria'],daux['dirMemoria']]])
+
+
         pass
 
 

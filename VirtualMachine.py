@@ -1,6 +1,7 @@
 from Memory import Memory
 import sys
 import math
+import numpy as np
 class VirtualMachine:
     def __init__(self, cuadruplos, localMemory, temporalMemory, globalMemory, constantMemory, funcTable, paramTable, varTable, apMemory):
         self.cuadruplos = cuadruplos
@@ -177,7 +178,6 @@ class VirtualMachine:
                 self.output.append(resultValue)
                 self.currentIndex += 1
                 print(resultValue)
-
             elif operand == 'RETURN':
                 resultValue = self.getMemoryValue(result)
                 d = next(item for item in self.varTable['global'] if item['name'] == self.currentFunc)
@@ -226,9 +226,7 @@ class VirtualMachine:
                 distance = self.distance(x1,y1,x2,y2)
                 self.setMemoryValue(result, distance)
                 self.currentIndex += 1
-
             elif operand == 'power':
-
                 x = self.getMemoryValue(leftOper)
                 power = self.getMemoryValue(rightOper)
                 res = x **power
@@ -239,7 +237,63 @@ class VirtualMachine:
                 resultValue = math.sqrt(x)
                 self.setMemoryValue(result, resultValue)
                 self.currentIndex += 1
-
+            elif operand == 'trans':
+                dim1 = leftOper
+                dim2 = rightOper
+                array = result
+                self.transpose(array, dim1, dim2)
+                self.currentIndex += 1
+            elif operand == 'matsin':
+                dim1 = leftOper
+                dim2 = rightOper
+                array = result
+                self.matsin(array, dim1, dim2)
+                self.currentIndex += 1
+            elif operand == 'matcos':
+                dim1 = leftOper
+                dim2 = rightOper
+                array = result
+                self.matcos(array, dim1, dim2)
+                self.currentIndex += 1
+            elif operand == 'inverse':
+                dim1 = leftOper
+                dim2 = rightOper
+                array = result
+                self.inverse(array, dim1, dim2)
+                self.currentIndex += 1
+            elif operand == 'matmult':
+                array = leftOper[0]
+                a1dim1 = leftOper[1]
+                a1dim2 = leftOper[2]
+                array2 = rightOper[0]
+                a2dim1 = rightOper[1]
+                a2dim2 = rightOper[2]
+                arrayDir = result[0]
+                array2Dir = result[1]
+                self.matmult( a1dim1, a1dim2, arrayDir , a2dim1, a2dim2, array2Dir )
+                self.currentIndex += 1
+            elif operand == 'matsum':
+                array = leftOper[0]
+                a1dim1 = leftOper[1]
+                a1dim2 = leftOper[2]
+                array2 = rightOper[0]
+                a2dim1 = rightOper[1]
+                a2dim2 = rightOper[2]
+                arrayDir = result[0]
+                array2Dir = result[1]
+                self.matsum( a1dim1, a1dim2, arrayDir , a2dim1, a2dim2, array2Dir )
+                self.currentIndex += 1
+            elif operand == 'matsubs':
+                array = leftOper[0]
+                a1dim1 = leftOper[1]
+                a1dim2 = leftOper[2]
+                array2 = rightOper[0]
+                a2dim1 = rightOper[1]
+                a2dim2 = rightOper[2]
+                arrayDir = result[0]
+                array2Dir = result[1]
+                self.matsubs( a1dim1, a1dim2, arrayDir , a2dim1, a2dim2, array2Dir )
+                self.currentIndex += 1
             else:
                 self.currentIndex += 1
         return self.output
@@ -295,10 +349,145 @@ class VirtualMachine:
         result = "The midpoint of (" + str(x1) + ", " +   str(y1) + ")" + " and " + "(" + str(x2) + ", " +   str(y2) +") is: (" +str(xRes) + ", "+ str(yRes) + ")"
         self.output.append(result)
         print(result)
+        self.output.append(result)
     
     def distance(self, x1, y1, x2 ,y2):
         distance = math.sqrt( ((x2-x1)**2)+((y2-y1)**2) )
         return distance
+
+    def transpose(self, array, dim1, dim2):
+        cap = dim1 * dim2
+        parray = []
+        for i in range(0, cap):
+            indexMem = i + array
+            indexValue = self.getMemoryValue(indexMem)
+            parray.append(indexValue)
+        data = np.array(parray)
+        shape = ( dim1, dim2 )
+        data = data.reshape( shape )
+        data = data.transpose()
+        print("Transpose: ", data)
+        self.output.append(data.tolist())
+    def matsin(self, array, dim1, dim2):
+        cap = dim1 * dim2
+        parray = []
+        for i in range(0, cap):
+            indexMem = i + array
+            indexValue = self.getMemoryValue(indexMem)
+            parray.append(math.sin(indexValue))
+        data = np.array(parray)
+        shape = ( dim1, dim2 )
+        data = data.reshape( shape )
+        print("Matsin: ", data)
+        self.output.append(data.tolist())
+    def matcos(self, array, dim1, dim2):
+        cap = dim1 * dim2
+        parray = []
+        for i in range(0, cap):
+            indexMem = i + array
+            indexValue = self.getMemoryValue(indexMem)
+            parray.append(math.cos(indexValue))
+        data = np.array(parray)
+        shape = ( dim1, dim2 )
+        data = data.reshape( shape )
+        print("Matcos: ", data)
+        self.output.append(data.tolist())
+
+    def inverse(self, array, dim1, dim2):
+        cap = dim1 * dim2
+        if dim1 != dim2: sys.exit("Must be a square matrix.")
+        parray = []
+        for i in range(0, cap):
+            indexMem = i + array
+            indexValue = self.getMemoryValue(indexMem)
+            parray.append(indexValue)
+        data = np.array(parray)
+        shape = ( dim1, dim2 )
+        data = data.reshape( shape )
+        idata = np.linalg.inv(np.matrix(data))
+        print("Inverse: ", idata)
+        self.output.append(idata.tolist())
+
+    def matmult(self, dim1, dim2, mem1, dir12, dir22, mem2):
+        cap1 = dim1 * dim2
+        parray = []
+        for i in range(0, cap1):
+            indexMem = i + mem1
+            indexValue = self.getMemoryValue(indexMem)
+            parray.append(indexValue)
+        data = np.array(parray)
+        shape = ( dim1, dim2 )
+        data = data.reshape( shape )
+
+        cap2 = dir12 * dir22
+        if cap1 != cap2: sys.exit("Error: Matrives must have the same dimensions")
+        parray = []
+        for i in range(0, cap2):
+            indexMem = i + mem2
+            indexValue = self.getMemoryValue(indexMem)
+            parray.append(indexValue)
+        data2 = np.array(parray)
+        shape2 = ( dir12, dir22 )
+        data2 = data.reshape( shape2 )
+        
+        res = np.matmul(data2, data )
+        print("Matrix multiplication: ", res)
+        self.output.append(res.tolist())
+
+    def matsum(self, dim1, dim2, mem1, dir12, dir22, mem2):
+        cap1 = dim1 * dim2
+        parray = []
+        for i in range(0, cap1):
+            indexMem = i + mem1
+            indexValue = self.getMemoryValue(indexMem)
+            parray.append(indexValue)
+        data = np.array(parray)
+        shape = ( dim1, dim2 )
+        data = data.reshape( shape )
+        data = np.mat(data)
+
+        cap2 = dir12 * dir22
+        if cap1 != cap2: sys.exit("Error: Matrives must have the same dimensions")
+        parray = []
+        for i in range(0, cap2):
+            indexMem = i + mem2
+            indexValue = self.getMemoryValue(indexMem)
+            parray.append(indexValue)
+        data2 = np.array(parray)
+        shape2 = ( dir12, dir22 )
+        data2 = data.reshape( shape2 )
+        data2 = np.mat(data2)
+        res = data2 + data
+        print("Matrix sum: ", res)
+        self.output.append(res.tolist())
+    def matsubs(self, dim1, dim2, mem1, dir12, dir22, mem2):
+        cap1 = dim1 * dim2
+        parray = []
+        for i in range(0, cap1):
+            indexMem = i + mem1
+            indexValue = self.getMemoryValue(indexMem)
+            parray.append(indexValue)
+        data = np.array(parray)
+        shape = ( dim1, dim2 )
+        data = data.reshape( shape )
+        data = np.mat(data)
+
+        cap2 = dir12 * dir22
+        if cap1 != cap2: sys.exit("Error: Matrives must have the same dimensions")
+        parray = []
+        for i in range(0, cap2):
+            indexMem = i + mem2
+            indexValue = self.getMemoryValue(indexMem)
+            parray.append(indexValue)
+        data2 = np.array(parray)
+        shape2 = ( dir12, dir22 )
+        data2 = data.reshape( shape2 )
+        data2 = np.mat(data2)
+        res =  data - data2 
+        print("Matrix substraction: ", res)
+        self.output.append(res.tolist())
+        
+    
     
     
     
